@@ -8,6 +8,7 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import RouterIndex from "./routers/routersIndex";
+import ThemeProvider from "./theme";
 
 
 
@@ -19,8 +20,9 @@ function App() {
     <>
 
       <BrowserRouter>
-        <RouterIndex />
-
+        <ThemeProvider>
+          <RouterIndex />
+        </ThemeProvider>
       </BrowserRouter>
 
     </>

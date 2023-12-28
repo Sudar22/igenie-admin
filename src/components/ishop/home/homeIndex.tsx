@@ -1,7 +1,8 @@
+import { Box } from "@mui/material";
 
 
 export default function HomeIndex() {
-  return (
-    <div>HomeIndex</div>
-  )
+    return (
+        <Box>HomeIndex</Box>
+    )
 }
