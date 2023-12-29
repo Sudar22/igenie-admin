@@ -1,9 +1,10 @@
 import { alpha } from '@mui/material/styles';
 // Import the Theme type from MUI
-import { Theme } from './extendedTheme';
+// import { Theme } from './extendedTheme';
 // import { Theme } from '@mui/material/styles';
 // import { Theme as MuiTheme } from '@mui/material/styles';
 // import customShadows from './customShadows';
+import { Theme } from './extendedTheme';
 
 
 // ----------------------------------------------------------------------

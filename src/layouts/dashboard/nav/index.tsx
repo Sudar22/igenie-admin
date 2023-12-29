@@ -7,11 +7,12 @@ import { Box, Link, Button, Drawer, Typography, Avatar, Stack } from '@mui/mater
 // mock
 import account from '../../../_mock/account';
 // hooks
+// import useResponsive from '../../../hooks/useResponsive';
 import useResponsive from '../../../hooks/useResponsive';
 // components
 import Logo from '../../../components/logo';
-import Scrollbar from '../../../scrollbar';
-import NavSection from '../../../nav-section';
+import Scrollbar from '../../../components/scrollbar';
+import NavSection from '../../../components/nav-section';
 //
 import navConfig from './config';
 //redux
@@ -39,19 +40,23 @@ Nav.propTypes = {
   onCloseNav: PropTypes.func,
 };
 
-export default function Nav({ openNav, onCloseNav }) {
+interface navConfig {
+  data:{  title: string; path: string; icon: JSX.Element }[];
+};
+
+// ----------------------------------------------------------------------
+
+export default function Nav({ openNav, onCloseNav }: { openNav: boolean; onCloseNav: () => void }) {
   const { pathname } = useLocation();
-  const { user, loading, error } = useSelector((state) => state.user);
+  // const { user } = useSelector((state) => state.user); // Adjust the state selector based on your Redux state structure
 
-
-  const isDesktop = useResponsive('up', 'lg');
+  const isDesktop = useResponsive('up', 'lg','md');
 
   useEffect(() => {
     if (openNav) {
       onCloseNav();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname]);
+  }, [pathname, openNav, onCloseNav]);
 
   const renderContent = (
     <Scrollbar
@@ -66,49 +71,13 @@ export default function Nav({ openNav, onCloseNav }) {
 
       <Box sx={{ mb: 5, mx: 2.5 }}>
         <Link underline="none">
-          <StyledAccount>
-            {/* <Avatar src={account.photoURL} alt="photoURL" /> */}
-
-            <Box sx={{ ml: 2 }}>
-              <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
-                {user.username}
-              </Typography>
-
-              <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                {account.role}
-              </Typography>
-            </Box>
-          </StyledAccount>
+          {/* StyledAccount implementation */}
         </Link>
       </Box>
 
-      <NavSection data={navConfig} />
+      <NavSection data={navConfig /* Replace with your navConfig */} /> {/* Pass your navConfig data */}
 
       <Box sx={{ flexGrow: 1 }} />
-
-      {/* <Box sx={{ px: 2.5, pb: 3, mt: 10 }}>
-        <Stack alignItems="center" spacing={3} sx={{ pt: 5, borderRadius: 2, position: 'relative' }}>
-          <Box
-            component="img"
-            src="/assets/illustrations/illustration_avatar.png"
-            sx={{ width: 100, position: 'absolute', top: -50 }}
-          />
-
-          <Box sx={{ textAlign: 'center' }}>
-            <Typography gutterBottom variant="h6">
-              Get more?
-            </Typography>
-
-            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-              From only $69
-            </Typography>
-          </Box>
-
-          <Button href="https://material-ui.com/store/items/minimal-dashboard/" target="_blank" variant="contained">
-            Upgrade to Pro
-          </Button>
-        </Stack>
-      </Box> */}
     </Scrollbar>
   );
 
@@ -118,7 +87,8 @@ export default function Nav({ openNav, onCloseNav }) {
       sx={{
         flexShrink: { lg: 0 },
         width: { lg: NAV_WIDTH },
-      }}
+
+}}
     >
       {isDesktop ? (
         <Drawer

@@ -1,34 +1,54 @@
-import { useRoutes } from "react-router-dom";
+import { Navigate, useRoutes } from "react-router-dom";
 import ProductEditIndex from "../components/ishop/products/collections/productEdit/productEditIndex";
-import HomeIndex from "../components/ishop/home/homeIndex";
+import DashboardLayout from "../layouts/dashboard/DashboardLayout";
+import Home from "../pages/home";
+import Orders from "../pages/orders";
+import Products from "../pages/products";
+import Customers from "../pages/customers";
+import Analystics from "../pages/analystics";
+import Marketing from "../pages/marketing";
+import RouterBreadcrumbs from "../layouts/dashboard/nav/navBreadcrumbs";
 
 
 
 export default function RouterIndex() {
 
-  interface Route {
-    path: string;
-    element: React.ReactElement;
-  }
 
-  const routes: Route[] = [
+
+  const routes = useRoutes([
+  
     {
 
       path: '/productsedit',
       element: <ProductEditIndex />,
 
     },
+    // {
+    //   path: '/bread',
+    //   element: <RouterBreadcrumbs />,
+    // },
     {
-      path: '/',
-      element: <HomeIndex />,
+      path: '/dashboard',
+      element: <DashboardLayout />,
+
+      children: [
+        {
+          element: <Navigate to="/dashboard/home" />, index: true,
+        },
+        { path: "home", element: <Home/> },
+        { path: "orders", element: <Orders/> },
+        { path: "products", element: <Products/> },
+        { path: "customer", element: <Customers/> },
+        { path: "analytics", element: <Analystics/> },
+        { path: "marketing", element: <Marketing/> },
+      ],
     }
-  ]
+  ])
 
 
-  const matchedRoute = useRoutes(routes);
 
 
   return (
-    <div>{matchedRoute}</div>
+    <div>{routes}</div>
   )
 }

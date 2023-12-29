@@ -1,17 +1,20 @@
+import React from 'react';
 import PropTypes from 'prop-types';
 import { NavLink as RouterLink } from 'react-router-dom';
-// @mui
 import { Box, List, ListItemText } from '@mui/material';
-//
 import { StyledNavItem, StyledNavItemIcon } from './styles';
 
-// ----------------------------------------------------------------------
+
+interface NavSectionProps {
+  data?: Array<NavItemProps['item']>;
+  // Add any additional props if needed
+}
 
 NavSection.propTypes = {
-  data: PropTypes.array,
+  data: PropTypes.arrayOf(PropTypes.object),
 };
 
-export default function NavSection ({ data = [], ...other }) {
+export default function NavSection({ data = [], ...other }: NavSectionProps) {
   return (
     <Box {...other}>
       <List disablePadding sx={{ p: 1 }}>
@@ -23,18 +26,37 @@ export default function NavSection ({ data = [], ...other }) {
   );
 }
 
-// ----------------------------------------------------------------------
-
 NavItem.propTypes = {
-  item: PropTypes.object,
+  item: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    path: PropTypes.string.isRequired,
+    icon: PropTypes.node,
+    info: PropTypes.node,
+  }),
 };
 
-function NavItem({ item }) {
+
+interface NavItemProps {
+  item: {
+    title: string;
+    path: string;
+    icon?: React.ReactNode;
+    info?: React.ReactNode;
+  };
+}
+
+
+
+
+function NavItem({ item }: NavItemProps) {
+
   const { title, path, icon, info } = item;
 
   return (
+
+
     <StyledNavItem
-      component={RouterLink}
+      // component={RouterLink}
       to={path}
       sx={{
         '&.active': {
@@ -50,5 +72,11 @@ function NavItem({ item }) {
 
       {info && info}
     </StyledNavItem>
+
+
+
+
   );
 }
+
+
