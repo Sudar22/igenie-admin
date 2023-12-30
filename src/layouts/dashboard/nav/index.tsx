@@ -46,7 +46,7 @@ interface navConfig {
 
 // ----------------------------------------------------------------------
 
-export default function Nav({ openNav, onCloseNav }: { openNav: boolean; onCloseNav: () => void }) {
+export default function Nav({ openNav, onCloseNav }: { openNav?: boolean; onCloseNav: () => void }) {
   const { pathname } = useLocation();
   // const { user } = useSelector((state) => state.user); // Adjust the state selector based on your Redux state structure
 

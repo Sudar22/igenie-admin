@@ -27,13 +27,13 @@ const NAV_WIDTH = 280;
 
 const HEADER_MOBILE = 64;
 
-const HEADER_DESKTOP = 60;
+const HEADER_DESKTOP = 80;
 
 
 
 
 const StyledRoot = styled(AppBar)(({ theme }) => ({
-  // ...bgBlur({ color: theme.palette.background.default }),
+  ...bgBlur({ color: theme.palette.background.default }),
   boxShadow: 'none',
   [theme.breakpoints.up('lg')]: {
     width: `calc(100% - ${NAV_WIDTH + 1}px)`,
@@ -56,11 +56,15 @@ const StyledToolbar = styled(Toolbar)(({ theme }) => ({
 //   onOpenNav: PropTypes.func.isRequired,
 // };
 
-interface HeaderProps {
-  onOpenNav?: () => void;
-}
+// interface HeaderProps {
+//   onOpenNav?: () => boolean;
+// }
 
-const Header: React.FC<HeaderProps> = ({ onOpenNav }) => {
+
+
+
+
+const Header = ({ onOpenNav }:{onOpenNav:() => void}) => {
   
   return (
     <StyledRoot>
@@ -86,6 +90,7 @@ const Header: React.FC<HeaderProps> = ({ onOpenNav }) => {
             xs: 0.5,
             sm: 1,
           }}
+          
         >
           {/* <LanguagePopover /> */}
           <NotificationsPopover />
@@ -95,5 +100,9 @@ const Header: React.FC<HeaderProps> = ({ onOpenNav }) => {
     </StyledRoot>
   );
 }
+
+Header.propTypes = {
+  onOpenNav: PropTypes.func,
+};
 
 export default Header

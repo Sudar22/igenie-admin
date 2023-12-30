@@ -20,6 +20,41 @@ const navConfig = [
     title: 'Products',
     path: '/dashboard/products',
     icon: icon('ic_product'),
+    nestedRoutes: [
+
+      
+      {
+        title: 'Collections',
+        path: '/dashboard/products/collections',
+        icon: icon('ic_pending_orders'),
+      },
+      {
+        title: 'Inventory',
+        path: '/dashboard/products/inventory',
+        icon: icon('ic_completed_orders'),
+      },
+      {
+        title: 'Purchase orders',
+        path: '/dashboard/products/purchase/orders',
+        icon: icon('ic_completed_orders'),
+      },
+
+
+      {
+        title: 'Transfers',
+        path: '/dashboard/products/transfers',
+        icon: icon('ic_completed_orders'),
+      },
+      {
+        title: 'Gift cards',
+        path: '/dashboard/products/giftcards',
+        icon: icon('ic_completed_orders'),
+      },
+
+
+
+
+    ],
   },
   {
     title: 'Customers',

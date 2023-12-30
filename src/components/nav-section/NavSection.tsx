@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import styled from '@mui/system/styled';
 import { NavLink as RouterLink } from 'react-router-dom';
+import { ListItemButton, Collapse } from '@mui/material';
 import { Box, List, ListItemText } from '@mui/material';
-import { StyledNavItem, StyledNavItemIcon } from './styles';
+import {CollapseStyledNavItem, StyledNavItem, StyledNavItemIcon } from './styles';
 
 
 interface NavSectionProps {
@@ -11,13 +13,23 @@ interface NavSectionProps {
 }
 
 NavSection.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.object),
+  data: PropTypes.arrayOf(
+    PropTypes.shape({
+      title: PropTypes.string.isRequired,
+      path: PropTypes.string.isRequired,
+      icon: PropTypes.node,
+      info: PropTypes.node,
+    })
+  ),
 };
 
 export default function NavSection({ data = [], ...other }: NavSectionProps) {
+  
+  
   return (
     <Box {...other}>
-      <List disablePadding sx={{ p: 1 }}>
+
+<List disablePadding sx={{ p: 1 }}>
         {data.map((item) => (
           <NavItem key={item.title} item={item} />
         ))}
@@ -42,22 +54,40 @@ interface NavItemProps {
     path: string;
     icon?: React.ReactNode;
     info?: React.ReactNode;
+    nestedRoutes?:string;
   };
 }
 
+// Additional modifications to add Collapse, List, and ListItemLink
+const NestedList = styled('div')({
+  paddingLeft: '24px', // Adjust the padding based on your design
+});
+
+const NestedListItem = styled(ListItemButton)({
+  textTransform: 'capitalize',
+  color: 'inherit', // or any color you desire
+});
 
 
 
 function NavItem({ item }: NavItemProps) {
 
-  const { title, path, icon, info } = item;
+  const [open, setOpen] = useState(false);
+
+  const { title, path, icon, info ,nestedRoutes} = item;
+
+  console.log("open", open);
 
   return (
 
 
+    <React.Fragment>
     <StyledNavItem
-      // component={RouterLink}
+      // component={RouterLink as any}
       to={path}
+
+      onOpenNav={(() => setOpen(true))}
+     
       sx={{
         '&.active': {
           color: 'text.primary',
@@ -67,14 +97,42 @@ function NavItem({ item }: NavItemProps) {
       }}
     >
       <StyledNavItemIcon>{icon && icon}</StyledNavItemIcon>
-
       <ListItemText disableTypography primary={title} />
+      {/* {info && info} */}
 
-      {info && info}
+     
     </StyledNavItem>
 
 
+{nestedRoutes && (
+  <Collapse in={true} timeout="auto" unmountOnExit>
+    <NestedList>
+      <List disablePadding sx={{ p: 1 }}>
+        {nestedRoutes?.map((nestedItem: { title: string; path: string; icon: React.ReactNode }) => (
+          // <NavItem key={nestedItem.title} item={nestedItem} />
 
+          <CollapseStyledNavItem //custom style
+            to={nestedItem.path}
+            openNav={open}
+            onCloseNav={() => setOpen(false)}
+            sx={{
+              '&.active': {
+                color: 'text.primary',
+                bgcolor: 'action.selected',
+                fontWeight: 'fontWeightBold',
+              },
+            }}
+
+          >
+            {nestedItem.title}
+          </CollapseStyledNavItem>
+        )) }
+      </List>
+    </NestedList>
+  </Collapse>
+)}
+
+</React.Fragment>
 
   );
 }

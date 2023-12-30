@@ -50,6 +50,7 @@ export default function AccountPopover() {
         onClick={handleOpen}
         sx={{
             p: 0,
+            width: 24, height: 24 ,
             ...(open && {
               '&:before': {
                 zIndex: 1,

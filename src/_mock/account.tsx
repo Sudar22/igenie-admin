@@ -1,7 +1,7 @@
 // ----------------------------------------------------------------------
 
 const account = {
-  displayName: 'Krishnan Balasubramaniam',
+  displayName: 'igenie',
   email: 'demo@minimals.cc',
   photoURL: '/assets/images/avatars/Dr-KB.png',
 };

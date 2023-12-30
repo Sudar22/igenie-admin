@@ -3,11 +3,16 @@ import ProductEditIndex from "../components/ishop/products/collections/productEd
 import DashboardLayout from "../layouts/dashboard/DashboardLayout";
 import Home from "../pages/home";
 import Orders from "../pages/orders";
-import Products from "../pages/products";
 import Customers from "../pages/customers";
-import Analystics from "../pages/analystics";
 import Marketing from "../pages/marketing";
 import RouterBreadcrumbs from "../layouts/dashboard/nav/navBreadcrumbs";
+import Analytics from "../pages/analytics";
+import Collections from "../pages/products/collections";
+import Inventory from "../pages/products/inventory";
+import PurchaseOrders from "../pages/products/purchaseOrders";
+import Tranfers from "../pages/products/tranfers";
+import GiftCards from "../pages/products/giftCards";
+import ProductPage from "../pages/products";
 
 
 
@@ -37,9 +42,17 @@ export default function RouterIndex() {
         },
         { path: "home", element: <Home/> },
         { path: "orders", element: <Orders/> },
-        { path: "products", element: <Products/> },
+        { path: "products", element: <ProductPage/> },
+        { path: "products/collections", element: <Collections/> },
+        { path: "products/inventory", element: <Inventory/> },
+        { path: "products/purchase/orders", element: <PurchaseOrders/> },
+        { path: "products/transfers", element: <Tranfers/> },
+        { path: "products/giftcards", element: <GiftCards/> },
+        
+        
+        
         { path: "customer", element: <Customers/> },
-        { path: "analytics", element: <Analystics/> },
+        { path: "analytics", element: <Analytics/> },
         { path: "marketing", element: <Marketing/> },
       ],
     }
