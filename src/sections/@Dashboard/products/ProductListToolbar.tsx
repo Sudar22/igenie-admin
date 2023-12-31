@@ -11,20 +11,22 @@ interface ProductListToolbarProps {
 }
 
 const StyledRoot = styled(Toolbar)(({ theme }: { theme: Theme }) => ({
-  height: 96,
+  height: 70,
   display: 'flex',
   justifyContent: 'space-between',
   padding: theme.spacing(0, 1, 0, 3),
+  margin: theme.spacing(0, 0, 0,0),
 }));
 
 const StyledSearch = styled(OutlinedInput)(({ theme }: { theme: Theme }) => ({
-  width: 240,
+  width: 300,
+  height:50,
   transition: theme.transitions.create(['box-shadow', 'width'], {
     easing: theme.transitions.easing.easeInOut,
     duration: theme.transitions.duration.shorter,
   }),
   '&.Mui-focused': {
-    width: 320,
+    width: 350,
     boxShadow: theme.customShadows.z8,
   },
   '& fieldset': {

@@ -20,12 +20,14 @@ import {
   IconButton,
   TableContainer,
   TablePagination,
+  ListItemButton,
 } from '@mui/material';
 import { ProductListHead, ProductListToolbar } from '../../sections/@Dashboard/products';
 import Label from '../../components/label';
 import Iconify from '../../components/iconify';
 import Scrollbar from '../../components/scrollbar';
 import USERLIST from '../../_mock/user';
+import { Link } from 'react-router-dom';
 
 interface User {
   id: string;
@@ -172,32 +174,58 @@ export default function ProductPage() {
   return (
     <>
       <Helmet>
-        <title> User | Minimal UI </title>
+        <title> Product </title>
       </Helmet>
 
       <Container>
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4" gutterBottom>
-          Products
-          </Typography>
-         
-          <Stack direction="row" spacing={1.2}  flexWrap="wrap-reverse">
-          <Button variant="contained" color="secondary"   size="medium">
-           Export
-          </Button>
-          <Button variant="contained" color="secondary"  size="medium">
-           import
-          </Button>
-          <Button variant="contained" size="medium" startIcon={<Iconify icon="eva:plus-fill" />}>
-            add Product
-          </Button>
-          </Stack>
+
+
+              <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+                  <Typography variant="h4" gutterBottom>
+                      Products
+                  </Typography>
+
+                  <Stack direction="row" spacing={1.2} flexWrap="wrap-reverse">
+                      {/* <Button variant="contained" color="secondary" size="medium">
+                          Export
+                      </Button>
+                      <Button variant="contained" color="secondary" size="medium">
+                          import
+                      </Button> */}
+
+
+                      <Button variant="contained" component={Link} to="addproduct" size="medium" startIcon={<Iconify icon="eva:plus-fill" />}>
+                          add Product
+                      </Button> 
+
+                      {/* <ListItemButton to='products/addproduct' relative="/dashboard" >
+                          add Product
+                      </ListItemButton>  */}
+
+                      {/* <Link to='products/addproduct'>
+                      <Button variant="contained" size="medium" startIcon={<Iconify icon="eva:plus-fill" />} onClick={() => { }}>
+                          add Product
+                      </Button>
+                      </Link> */}
+                  </Stack>
+
+                 
         </Stack>
 
-        <Card>
-          <ProductListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
+
+             <Stack mb={5}>
+             <Card>
+                  <ProductListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
+              </Card>
+             </Stack>
+
+
+        <Card >
 
           <Scrollbar>
+
+          <Card>ll
+              </Card>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
 
