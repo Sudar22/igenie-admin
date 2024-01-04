@@ -14,6 +14,7 @@ import Tranfers from "../pages/products/tranfers";
 import GiftCards from "../pages/products/giftCards";
 import ProductPage from "../pages/products";
 import { AddProduct } from "../sections/@Dashboard/products";
+import AddCollection from "../sections/@Dashboard/collection/addCOllection";
 
 
 
@@ -50,6 +51,7 @@ export default function RouterIndex() {
         { path: "products/transfers", element: <Tranfers/> },
         { path: "products/giftcards", element: <GiftCards/> },
         { path: "products/addproduct", element: <AddProduct/> },
+        { path: "products/collections/addcollection", element: <AddCollection/> },
         
         
         
