@@ -14,6 +14,10 @@ import Tranfers from "../pages/products/tranfers";
 import GiftCards from "../pages/products/giftCards";
 import ProductPage from "../pages/products";
 import { AddProduct } from "../sections/@Dashboard/products";
+import AddCollection from "../sections/@Dashboard/collection/addCOllection";
+import Login from "../auth/login";
+import Signup from "../auth/signup";
+// import Signup from "../auth/signup";
 
 
 
@@ -29,6 +33,9 @@ export default function RouterIndex() {
       element: <ProductEditIndex />,
 
     },
+    { path: "/login", element: <Login/> },
+    { path: "/signup", element: <Signup/> },
+
     // {
     //   path: '/bread',
     //   element: <RouterBreadcrumbs />,
@@ -50,6 +57,7 @@ export default function RouterIndex() {
         { path: "products/transfers", element: <Tranfers/> },
         { path: "products/giftcards", element: <GiftCards/> },
         { path: "products/addproduct", element: <AddProduct/> },
+        { path: "products/collections/addcollection", element: <AddCollection/> },
         
         
         
