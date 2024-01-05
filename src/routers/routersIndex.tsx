@@ -15,6 +15,9 @@ import GiftCards from "../pages/products/giftCards";
 import ProductPage from "../pages/products";
 import { AddProduct } from "../sections/@Dashboard/products";
 import AddCollection from "../sections/@Dashboard/collection/addCOllection";
+import Login from "../auth/login";
+import Signup from "../auth/signup";
+// import Signup from "../auth/signup";
 
 
 
@@ -30,6 +33,9 @@ export default function RouterIndex() {
       element: <ProductEditIndex />,
 
     },
+    { path: "/login", element: <Login/> },
+    { path: "/signup", element: <Signup/> },
+
     // {
     //   path: '/bread',
     //   element: <RouterBreadcrumbs />,

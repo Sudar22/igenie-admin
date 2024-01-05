@@ -46,7 +46,7 @@ export const loginUser = createAsyncThunk(
         return response;
       } catch (err ) {
     
-        console.log("signup error 2:", {err as Error}.message);
+        // console.log("signup error 2:", {err as Error}.message);
       }
     }
   );
