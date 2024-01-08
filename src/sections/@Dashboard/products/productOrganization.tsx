@@ -28,12 +28,13 @@ export default function ProductOrganization() {
     padding: theme.spacing(2, 2.5, 2, 2.5),
         margin: theme.spacing(0, 0, 0, 0),
     }));
+
     const Styledinput = styled('div')(({ theme }: { theme: Theme }) => ({
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
-        padding: theme.spacing(1.5, 0, 1.5, 0),
-        margin: theme.spacing(0, 0, 0, 0),
+        padding: theme.spacing(0, 0, 1.5, 0),
+        margin: theme.spacing(0, 0, 1, 0),
     }));
 
 

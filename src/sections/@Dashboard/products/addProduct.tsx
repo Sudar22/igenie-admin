@@ -17,6 +17,7 @@ import Select from '@mui/material/Select';
 import Iconify from '../../../components/iconify';
 import { Link } from 'react-router-dom';
 import ProductOrganization from './productOrganization';
+import Variants from './@product/Variants';
 
 
 
@@ -60,8 +61,8 @@ const StyledSearch = styled(OutlinedInput)(({ theme }: { theme: Theme }) => ({
 const StyledRoot = styled('div')(({ theme }: { theme: Theme }) => ({
   display: 'flex',
   flexDirection: 'column',
-  // justifyContent: 'space-between',
-  // padding: theme.spacing(0, 1, 0, 1),
+  justifyContent: 'space-between',
+  padding: theme.spacing(0, 1, 0, 1),
   margin: theme.spacing(0, 0, 0, 0),
 }));
 
@@ -75,6 +76,19 @@ const StyledProductInupt = styled('div')(({ theme }: { theme: Theme }) => ({
   // width: 700,
   justifyContent: 'space-between',
   padding: theme.spacing(0, 0, 0, 0),
+  margin: theme.spacing(0, 0, 0, 0),
+}));
+
+
+const StyledProductInfo = styled('div')(({ theme }: { theme: Theme }) => ({
+  display: 'flex',
+  flexDirection: "column",
+  // alignContent:"center",
+  // alignItems:"center",
+
+  // width: 700,
+  justifyContent: 'space-between',
+  padding: theme.spacing(2.5, 1.5, 2, 1.5),
   margin: theme.spacing(0, 0, 0, 0),
 }));
 
@@ -174,23 +188,23 @@ export default function AddProduct() {
   return (
     <StyledRoot>
 
-    
+
       <Container>
 
-      <Box sx={{ display:'flex', flexDirection: 'row',alignItems:"center" }}>
-        <Tooltip title="back">
-          <IconButton component={Link} to={'../products'} >
-            <Iconify icon="mdi:arrow-left" sx={{ width: 25, height: 25 }} />
-          </IconButton>
-          
-        </Tooltip>
-        <Stack>
-          <Typography variant='subtitle1' component='h6' fontSize= '24'  fontWeight= 'bold'>
-            add Product
-          </Typography>
+        <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: "center" }}>
+          <Tooltip title="back">
+            <IconButton component={Link} to={'../products'} >
+              <Iconify icon="mdi:arrow-left" sx={{ width: 25, height: 25 }} />
+            </IconButton>
 
-        </Stack>
-      </Box>
+          </Tooltip>
+          <Stack>
+            <Typography variant='subtitle1' component='h6' fontSize='24' fontWeight='bold'>
+              add Product
+            </Typography>
+
+          </Stack>
+        </Box>
 
 
         {/* <Iconify icon="mdi:arrow-left" sx={{ color: 'text.disabled', width: 20, height: 20 }} /> */}
@@ -274,22 +288,28 @@ export default function AddProduct() {
 
 
         <StyledProductInupt>
+
+
+
+
           <Card >
+            <StyledProductInfo>
 
-            <Typography>
-              Title
-            </Typography>
-            <StyledSearch />
+              <Typography>
+                Title
+              </Typography>
+              <StyledSearch />
 
-            <Typography>
-              Description
-            </Typography>
-            <Stack>
-              <StyledReactQuill>
-                <ReactQuill ref={quillRef} theme="snow" value={value} onChange={setValue} modules={modules} />
-              </StyledReactQuill>
-            </Stack>
+              <Typography>
+                Description
+              </Typography>
+              <Stack>
+                <StyledReactQuill>
+                  <ReactQuill ref={quillRef} theme="snow" value={value} onChange={setValue} modules={modules} />
+                </StyledReactQuill>
+              </Stack>
 
+            </StyledProductInfo>
           </Card >
 
 
@@ -305,8 +325,8 @@ export default function AddProduct() {
 
         </StyledProductInupt>
 
-
-
+      
+         <Variants />
 
 
 
