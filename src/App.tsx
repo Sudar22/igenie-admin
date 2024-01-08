@@ -21,15 +21,15 @@ function App() {
 
   return (
     <>
-    <Provider store={reduxStore}>
-      <HelmetProvider>
-        <BrowserRouter>
-          <ThemeProvider>
-            <RouterIndex />
-          </ThemeProvider>
-        </BrowserRouter>
+      <Provider store={reduxStore}>
+        <HelmetProvider>
+          <BrowserRouter>
+            <ThemeProvider>
+              <RouterIndex />
+            </ThemeProvider>
+          </BrowserRouter>
 
-      </HelmetProvider>
+        </HelmetProvider>
       </Provider>
     </>
   )

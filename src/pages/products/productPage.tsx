@@ -53,6 +53,7 @@ const TABLE_HEAD: HeadCell[] = [
   { id: 'category', label: 'Category', alignRight: false },
   { id: 'isVerified', label: 'Verified', alignRight: false },
   { id: 'status', label: 'Status', alignRight: false },
+  { id: 'action', label: 'Action', alignRight: false },
 ];
 
 function descendingComparator(a: User, b: User, orderBy: string) {
@@ -213,7 +214,7 @@ export default function ProductPage() {
         </Stack>
 
 
-             <Stack mb={5}>
+             <Stack >
              <Card>
                   <ProductListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
               </Card>
@@ -224,8 +225,15 @@ export default function ProductPage() {
 
           <Scrollbar>
 
-          <Card>ll
-              </Card>
+            <Card>
+              <Stack direction="row" p={1}>
+                <Button size="small" >ALL</Button>
+                <Button size="small">Active</Button>
+                <Button size="small">Draft</Button>
+                <Button size="small">+</Button>
+              </Stack>
+             
+            </Card>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
 
@@ -250,7 +258,7 @@ export default function ProductPage() {
                     return (
                       <TableRow hover key={id} tabIndex={-1} role="checkbox" selected={selectedUser}>
                         <TableCell padding="checkbox">
-                          <Checkbox checked={selectedUser} onChange={(event) => handleClick(event, name)} />
+                          <Checkbox checked={selectedUser}  size="small" onChange={(event) => handleClick(event, name)} />
                         </TableCell>
 
                         <TableCell component="th" scope="row" padding="none">

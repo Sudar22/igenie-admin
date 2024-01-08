@@ -56,6 +56,7 @@ export default function ProductListHead({
       <TableRow>
         <TableCell padding="checkbox">
           <Checkbox
+            size="small"
             indeterminate={numSelected > 0 && numSelected < rowCount}
             checked={rowCount > 0 && numSelected === rowCount}
             onChange={onSelectAllClick}

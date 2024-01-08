@@ -22,9 +22,7 @@ export const loginUser = createAsyncThunk(
   );
   
 
-  interface ErrorS{
-    message?:any;
-  }
+
 
   export const signupUser = createAsyncThunk(
     "user/signupUser",
@@ -44,9 +42,9 @@ export const loginUser = createAsyncThunk(
         localStorage.setItem("user", JSON.stringify(response));
         console.log("signup request.data", request.data);
         return response;
-      } catch (err ) {
+      } catch (err) {
     
-        // console.log("signup error 2:", {err as Error}.message);
+        console.log("signup error 2:", {err}.message);
       }
     }
   );
