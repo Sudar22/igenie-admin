@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { styled, alpha, Theme } from '@mui/material/styles';
 import { Button, Card, Container, Divider, IconButton, OutlinedInput, Stack, Tooltip, Typography } from '@mui/material';
 import Iconify from '../../../../components/iconify';
@@ -20,7 +20,7 @@ const StyledInputBox = styled('div')(({ theme }: { theme: Theme }) => ({
     display: 'flex',
     flexDirection: "column",
     justifyContent: 'space-between',
-    padding: theme.spacing(0, 4, 0, 4),
+    padding: theme.spacing(1, 4, 1, 4),
 
     margin: theme.spacing(0, 0, 0, 0),
 
@@ -38,7 +38,7 @@ const StyledOption = styled('div')(({ theme }: { theme: Theme }) => ({
     display: 'flex',
     flexDirection: "row",
     justifyContent: 'space-between',
-    alignItems:'center',
+    alignItems: 'center',
     padding: theme.spacing(0, 0, 0, 0),
 
     margin: theme.spacing(0, 0, 1, 0),
@@ -46,7 +46,7 @@ const StyledOption = styled('div')(({ theme }: { theme: Theme }) => ({
 }));
 
 const StyledSearch = styled(OutlinedInput)(({ theme }: { theme: Theme }) => ({
-    width: 400,
+    width: 580,
     height: 40,
     margin: theme.spacing(0, 0, 2, 0),
     transition: theme.transitions.create(['box-shadow', 'width'], {
@@ -64,7 +64,60 @@ const StyledSearch = styled(OutlinedInput)(({ theme }: { theme: Theme }) => ({
 }));
 
 
+
+
+export function Option() {
+
+    return (
+        <StyledInputBox>
+            <StyledOption>
+                <Stack>
+                    <Typography variant='subtitle1' component='h6' fontSize='24'>
+                        Option name
+                    </Typography>
+                    <StyledSearch />
+                </Stack>
+
+
+                <Stack>
+                    <Tooltip title="delete">
+                        <IconButton  >
+                            <Iconify icon="material-symbols:delete-outline" sx={{ width: 25, height: 25 }} />
+                        </IconButton>
+
+                    </Tooltip>
+                </Stack>
+
+
+            </StyledOption>
+            <StyledOption>
+                <Stack>
+                    <Typography variant='subtitle1' component='h6' fontSize='24'>
+                        Option values
+                    </Typography>
+                    <StyledSearch />
+                </Stack>
+
+
+
+            </StyledOption>
+
+            <Stack >
+                <Button>
+                    done
+                </Button>
+            </Stack>
+            <Divider/>
+        </StyledInputBox>
+
+    )
+
+};
+
+
 export default function Variants() {
+
+    // const [add,setAdd]=useState<Boolean>(false);
 
 
 
@@ -83,46 +136,34 @@ export default function Variants() {
                 </StyledHead>
 
 
-                <StyledInputBox>
+                <Stack direction="row" pl={2} justifyContent="center">
+                    <Tooltip title="add">
+                        <IconButton  >
+                            <Iconify icon="carbon:add" sx={{ width: 25, height: 25 }} />
+                        </IconButton>
 
-                    <StyledOption>
-                        <Stack>
-                            <Typography variant='subtitle1' component='h6' fontSize='24' fontWeight='bold'>
-                                Option name
-                            </Typography>
-                            <StyledSearch />
-                        </Stack>
+                    </Tooltip>
 
-
-                        <Stack>
-                            <Tooltip title="delete">
-                                <IconButton  >
-                                    <Iconify icon="material-symbols:delete-outline" sx={{ width: 25, height: 25 }} />
-                                </IconButton>
-
-                            </Tooltip>
-                        </Stack>
+                    <Button> add  options like size or color </Button>
 
 
-                    </StyledOption>
-                    <StyledOption>
-                        <Stack>
-                            <Typography variant='subtitle1' component='h6' fontSize='24' fontWeight='bold'>
-                                Option values
-                            </Typography>
-                            <StyledSearch />
-                        </Stack>
-
-
-
-                    </StyledOption>
+                </Stack>
 
 
 
 
-                </StyledInputBox>
+                <Option />
+                <Option />
+
+
                 <Divider />
 
+
+
+                <Stack>
+                    <Button>add anthor option </Button>
+
+                </Stack>
             </Card>
 
 

@@ -14,6 +14,8 @@ interface StyledNavItemProps {
 }
 
 export const StyledNavItem = styled((props: StyledNavItemProps & StyledComponentProps) => {
+
+  
   const { onOpenNav,to, ...other } = props;
 
 
