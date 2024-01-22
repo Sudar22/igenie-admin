@@ -3,7 +3,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 
 // ----------------------------------------------------------------------
 
-export type ResponsiveQuery = 'up' | 'down' | 'between' | 'only';
+export type ResponsiveQuery = 'up' | 'down' | 'between' | 'only'|'lg'|'md';
 
 export default function useResponsive(query: ResponsiveQuery, start: Breakpoint, end: Breakpoint): boolean {
   const theme = useTheme();

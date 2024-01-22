@@ -1,4 +1,5 @@
 import { Navigate, useRoutes } from "react-router-dom";
+import MarketPlace from "../pages/Ishop@Client/market/marketPlace";
 
 
 export default function RouterIshopClient() {
@@ -8,8 +9,8 @@ export default function RouterIshopClient() {
 
         {
 
-            // path: '/productsedit',
-            // element: <ProductEditIndex />,
+            path: '/marketplace',
+            element: <MarketPlace />,
       
           },
     ]);
