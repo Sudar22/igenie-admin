@@ -14,9 +14,9 @@ import Tranfers from "../pages/products/tranfers";
 import GiftCards from "../pages/products/giftCards";
 import ProductPage from "../pages/products";
 import { AddProduct } from "../sections/@Dashboard/products";
-import AddCollection from "../sections/@Dashboard/collection/addCOllection";
 import Login from "../auth/login";
 import Signup from "../auth/signup";
+import AddCollection from "../sections/@Dashboard/collection/addCollection";
 // import Signup from "../auth/signup";
 
 
@@ -33,6 +33,8 @@ export default function RouterIshopAdmin() {
       element: <ProductEditIndex />,
 
     },
+
+    
     { path: "/login", element: <Login /> },
     // { path: "/signup", element: <Signup/> },
 
@@ -40,6 +42,9 @@ export default function RouterIshopAdmin() {
     //   path: '/bread',
     //   element: <RouterBreadcrumbs />,
     // },
+
+
+
     {
       path: '/dashboard',
       element: <DashboardLayout />,

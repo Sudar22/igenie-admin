@@ -94,7 +94,7 @@ export const saveProduct = createAsyncThunk(
 );
 
 
-  export const updateProduct = createAsyncThunk(
+ export const updateProduct = createAsyncThunk(
     "product/update",
     async (userCredentials) => {
       const request = await axios({

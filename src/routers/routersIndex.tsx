@@ -15,7 +15,7 @@ export default function RouterIndex() {
     <>
 
     <RouterIshopAdmin/>
-    <RouterIshopClient/>
+    {/* <RouterIshopClient/> */}
     
     </>
   )
