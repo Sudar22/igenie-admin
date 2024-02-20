@@ -33,6 +33,8 @@ export default function RouterIshopAdmin() {
       element: <ProductEditIndex />,
 
     },
+
+    
     { path: "/login", element: <Login /> },
     // { path: "/signup", element: <Signup/> },
 
@@ -40,6 +42,9 @@ export default function RouterIshopAdmin() {
     //   path: '/bread',
     //   element: <RouterBreadcrumbs />,
     // },
+
+
+
     {
       path: '/dashboard',
       element: <DashboardLayout />,
