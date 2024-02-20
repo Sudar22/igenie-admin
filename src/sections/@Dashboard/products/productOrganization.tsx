@@ -70,7 +70,7 @@ export default function ProductOrganization() {
             </Styledinput>
             <Styledinput>
                 <Typography>
-                    Product type
+                    Product subcategory
                 </Typography>
                 <Autocomplete
                     id="grouped-demo"
@@ -79,7 +79,7 @@ export default function ProductOrganization() {
                     groupBy={(option) => option.firstLetter}
                     getOptionLabel={(option) => option.title}
                     sx={{ width: 300 }}
-                    renderInput={(params) => <TextField {...params} label="type" />}
+                    renderInput={(params) => <TextField {...params} label="subcategory" />}
                 />
             </Styledinput>
             <Styledinput>
