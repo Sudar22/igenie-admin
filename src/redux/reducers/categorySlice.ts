@@ -2,12 +2,12 @@ import { createSlice ,createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios';
 
 
-export const getCategory = createAsyncThunk(
+export const getAllCategory = createAsyncThunk(
     "product/Info",
     async (userCredentials) => {
       const request = await axios({
-        method: "post",
-        url: "http://localhost:5000/api/auth/signin",
+        method: "get",
+        url: "http://localhost:8080/categories/all",
         data: userCredentials,
            headers: { "Content-Type": "application/json" },
         // headers: { "Content-Type": "multipart/form-data" },
