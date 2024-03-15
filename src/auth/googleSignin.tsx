@@ -7,9 +7,11 @@ import {
 } from "firebase/auth";
 import { Button, Stack } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { postUserData } from "../redux/reducers/authSlice";
 
 const GoogleSignIn: React.FC = () => {
-
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [email, setEmail] = useState<string | null>(
     localStorage.getItem("email")
@@ -33,13 +35,26 @@ const GoogleSignIn: React.FC = () => {
         } else {
           // The email is not in use, proceed to create a new account
           console.log(`Creating a new account with email: ${user.email}`);
+          console.log(`Creating a new account with email: ${user.displayName}`);
+          console.log(`Creating a new account with email: ${user.photoURL}`);
+          console.log(`Creating a new account with email: ${user.emailVerified}`);
+          console.log(`Creating a new account with user: ${user}`);
+
+
           // Add your createUserWithEmailAndPassword logic here
+          const userUID = user.uid;
+          console.log(`User UID: ${userUID}`);
         }
 
         // Display welcome alert
         alert(`Welcome, ${user.email}`);
 
         navigate("/marketplace/products");
+
+        const authenticationType = "GMAIL";
+        const userinfo
+        
+        dispatch(postUserData({ user.email ,authenticationType }));
       } else {
         console.error("Error: User data not found in the sign-in response.");
       }
