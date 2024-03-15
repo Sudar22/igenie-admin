@@ -15,8 +15,9 @@ import GiftCards from "../pages/products/giftCards";
 import ProductPage from "../pages/products";
 import { AddProduct } from "../sections/@Dashboard/products";
 import Login from "../auth/login";
-import Signup from "../auth/signup";
+// import Signup from "../auth/signup";
 import AddCollection from "../sections/@Dashboard/collection/addCollection";
+import { Signup } from "../auth/signup";
 // import Signup from "../auth/signup";
 
 
@@ -36,6 +37,7 @@ export default function RouterIshopAdmin() {
 
     
     { path: "/login", element: <Login /> },
+    { path: "/signup", element: <Signup /> },
     // { path: "/signup", element: <Signup/> },
 
     // {

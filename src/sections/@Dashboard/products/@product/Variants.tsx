@@ -67,7 +67,7 @@ const StyledSearch = styled(OutlinedInput)(({ theme }: { theme: Theme }) => ({
   },
 }));
 
-export function Option() {
+export function Option({ onDelete }: { onDelete: () => void }) {
   return (
     <StyledInputBox>
       <StyledOption>
@@ -80,7 +80,7 @@ export function Option() {
 
         <Stack>
           <Tooltip title="delete">
-            <IconButton>
+            <IconButton onClick={onDelete}>
               <Iconify
                 icon="material-symbols:delete-outline"
                 sx={{ width: 25, height: 25 }}
@@ -108,7 +108,16 @@ export function Option() {
 
 export default function Variants() {
   // const [add,setAdd]=useState<Boolean>(false);
-  
+  const [options, setOptions] = useState<number[]>([0]);
+
+  const addOption = () => {
+    setOptions([...options, options.length]);
+  };
+
+  const deleteOption = (index: number) => {
+    const updatedOptions = options.filter((option, i) => i !== index);
+    setOptions(updatedOptions);
+  };
 
   return (
     <StyledRoot>
@@ -134,13 +143,14 @@ export default function Variants() {
           <Button> add options like size or color </Button>
         </Stack>
 
-        <Option />
-        <Option />
+        {options.map((option, index) => (
+          <Option key={index} onDelete={() => deleteOption(index)} />
+        ))}
 
         <Divider />
 
         <Stack>
-          <Button>add anthor option </Button>
+          <Button onClick={addOption}>add anthor option </Button>
         </Stack>
       </Card>
     </StyledRoot>

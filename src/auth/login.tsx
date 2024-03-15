@@ -1,214 +1,295 @@
 import {
-    Alert,
-    Button,
-    Card,
-    CardContent,
-    Checkbox,
-    FormControlLabel,
-    Grid,
-    Snackbar,
-    TextField,
-    Typography,
-  } from "@mui/material";
-  import React, { useContext, useEffect, useState } from "react";
-  // import Snackbar from '@mui/material/Snackbar';
-  import { useSelector, useDispatch } from "react-redux";
-  
-  import { Link, useNavigate } from "react-router-dom";
-  import ModelContexts from "../hooks/ModelcontextProviders";
-  import { loginUser } from "../redux/reducers/vendorSlice";
-  
-  function getUser() {
-    let user = localStorage.getItem("user");
-  
-    if (user) {
-      user = JSON.parse(user);
-    } else {
-      user = null;
-    }
-    return user;
+  Box,
+  Button,
+  Card,
+  Checkbox,
+  Container,
+  FormControlLabel,
+  Stack,
+  TextField,
+  Typography,
+  styled,
+} from "@mui/material";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { auth } from "./config";
+import { Link, useNavigate } from "react-router-dom";
+// import Commonsvg from "../assets/commonsvg";
+import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
+import { MuiTelInput } from "mui-tel-input";
+import { RootState } from "../redux/stores/reduxStore";
+
+function getUserDetails() {
+  let userDetails = localStorage.getItem("userDetails");
+
+  if (userDetails) {
+    userDetails = JSON.parse(userDetails);
+  } else {
+    userDetails = null;
   }
+  return userDetails;
+}
+
+const StyledLogin = styled("div")(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  width: "100%",
+  marginTop: 30,
+  padding: theme.spacing(1, 4, 2, 4),
+}));
+
+const StyledInputForm = styled(Card)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+  gap: 20,
+  width: 440,
+  padding: theme.spacing(1, 4, 2, 4),
+}));
+
+const StyledSignupOptions = styled("div")(({ theme }) => ({}));
+
+const Login = () => {
+  const navigate = useNavigate();
+  const [phone, setPhone] = useState("");
+  const [showOtpInput, setShowOtpInput] = useState(false);
+  const [otp, setOtp] = useState("");
+  const [confirmationResult, setConfirmationResult] = useState<any>(null);
+  const [isVerified, setIsVerified] = useState(false);
+  const [error, setError] = useState(""); // Add state for error
+
+  const dispatch = useDispatch();
+
+  const signupOptions = [
+
+    {
+      name: "Don't have an account? Sign Up",
+      path: "/marketplace/signup",
+    },
+  ];
+
+  const StyledButton = styled(Button)(({ theme }) => ({
+    width: 200,
+    margin: theme.spacing(0, 1),
+    fontSize: 10,
+    backgroundColor: "#000",
+    color: "#FFF",
+    "&:hover": {
+      backgroundColor: "#57A845",
+    },
+  }));
+
+  const StyledHeader = styled("div")(({ theme }) => ({
+    width: "100%",
+    height: 60,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+  }));
+
+  const StyledFooter = styled("div")(({ theme }) => ({
+    width: "100%",
+    gap: 10,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+  }));
+
+  const PhoneInput = styled(MuiTelInput)(({ theme }) => ({
+    display: "flex",
+    width: "100%",
+    height: 60,
+    gap: 10,
+  }));
+
+  const StyledSignupFields = styled("div")(({ theme }) => ({
+    width: "100%",
+    display: "flex",
+    flexDirection: "column",
+    gap: 10,
+  }));
+
+  const StyledVerifyAndLogin = styled("div")(({ theme }) => ({
+    width: "100%",
+    alignItems: "center",
+    display: "flex",
+    flexDirection: "column",
+    gap: 10,
+  }));
+
+  const handleFormSubmit = async () => {
+    try {
+      const userDetails = getUserDetails();
+      console.log("User Details:", userDetails);
   
-  const Login = () => {
-    // const { setrequestloginData, UserProfile, loginSuccess } =
-    //   useContext(ModelContexts);
-    const [state, setState] = React.useState({
-      open: false,
-      vertical: "top",
-      horizontal: "center",
-    });
+      // Check if userDetails is not empty and has phone numbers
+      if (userDetails && userDetails.length > 0) {
+        for (const user of userDetails) {
+          const phoneFromLocalStorage = user.phoneNumber;
+          console.log("Phone from Local Storage:", phoneFromLocalStorage);
   
-    const { vertical, horizontal, open } = state;
+          // Check if the entered phone matches the phone number in array
+          if (phone === phoneFromLocalStorage) {
+            const recaptchaContainer = document.getElementById("recaptcha");
   
-    // const {UserProfile} =useContext(ModelContexts)
+            if (!recaptchaContainer) {
+              console.error("Recaptcha container not found");
+              return;
+            }
   
-    const navigate = useNavigate();
+            try {
+              const recaptcha = new RecaptchaVerifier(auth, recaptchaContainer, {});
+              
+              // Check if the phone number is long enough (adjust the minimum length as needed)
+              const phoneNumber = `+${phoneFromLocalStorage}`;
+              if (phoneNumber.length < 10) {
+                setError("Invalid phone number");
+                return;
+              }
+              console.log("Phone :", phone);
   
-    const [email, setEmail] = useState("");
-    const [password, setpassword] = useState("");
-    const [data, setData] = useState([]);
+              const confirmation = await signInWithPhoneNumber(auth, phoneNumber, recaptcha);
+              setConfirmationResult(confirmation);
   
-    // redux state
-    const { loading, error } = useSelector((state) => state.user);
-  
-    const dispatch = useDispatch();
-  
-    const handlesubmit = async (e) => {
-      e.preventDefault();
-  
-      if (!email) {
-        return alert("Please enter correct Email id");
-      } else if (!password) {
-        return alert("Please enter correct Password");
-      }
-    };
-  
-    const getData = async (e) => {
-      e.preventDefault();
-  
-      let name = e.target.name;
-      console.log(data);
-  
-      setData((prev) => (prev = { ...prev, [name]: e.target.value }));
-  
-      return data;
-    };
-  
-    const postData = async (e) => {
-      e.preventDefault();
-      // setrequestloginData(data)
-      // UserProfile()
-      // console.log(data);
-  
-      let userCredentials = { ...data };
-      //  const {email,password} = data;
-  
-      // console.log('userCredentials',email,password);
-  
-      dispatch(loginUser(userCredentials)).then((result) => {
-        if (result.payload) {
-          setEmail("");
-          setpassword("");
-  
-          setTimeout(function () {
-            navigate("/dashboard/app");
-          }, 1450);
+              // After OTP sending, show the OTP input field
+              setShowOtpInput(true);
+            } catch (error) {
+              console.error("Error during reCAPTCHA verification:", error);
+              // Handle reCAPTCHA verification error
+            }
+          } else {
+            // Phone number does not match, show an error message
+            setError("Entered phone number is not registered");
+          }
         }
-      });
-    };
+      } else {
+        console.error("No user details found");
+      }
+    } catch (error) {
+      console.error(error);
   
-    // const handleClick = (newState) => () => {
-    //   setState({ ...newState, open: true });
-    // };
-  
-    // useEffect(() => {
-    //   if (loginSuccess === true) {
-    //     setState({ ...state, open: true });
-    //     setTimeout(() => {
-    //       navigate("/dashboard/app");
-    //     }, 3000);
-    //   }
-    // }, [loginSuccess]);
-  
-    return (
-      <Grid pt={5} pl={10} pr={10}>
-        <Grid>
-          <Card align="center">
-            <CardContent>
-              <Grid p={5}>
-                <Snackbar
-                  anchorOrigin={{ vertical, horizontal }}
-                  open={open}
-                  autoHideDuration={6000}
-                >
-                  <Alert mt={5} severity="success">
-                    Login success !
-                  </Alert>
-                </Snackbar>
-                <Typography variant="h4" color="primary">
-                  Login
-                </Typography>
-  
-                <Typography variant="h5" color="textSecondary" p={1}>
-                  Welcome
-                </Typography>
-              </Grid>
-  
-              <Grid>
-                {/* <Form> */}
-                  <Grid
-                    container
-                    padding={2}
-                    xl={4}
-                    sm={6}
-                    lg={4}
-                    xs={12}
-                    flexDirection={"column"}
-                    height={500}
-                  >
-                    <Grid p={1}>
-                      <TextField
-                        name="email"
-                        label="Email"
-                        required="true"
-                        autoFocus
-                        fullWidth
-                        onChange={getData}
-                      />
-                    </Grid>
-                    <Grid p={1}>
-                      <TextField
-                        name="password"
-                        label="Password"
-                        required="true"
-                        fullWidth
-                        onChange={getData}
-                      />
-                    </Grid>
-                    <Grid align="left" p={1}>
-                      <FormControlLabel
-                        control={<Checkbox value="remember" color="primary" />}
-                        label="Remember me"
-                      />
-                    </Grid>
-                    <Grid pt={4}>
-                      <Button
-                        variant="contained"
-                        onClick={(e) => {
-                          postData(e);
-                        }}
-                      >
-                        Login
-                      </Button>
-                    </Grid>
-  
-                    <Grid
-                      container
-                      pt={5}
-                      direction="column"
-                      justifyContent="center"
-                      alignItems="center"
-                    >
-                      <Grid item>
-                        <Link to="/" variant="body2">
-                          Forgot password?
-                        </Link>
-                      </Grid>
-                      <Grid item align="right">
-                        <Link to="/registration" variant="body2">
-                          {"Don't have an account? Sign Up"}
-                        </Link>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                {/* </Form> */}
-              </Grid>
-            </CardContent>
-          </Card>
-        </Grid>
-      </Grid>
-    );
+      if (error.code === "auth/too-many-requests") {
+        // Implement a backoff strategy, for example, wait for 5 seconds and then retry
+        setTimeout(() => {
+          handleFormSubmit();
+        }, 1000);
+      }
+    }
   };
+  // const dispatch = useDispatch();
+ 
+
   
-  export default Login;
-  
+  const verifyOtp = async () => {
+    try {
+      if (!confirmationResult) {
+        console.error("Confirmation result not found");
+        return;
+      }
+
+      await confirmationResult.confirm(otp);
+
+      const user = await auth.currentUser;
+
+      if (user) {
+        const userUID = user.uid;
+        const userName = user.displayName;
+        navigate("/marketplace/landing");
+        setIsVerified(true);
+        alert(`Welcome, User UID: ${userUID}`);
+        navigate(location.pathname, { state: { loginSuccessMessage: 'Login successful! Welcome back ${userName}!' } });
+        console.error("User not found after OTP confirmation");
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  return (
+    <StyledLogin>
+      <StyledInputForm>
+        <StyledHeader>
+          <Typography variant="h5" fontWeight="600">
+            Login
+          </Typography>
+        </StyledHeader>
+
+        <StyledSignupFields>
+          <Stack direction={"column"} spacing={10}>
+            <PhoneInput
+              defaultCountry={"IN"}
+              value={phone}
+              onChange={(value) => {
+                // Remove spaces from the entered phone number
+                const cleanedPhone = value.replace(/\s/g, "");
+                setPhone(cleanedPhone);
+                console.log("Entered Phone Number:", cleanedPhone);
+              }}
+              name="Phone No"
+              label="Phone No"
+              
+            />
+          </Stack>
+          <StyledVerifyAndLogin>
+            <Box p={1}>
+              <FormControlLabel
+                control={<Checkbox value="remember" color="primary" />}
+                label="Remember me"
+              />
+            </Box>
+            <Stack direction={"column"} spacing={10}>
+              <div id="recaptcha"></div>
+            </Stack>
+            {showOtpInput && (
+              <Stack mt={"4.17vh"}>
+                <TextField
+                  name="otp"
+                  label="OTP"
+                  fullWidth
+                  onChange={(e) => setOtp(e.target.value)}
+                  value={otp}
+                />
+              </Stack>
+            )}
+            {/* Display error message */}
+            {error && (
+              <Typography color="error" variant="caption" mt={1}>
+                {error}
+              </Typography>
+            )}
+            <Stack>
+              {!showOtpInput ? (
+                <StyledButton type="button" onClick={handleFormSubmit}>
+                  Login
+                </StyledButton>
+              ) : (
+                <StyledButton type="button" onClick={verifyOtp}>
+                  Verify OTP and Login
+                </StyledButton>
+              )}
+            </Stack>
+          </StyledVerifyAndLogin>
+        </StyledSignupFields>
+        <StyledSignupOptions>
+          <StyledFooter>
+            <Stack component={Link} to={"/marketplace/googlesignin"}>
+              <StyledButton>
+                {/* <Commonsvg name="google" width="3vh" height="3vh" /> */}
+                 Continue with Google
+              </StyledButton>
+            </Stack>
+            {signupOptions.slice(0, 3).map((item, index) => (
+              <Stack key={index} component={Link} to={item.path}>
+                {item.name}
+              </Stack>
+            ))}
+          </StyledFooter>
+        </StyledSignupOptions>
+      </StyledInputForm>
+    </StyledLogin>
+  );
+};
+
+export default Login;
