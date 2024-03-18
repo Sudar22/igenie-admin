@@ -1,63 +1,47 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
+import { createSellerWithGmailType } from "../../auth/authType/googleSignin";
 
-// Mock API endpoints for demonstration
-const USER_API_URL = 'https://example.com/api/user';
-const POST_USER_API_URL = 'https://example.com/api/user';
+// const url = (text:string) => {
+//   return `${process.env.NEXT_PUBLIC_URL}/${text}`;
+// };
 
-export const fetchUserData = createAsyncThunk(
-    "auth/login",
-    async (userCredentials) => {
-      const request = await axios({
-        method: "post",
-        url: "http://localhost:5000/api/auth/signin",
-        data: userCredentials,
-        headers: { "Content-Type": "application/json" },
-        // headers: { "Content-Type": "multipart/form-data" },
-      });
-  
-      const response = await request.data;
-      localStorage.setItem("user", JSON.stringify(response));
-      console.log("user/loginUser:", request.data);
-      return response;
+export const createSellerWithGmail = createAsyncThunk(
+  "auth/signup",
+  async (credentials: createSellerWithGmailType, thunkAPI) => {
+    try {
+      const response = await axios.post<createSellerWithGmailType>(
+        "http://localhost:8080/igenieadmin/users/save",
+        credentials,
+        { headers: { "Content-Type": "multipart/form-data" } }
+      );
+
+      localStorage.setItem("user", JSON.stringify(response.data));
+      console.log("signup response:", response.data);
+      return response.data;
+    } catch (err: any) {
+      console.log("signup error:", err.message);
+      return thunkAPI.rejectWithValue(err.message);
     }
-  );
+  }
+);
 
-export const postUserData = createAsyncThunk(
-    "auth/signup",
-    async (userCreditional) => {
-      try {
-        // console.log("dataPost signupUser:", dataPost);
-        const request = await axios({
-          method: "post",
-          url: "http://localhost:5000/api/auth/signup",
-          data: userCreditional,
-          headers: { "Content-Type": "application/json" },
-        });
-  
-        const response = await request.data;
-        localStorage.setItem("user", JSON.stringify(response));
-        console.log("signup request.data", request.data);
-        return response;
-      } catch (err: any) {
-        // Specify the type of err as 'any' or a more specific error type
-        console.log("signup error 2:", err.message);
-      }
-    }
-  );
-  
+export interface DataState {
+  user: any;
+  loading: boolean;
+  error: String | null;
+}
 
 // Initial state for authentication slice
-const initialState = {
-  user: null,
+const initialState: DataState = {
+  user: [],
   loading: false,
   error: null,
-  userData: null, // Additional state to store user data fetched from the API
 };
 
 // Create authentication slice
 const authSlice = createSlice({
-  name: 'auth',
+  name: "auth",
   initialState,
   reducers: {
     // Reducer to set loading state
@@ -83,46 +67,32 @@ const authSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    // Extra reducer to handle fetchUserData pending and fulfilled actions
     builder
-      .addCase(fetchUserData.pending, (state) => {
+      .addCase(createSellerWithGmail.pending, (state) => {
         state.loading = true;
         state.user = null;
         state.error = null;
       })
-      .addCase(fetchUserData.fulfilled, (state, action) => {
-        state.loading = false;
-        state.userData = action.payload;
-        state.error = null;
-      })
-      .addCase(fetchUserData.rejected, (state, action) => {
-        state.loading = false;
-        state.user = null;
-        state.error = action.error.message ?? "Login failed";
-      });
-    
-    // Extra reducer to handle postUserData pending and fulfilled actions
-    builder
-      .addCase(postUserData.pending, (state) => {
-        state.loading = true;
-        state.user = null;
-        state.error = null;
-      })
-      .addCase(postUserData.fulfilled, (state, action) => {
-        state.loading = false;
-        state.user = action.payload;
-        state.error = null;
-        // You can update state as needed after posting user data
-      })
-      .addCase(postUserData.rejected, (state, action) => {
-        state.loading = false;
-        state.user = null;
-        state.error = action.error.message ?? "User registration failed";
-      });
+      .addCase(
+        createSellerWithGmail.fulfilled,
+        (state, action: PayloadAction<createSellerWithGmailType>) => {
+          state.loading = false;
+          state.user = action.payload;
+          state.error = null;
+          // You can update state as needed after posting user data
+        }
+      )
+      .addCase(
+        createSellerWithGmail.rejected,
+        (state, action: PayloadAction<any>) => {
+          state.loading = false;
+          state.user = action.payload.message ?? "User registration failed";
+        }
+      );
   },
 });
 
 // Export actions, reducers, and async thunks
 export const { setLoading, setUser, setError, signOut } = authSlice.actions;
-export { fetchUserData as fetchUserDataAction, postUserData as postUserDataAction };
+// export { fetchUserData as fetchUserDataAction, createSellerWithGmail as postUserDataAction };
 export default authSlice.reducer;

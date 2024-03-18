@@ -3,21 +3,20 @@ import {
   Button,
   Card,
   Checkbox,
-  Container,
   FormControlLabel,
   Stack,
   TextField,
   Typography,
   styled,
 } from "@mui/material";
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { auth } from "./config";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { auth } from "./config";
 // import Commonsvg from "../assets/commonsvg";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { MuiTelInput } from "mui-tel-input";
-import { RootState } from "../redux/stores/reduxStore";
+import GoogleSignIn from "./googleSignin";
 
 function getUserDetails() {
   let userDetails = localStorage.getItem("userDetails");
@@ -61,7 +60,6 @@ const Login = () => {
   const dispatch = useDispatch();
 
   const signupOptions = [
-
     {
       name: "Don't have an account? Sign Up",
       path: "/marketplace/signup",
@@ -123,25 +121,29 @@ const Login = () => {
     try {
       const userDetails = getUserDetails();
       console.log("User Details:", userDetails);
-  
+
       // Check if userDetails is not empty and has phone numbers
       if (userDetails && userDetails.length > 0) {
         for (const user of userDetails) {
           const phoneFromLocalStorage = user.phoneNumber;
           console.log("Phone from Local Storage:", phoneFromLocalStorage);
-  
+
           // Check if the entered phone matches the phone number in array
           if (phone === phoneFromLocalStorage) {
             const recaptchaContainer = document.getElementById("recaptcha");
-  
+
             if (!recaptchaContainer) {
               console.error("Recaptcha container not found");
               return;
             }
-  
+
             try {
-              const recaptcha = new RecaptchaVerifier(auth, recaptchaContainer, {});
-              
+              const recaptcha = new RecaptchaVerifier(
+                auth,
+                recaptchaContainer,
+                {}
+              );
+
               // Check if the phone number is long enough (adjust the minimum length as needed)
               const phoneNumber = `+${phoneFromLocalStorage}`;
               if (phoneNumber.length < 10) {
@@ -149,10 +151,14 @@ const Login = () => {
                 return;
               }
               console.log("Phone :", phone);
-  
-              const confirmation = await signInWithPhoneNumber(auth, phoneNumber, recaptcha);
+
+              const confirmation = await signInWithPhoneNumber(
+                auth,
+                phoneNumber,
+                recaptcha
+              );
               setConfirmationResult(confirmation);
-  
+
               // After OTP sending, show the OTP input field
               setShowOtpInput(true);
             } catch (error) {
@@ -169,7 +175,7 @@ const Login = () => {
       }
     } catch (error) {
       console.error(error);
-  
+
       if (error.code === "auth/too-many-requests") {
         // Implement a backoff strategy, for example, wait for 5 seconds and then retry
         setTimeout(() => {
@@ -179,9 +185,7 @@ const Login = () => {
     }
   };
   // const dispatch = useDispatch();
- 
 
-  
   const verifyOtp = async () => {
     try {
       if (!confirmationResult) {
@@ -199,7 +203,11 @@ const Login = () => {
         navigate("/marketplace/landing");
         setIsVerified(true);
         alert(`Welcome, User UID: ${userUID}`);
-        navigate(location.pathname, { state: { loginSuccessMessage: 'Login successful! Welcome back ${userName}!' } });
+        navigate(location.pathname, {
+          state: {
+            loginSuccessMessage: "Login successful! Welcome back ${userName}!",
+          },
+        });
         console.error("User not found after OTP confirmation");
       }
     } catch (err) {
@@ -229,7 +237,6 @@ const Login = () => {
               }}
               name="Phone No"
               label="Phone No"
-              
             />
           </Stack>
           <StyledVerifyAndLogin>
@@ -274,12 +281,8 @@ const Login = () => {
         </StyledSignupFields>
         <StyledSignupOptions>
           <StyledFooter>
-            <Stack component={Link} to={"/marketplace/googlesignin"}>
-              <StyledButton>
-                {/* <Commonsvg name="google" width="3vh" height="3vh" /> */}
-                 Continue with Google
-              </StyledButton>
-            </Stack>
+            <GoogleSignIn />
+
             {signupOptions.slice(0, 3).map((item, index) => (
               <Stack key={index} component={Link} to={item.path}>
                 {item.name}
