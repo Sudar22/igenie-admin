@@ -68,8 +68,11 @@ const GoogleSignIn: React.FC = () => {
 
           const credentials = {
             email: `${user.email}`,
-            image:"",
-            authenticationType: "GMAIL",
+            authenticationType: "GOOGLE",
+            roles:{
+              name:"Editor",
+              description:"he is seller"
+            }
           };
   
           dispatch(createSellerWithGmail(credentials));
