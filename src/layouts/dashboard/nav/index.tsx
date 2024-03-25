@@ -65,6 +65,7 @@ export default function Nav({ openNav, onCloseNav }: { openNav?: boolean; onClos
       sx={{
         height: 1,
         '& .simplebar-content': { height: 1, display: 'flex', flexDirection: 'column' },
+        backgroundColor:"#FFF"
       }}
     >
       <Box sx={{ px: 2.5, py: 3, display: 'inline-flex' }}>

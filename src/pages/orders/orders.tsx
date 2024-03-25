@@ -1,7 +1,7 @@
-import { Helmet } from 'react-helmet-async';
-import { filter } from 'lodash';
-import { sentenceCase } from 'change-case';
-import { useState, ChangeEvent } from 'react';
+import { Helmet } from "react-helmet-async";
+import { filter } from "lodash";
+import { sentenceCase } from "change-case";
+import { useState, ChangeEvent } from "react";
 import {
   Card,
   Table,
@@ -21,24 +21,27 @@ import {
   TableContainer,
   TablePagination,
   ListItemButton,
-} from '@mui/material';
-import { ProductListHead, ProductListToolbar } from '../../sections/@Dashboard/products';
-import Label from '../../components/label';
-import Iconify from '../../components/iconify';
-import Scrollbar from '../../components/scrollbar';
-import USERLIST from '../../_mock/user';
-import { Link } from 'react-router-dom';
+} from "@mui/material";
+import {
+  ProductListHead,
+  ProductListToolbar,
+} from "../../sections/@Dashboard/products";
+import Label from "../../components/label";
+import Iconify from "../../components/iconify";
+import Scrollbar from "../../components/scrollbar";
+import USERLIST from "../../_mock/orders";
+import { Link } from "react-router-dom";
 
-interface User {
+interface Order {
   id: string;
   name: string;
-  role: string;
-  status: string;
-  company: string;
-  avatarUrl: string;
-  isVerified: boolean;
-  [key: string]: any; // Allow any string as an index
-
+  date: Date;
+  customer: string;
+  total: number;
+  fulfillstatus: string;
+  category: string;
+  deliverystatus: string;
+  deliverymethod: string;
 }
 
 interface HeadCell {
@@ -48,19 +51,18 @@ interface HeadCell {
 }
 
 const TABLE_HEAD: HeadCell[] = [
-  { id: 'Order', label: 'Order', alignRight: false },
-  { id: 'Date', label: 'Date', alignRight: false },
-  { id: 'customer', label: 'Customer', alignRight: false },
-  { id: 'total', label: 'Total', alignRight: false },
-  { id: 'Payment status', label: 'Payment status', alignRight: false },
-  { id: 'fulfillment status', label: 'Fulfillment status', alignRight: false },
-  { id: 'items', label: 'Items', alignRight: false },
-  { id: 'Delivery status', label: 'Delivery status', alignRight: false },
-  { id: 'Delivery method', label: 'Delivery method', alignRight: false },
-  { id: 'tags', label: 'Tags', alignRight: false },
+  { id: "Order", label: "Order ID", alignRight: false },
+  { id: "Date", label: "Date", alignRight: false },
+  { id: "customer", label: "Customer", alignRight: false },
+  { id: "total", label: "Total", alignRight: false },
+  { id: "fulfillment status", label: "Fulfillment status", alignRight: false },
+  { id: "items", label: "Items", alignRight: false },
+  { id: "Delivery status", label: "Delivery status", alignRight: false },
+  { id: "Delivery method", label: "Delivery method", alignRight: false },
+  { id: "", label: "", alignRight: false },
 ];
 
-function descendingComparator(a: User, b: User, orderBy: string) {
+function descendingComparator(a: Order, b: Order, orderBy: string) {
   if (b[orderBy] < a[orderBy]) {
     return -1;
   }
@@ -70,51 +72,44 @@ function descendingComparator(a: User, b: User, orderBy: string) {
   return 0;
 }
 
-function getComparator(order: 'asc' | 'desc', orderBy: string) {
-  return order === 'desc'
-    ? (a: User, b: User) => descendingComparator(a, b, orderBy)
-    : (a: User, b: User) => -descendingComparator(a, b, orderBy);
+function getComparator(order: "asc" | "desc", orderBy: string) {
+  return order === "desc"
+    ? (a: Order, b: Order) => descendingComparator(a, b, orderBy)
+    : (a: Order, b: Order) => -descendingComparator(a, b, orderBy);
 }
 
-// function applySortFilter(array: User[], comparator: (a: User, b: User) => number, query: string) {
-//   const stabilizedThis = array.map((el, index) => [el, index]);
-//   stabilizedThis.sort((a, b) => {
-//     const order = comparator(a[0], b[0]);
-//     if (order !== 0) return order;
-//     return a[1] - b[1];
-//   });
-//   if (query) {
-//     return filter(array, (_user) => _user.name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
-//   }
-//   return stabilizedThis.map((el) => el[0]);
-// }
-
-function applySortFilter(array: User[], comparator: (a: User, b: User) => number, query: string) {
-    const stabilizedThis = array.map((el, index) => [el, index]);
-    stabilizedThis.sort((a, b) => {
-      const order = comparator(a[0], b[0]); // Compare only the User objects, not the entire tuple
-      if (order !== 0) return order;
-      return a[1] - b[1];
-    });
-    if (query) {
-      return filter(array, (_user) => _user.name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
-    }
-    return stabilizedThis.map((el) => el[0]);
+function applySortFilter(
+  array: Order[],
+  comparator: (a: Order, b: Order) => number,
+  query: string
+) {
+  const stabilizedThis = array.map((el, index) => [el, index]);
+  stabilizedThis.sort((a, b) => {
+    const order = comparator(a[0], b[0]); // Compare only the User objects, not the entire tuple
+    if (order !== 0) return order;
+    return a[1] - b[1];
+  });
+  if (query) {
+    return filter(
+      array,
+      (_user) => _user.name.toLowerCase().indexOf(query.toLowerCase()) !== -1
+    );
   }
-  
+  return stabilizedThis.map((el) => el[0]);
+}
 
 export default function Orders() {
   const [open, setOpen] = useState<null | HTMLElement>(null);
 
   const [page, setPage] = useState(0);
 
-  const [order, setOrder] = useState<'asc' | 'desc'>('asc');
+  const [order, setOrder] = useState<"asc" | "desc">("asc");
 
   const [selected, setSelected] = useState<string[]>([]);
 
-  const [orderBy, setOrderBy] = useState('name');
+  const [orderBy, setOrderBy] = useState("name");
 
-  const [filterName, setFilterName] = useState('');
+  const [filterName, setFilterName] = useState("");
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
@@ -126,9 +121,12 @@ export default function Orders() {
     setOpen(null);
   };
 
-  const handleRequestSort = (event: React.MouseEvent<unknown>, property: string) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
+  const handleRequestSort = (
+    event: React.MouseEvent<unknown>,
+    property: string
+  ) => {
+    const isAsc = orderBy === property && order === "asc";
+    setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
   };
 
@@ -143,7 +141,7 @@ export default function Orders() {
 
   const handleClick = (event: React.MouseEvent<unknown>, name: string) => {
     const selectedIndex = selected.indexOf(name);
-    let newSelected  = [] as any;
+    let newSelected = [] as any;
     if (selectedIndex === -1) {
       newSelected = newSelected.concat(selected, name);
     } else if (selectedIndex === 0) {
@@ -151,16 +149,24 @@ export default function Orders() {
     } else if (selectedIndex === selected.length - 1) {
       newSelected = newSelected.concat(selected.slice(0, -1));
     } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(selected.slice(0, selectedIndex), selected.slice(selectedIndex + 1));
+      newSelected = newSelected.concat(
+        selected.slice(0, selectedIndex),
+        selected.slice(selectedIndex + 1)
+      );
     }
     setSelected(newSelected);
   };
 
-  const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
+  const handleChangePage = (
+    event: React.MouseEvent<HTMLButtonElement> | null,
+    newPage: number
+  ) => {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setPage(0);
     setRowsPerPage(parseInt(event.target.value, 10));
   };
@@ -170,9 +176,14 @@ export default function Orders() {
     setFilterName(event.target.value);
   };
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - USERLIST.length) : 0;
+  const emptyRows =
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - USERLIST.length) : 0;
 
-  const filteredUsers = applySortFilter(USERLIST, getComparator(order, orderBy), filterName);
+  const filteredUsers = applySortFilter(
+    USERLIST,
+    getComparator(order, orderBy),
+    filterName
+  );
 
   const isNotFound = !filteredUsers.length && !!filterName;
 
@@ -183,57 +194,22 @@ export default function Orders() {
       </Helmet>
 
       <Container>
-
-
-              <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-                  <Typography variant="h4" gutterBottom>
-                      Orders
-                  </Typography>
-
-                  <Stack direction="row" spacing={1.2} flexWrap="wrap-reverse">
-                      {/* <Button variant="contained" color="secondary" size="medium">
-                          Export
-                      </Button>
-                      <Button variant="contained" color="secondary" size="medium">
-                          import
-                      </Button> */}
-
-
-                      <Button variant="contained" component={Link} to="addproduct" size="medium" startIcon={<Iconify icon="eva:plus-fill" />}>
-                          add Product
-                      </Button> 
-
-                      {/* <ListItemButton to='products/addproduct' relative="/dashboard" >
-                          add Product
-                      </ListItemButton>  */}
-
-                      {/* <Link to='products/addproduct'>
-                      <Button variant="contained" size="medium" startIcon={<Iconify icon="eva:plus-fill" />} onClick={() => { }}>
-                          add Product
-                      </Button>
-                      </Link> */}
-                  </Stack>
-
-                 
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="space-between"
+          mb={5}
+        >
+          <Typography variant="h4" gutterBottom>
+            Orders
+          </Typography>
         </Stack>
 
-
-             <Stack mb={5}>
-             <Card>
-                  <ProductListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
-              </Card>
-             </Stack>
-
-
-        <Card >
-
+        <Card sx={{ width: "100%" }}>
           <Scrollbar>
-
-          <Card>ll
-              </Card>
+            <Card></Card>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
-
                 <ProductListHead
                   order={order}
                   orderBy={orderBy}
@@ -244,47 +220,103 @@ export default function Orders() {
                   onSelectAllClick={handleSelectAllClick}
                 />
                 <TableBody>
-                  {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+                  {filteredUsers
+                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    .map((row) => {
+                      const {
+                        id,
+                        name,
+                        date,
+                        customer,
+                        total,
+                        category,
+                        fulfillstatus,
+                        company,
+                        deliverystatus,
+                        deliverymethod,
+                      } = row;
 
+                      const selectedUser = selected.indexOf(name) !== -1;
 
+                      return (
+                        <TableRow
+                          hover
+                          key={id}
+                          tabIndex={-1}
+                          role="checkbox"
+                          selected={selectedUser}
+                        >
+                          <TableCell padding="checkbox">
+                            <Checkbox
+                              checked={selectedUser}
+                              onChange={(event) => handleClick(event, name)}
+                            />
+                          </TableCell>
 
-                    const { id, name, category, status, company, avatarUrl, isVerified }  = row;
+                          <TableCell component="th" scope="row" padding="none">
+                            <Stack
+                              direction="row"
+                              alignItems="center"
+                              spacing={2}
+                            >
+                              {/* <Avatar alt={name} src={avatarUrl} /> */}
+                              <Typography variant="subtitle2" noWrap>
+                                {name}
+                              </Typography>
+                            </Stack>
+                          </TableCell>
 
-                    const selectedUser = selected.indexOf(name) !== -1;
+                          {/* <TableCell align="left">{date}</TableCell> */}
+                          <TableCell align="left">{date}</TableCell>
+                          <TableCell align="left">{customer}</TableCell>
+                          {/* <TableCell align="left">{company}</TableCell> */}
+                          <TableCell align="left">{total}</TableCell>
+                          <TableCell align="left">
+                            <Label
+                              color={
+                                (fulfillstatus === "pending" && "error") ||
+                                "success"
+                              }
+                            >
+                              {sentenceCase(fulfillstatus)}
+                            </Label>
+                          </TableCell>
+                          <TableCell align="left">{category}</TableCell>
 
-                    return (
-                      <TableRow hover key={id} tabIndex={-1} role="checkbox" selected={selectedUser}>
-                        <TableCell padding="checkbox">
-                          <Checkbox checked={selectedUser} onChange={(event) => handleClick(event, name)} />
-                        </TableCell>
+                          <TableCell align="left">
+                            <Label
+                              color={
+                                (deliverystatus === "pending" && "error") ||
+                                "success"
+                              }
+                            >
+                              {sentenceCase(deliverystatus)}
+                            </Label>
+                          </TableCell>
 
-                        <TableCell component="th" scope="row" padding="none">
-                          <Stack direction="row" alignItems="center" spacing={2}>
-                            <Avatar alt={name} src={avatarUrl} />
-                            <Typography variant="subtitle2" noWrap>
-                              {name}
-                            </Typography>
-                          </Stack>
-                        </TableCell>
+                          <TableCell align="left">
+                            <Label
+                              color={
+                                (deliverymethod === "offline" && "error") ||
+                                "success"
+                              }
+                            >
+                              {sentenceCase(deliverymethod)}
+                            </Label>
+                          </TableCell>
 
-                        <TableCell align="left">{company}</TableCell>
-
-                        <TableCell align="left">{category}</TableCell>
-
-                        <TableCell align="left">{isVerified ? 'Yes' : 'No'}</TableCell>
-
-                        <TableCell align="left">
-                          <Label color={(status === 'pending' && 'error') || 'success'}>{sentenceCase(status)}</Label>
-                        </TableCell>
-
-                        <TableCell align="right">
-                          <IconButton size="large" color="inherit" onClick={handleOpenMenu}>
-                            <Iconify icon={'eva:more-vertical-fill'} />
-                          </IconButton>
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })}
+                          <TableCell align="right">
+                            <IconButton
+                              size="large"
+                              color="inherit"
+                              onClick={handleOpenMenu}
+                            >
+                              <Iconify icon={"eva:more-vertical-fill"} />
+                            </IconButton>
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })}
 
                   {emptyRows > 0 && (
                     <TableRow style={{ height: 53 * emptyRows }}>
@@ -299,7 +331,7 @@ export default function Orders() {
                       <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
                         <Paper
                           sx={{
-                            textAlign: 'center',
+                            textAlign: "center",
                           }}
                         >
                           <Typography variant="h6" paragraph>
@@ -309,7 +341,8 @@ export default function Orders() {
                           <Typography variant="body2">
                             No results found for &nbsp;
                             <strong>&quot;{filterName}&quot;</strong>.
-                            <br /> Try checking for typos or using complete words.
+                            <br /> Try checking for typos or using complete
+                            words.
                           </Typography>
                         </Paper>
                       </TableCell>
@@ -336,27 +369,27 @@ export default function Orders() {
         open={Boolean(open)}
         anchorEl={open}
         onClose={handleCloseMenu}
-        anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
-        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+        anchorOrigin={{ vertical: "top", horizontal: "left" }}
+        transformOrigin={{ vertical: "top", horizontal: "right" }}
         PaperProps={{
           sx: {
             p: 1,
             width: 140,
-            '& .MuiMenuItem-root': {
+            "& .MuiMenuItem-root": {
               px: 1,
-              typography: 'body2',
+              typography: "body2",
               borderRadius: 0.75,
             },
           },
         }}
       >
         <MenuItem>
-          <Iconify icon={'eva:edit-fill'} sx={{ mr: 2 }} />
+          <Iconify icon={"eva:edit-fill"} sx={{ mr: 2 }} />
           Edit
         </MenuItem>
 
-        <MenuItem sx={{ color: 'error.main' }}>
-          <Iconify icon={'eva:trash-2-outline'} sx={{ mr: 2 }} />
+        <MenuItem sx={{ color: "error.main" }}>
+          <Iconify icon={"eva:trash-2-outline"} sx={{ mr: 2 }} />
           Delete
         </MenuItem>
       </Popover>

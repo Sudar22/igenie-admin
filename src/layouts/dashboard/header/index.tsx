@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 // @mui
-import { styled ,Theme,css} from '@mui/material/styles';
+// import { styled ,Theme,css} from '@mui/material/styles';
 
 // import { styled, Theme, StyledProps } from '@mui/system';
 
@@ -10,7 +10,7 @@ import { styled ,Theme,css} from '@mui/material/styles';
 
 
 
-import { Box, Stack, AppBar, Toolbar, IconButton } from '@mui/material';
+import { Box, Stack, AppBar, Toolbar, IconButton, styled } from '@mui/material';
 // utils
 import { bgBlur } from '../../../utils/cssStyles';
 // components
@@ -33,10 +33,12 @@ const HEADER_DESKTOP = 80;
 
 
 const StyledRoot = styled(AppBar)(({ theme }) => ({
+  backgroundColor:"#FFF",
   ...bgBlur({ color: theme.palette.background.default }),
   boxShadow: 'none',
+
   [theme.breakpoints.up('lg')]: {
-    width: `calc(100% - ${NAV_WIDTH + 1}px)`,
+    width: `calc(100% - ${NAV_WIDTH - 60}px)`,
   },
 }));
 
