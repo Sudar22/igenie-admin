@@ -11,7 +11,8 @@ export const createSellerWithGmail = createAsyncThunk(
   async (credentials: createSellerWithGmailType, thunkAPI) => {
     try {
       const response = await axios.post<createSellerWithGmailType>(
-        "http://localhost:8080/igenieadmin/users/save",
+        // "http://localhost:8080/igenieadmin/users/save",
+        "http://65.0.32.143:8080/igenieadmin/users/save",
         credentials,
         { headers: { "Content-Type": "multipart/form-data" } }
       );

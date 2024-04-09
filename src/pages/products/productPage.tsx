@@ -74,6 +74,8 @@ function getComparator(order: "asc" | "desc", orderBy: string) {
     : (a: User, b: User) => -descendingComparator(a, b, orderBy);
 }
 
+
+
 // function applySortFilter(array: User[], comparator: (a: User, b: User) => number, query: string) {
 //   const stabilizedThis = array.map((el, index) => [el, index]);
 //   stabilizedThis.sort((a, b) => {
