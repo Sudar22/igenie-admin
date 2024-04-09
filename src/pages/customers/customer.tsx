@@ -53,6 +53,7 @@ const TABLE_HEAD: HeadCell[] = [
   { id: 'location', label: 'Location', alignRight: false },
   { id: 'orders', label: 'Orders', alignRight: false },
   { id: 'amount spent', label: 'Amount spent', alignRight: false },
+  { id: 'action', label: 'Action', alignRight: false },
 ];
 
 function descendingComparator(a: User, b: User, orderBy: string) {
