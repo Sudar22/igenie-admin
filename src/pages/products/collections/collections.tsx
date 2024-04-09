@@ -51,6 +51,7 @@ const TABLE_HEAD: HeadCell[] = [
   { id: 'Title', label: 'Title', alignRight: false },
   { id: 'Products', label: 'Products', alignRight: false },
   { id: 'Product conditions', label: 'Product conditions', alignRight: false },
+  { id: 'action', label: 'Action', alignRight: false },
   
 ];
 

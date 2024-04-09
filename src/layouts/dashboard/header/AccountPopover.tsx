@@ -5,6 +5,7 @@ import { Box, Divider, Typography, Stack, MenuItem, Avatar, IconButton, Popover 
 // mocks_
 // import account from '../../../../_mock/account';
 import account from '../../../_mock/account';
+import { Link } from 'react-router-dom';
 
 // ----------------------------------------------------------------------
 
@@ -12,14 +13,20 @@ const MENU_OPTIONS = [
   {
     label: 'Home',
     icon: 'eva:home-fill',
+    path:'',
+
   },
   {
     label: 'Profile',
     icon: 'eva:person-fill',
+    path:'profile',
+
   },
   {
     label: 'Settings',
     icon: 'eva:settings-2-fill',
+    path:'',
+
   },
 ];
 
@@ -99,9 +106,12 @@ export default function AccountPopover() {
 
         <Stack sx={{ p: 1 }}>
           {MENU_OPTIONS.map((option) => (
+              <Link to={option.path} style={{textDecoration: 'none'}}>
+
             <MenuItem key={option.label} onClick={handleClose}>
               {option.label}
             </MenuItem>
+            </Link>
           ))}
         </Stack>
 

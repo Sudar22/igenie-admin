@@ -21,6 +21,7 @@ import {
   TableContainer,
   TablePagination,
   ListItemButton,
+  styled,
 } from "@mui/material";
 import {
   ProductListHead,
@@ -222,6 +223,16 @@ export default function ProductPage() {
     setButtons(editedButtons);
   };
 
+  const StyledButton = styled(Button)(({ theme }) => ({
+    width: "auto",
+    margin: theme.spacing(0, 1),
+    fontSize: 10,
+    backgroundColor: "#000",
+    color: "#FFF",
+    "&:hover": {
+      backgroundColor: "#57A845",
+    },
+  }));
   return (
     <>
       <Helmet>
@@ -283,9 +294,9 @@ export default function ProductPage() {
           <Scrollbar>
             <Card>
               <Stack direction="row" p={1}>
-                <Button size="small">ALL</Button>
-                <Button size="small">Active</Button>
-                <Button size="small">Draft</Button>
+                <StyledButton size="small">ALL</StyledButton>
+                <StyledButton size="small">Active</StyledButton>
+                <StyledButton size="small">Draft</StyledButton>
                 {buttons.map((button, index) => (
                   <div>
                     <div
@@ -293,7 +304,7 @@ export default function ProductPage() {
                       contentEditable={true}
                       onInput={(event) => handleEditButtonName(event, index)}
                     >
-                      <Button>{button.name}</Button>
+                      <StyledButton>{button.name}</StyledButton>
                     </div>
                     {/* <button onClick={() => handleDeleteButton(index)}>Delete Button</button> */}
                   </div>
@@ -461,11 +472,12 @@ export default function ProductPage() {
           },
         }}
       >
+        <Link to={"/dashboard/products/editproduct"}>
         <MenuItem>
           <Iconify icon={"eva:edit-fill"} sx={{ mr: 2 }} />
           Edit
         </MenuItem>
-
+        </Link>
         <MenuItem sx={{ color: "error.main" }}>
           <Iconify icon={"eva:trash-2-outline"} sx={{ mr: 2 }} />
           Delete
