@@ -59,7 +59,7 @@ const StyledSearch = styled(OutlinedInput)(
     }),
     "&.Mui-focused": {
       //   width: 350,
-      boxShadow: theme.customShadows.z8,
+      // boxShadow: theme.customShadows.z8,
     },
     "& fieldset": {
       borderWidth: `1px !important`,
@@ -198,7 +198,7 @@ export default function EditProduct() {
   };
 
   const inputProps = useInput("");
-  const quillRef = useRef(null);
+  const quillRef = useRef<ReactQuill>(null);
 
   React.useEffect(() => {
     // Focus the editor when the component mounts
