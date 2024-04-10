@@ -1,34 +1,33 @@
 import {
+  Box,
   Button,
   Card,
   Container,
   IconButton,
   OutlinedInput,
+  Paper,
   Stack,
   Tooltip,
   Typography,
 } from "@mui/material";
-import { Box, Grid, Paper, TextField } from "@mui/material";
-import React, { useState, useRef, useEffect } from "react";
+import { Theme, alpha, styled } from "@mui/material/styles";
+import React, { useEffect, useRef, useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import DOMPurify from "dompurify";
 import { useInput } from "../../../hooks/useInput";
-import { styled, alpha, Theme } from "@mui/material/styles";
-import "react-quill/dist/quill.snow.css";
 
+import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
+import { Link } from "react-router-dom";
 import Iconify from "../../../components/iconify";
-import { Link, Navigate } from "react-router-dom";
-import ProductOrganization from "./productOrganization";
 import Variants from "./@product/Variants";
+import ProductOrganization from "./productOrganization";
 
-import { useSelector, useDispatch } from "react-redux";
-import { saveProduct  } from "../../../redux/reducers/productSlice";
+import { useDispatch } from "react-redux";
+import { createProduct } from "../../../redux/reducers/productSlice";
 
 
 
@@ -194,7 +193,7 @@ export default function EditProduct() {
   }, [title, valueDescription]);
 
   const saveProductInfo = async () => {
-     dispatch(saveProduct(saveData));
+     dispatch(createProduct(saveData));
   };
 
   const inputProps = useInput("");

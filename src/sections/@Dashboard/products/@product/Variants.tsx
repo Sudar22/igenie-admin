@@ -22,6 +22,8 @@ const StyledRoot = styled("div")(({ theme }: { theme: Theme }) => ({
   padding: theme.spacing(0, 0, 0, 0),
 
   margin: theme.spacing(2.5, 0, 0, 0),
+  border:"1px solid black",
+  borderRadius:5
 }));
 const StyledInputBox = styled("div")(({ theme }: { theme: Theme }) => ({
   display: "flex",

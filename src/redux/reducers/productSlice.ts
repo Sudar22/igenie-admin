@@ -73,13 +73,15 @@ export const getProductInfo = createAsyncThunk(
 // ) as ThunkResult<any>;
 
 
-export const saveProduct = createAsyncThunk(
-  'product/save',
-  async (saveData: string[], thunkAPI): Promise<any> => {
+export const createProduct = createAsyncThunk(
+  'product/create',
+  async (productCreate: string[], thunkAPI): Promise<any> => {
     try {
-      // Your asynchronous logic here
-      // Access saveData like this: saveData[0], saveData[1], etc.
-      const request = await axios.post("http://localhost:8080/product", saveData, {
+      const request = await axios.post("http://localhost:8080/product", 
+      
+      productCreate,
+      
+      {
         headers: { "Content-Type": "application/json" },
       });
       const response = request.data;
@@ -205,17 +207,17 @@ export const saveProduct = createAsyncThunk(
           state.user = null;
           state.error = action.error.message ?? 'getting  failed';
         })
-         .addCase(saveProduct.pending, (state) => {
+         .addCase(createProduct.pending, (state) => {
           state.loading = true;
           state.user = null;
           state.error = null;
         })
-        .addCase(saveProduct.fulfilled, (state, action) => {
+        .addCase(createProduct.fulfilled, (state, action) => {
           state.loading = false;
           state.user = action.payload;
           state.error = null;
         })
-        .addCase(saveProduct.rejected, (state, action) => {
+        .addCase(createProduct.rejected, (state, action) => {
           state.loading = false;
           state.user = null;
           state.error = action.error.message ?? 'saving failed';
