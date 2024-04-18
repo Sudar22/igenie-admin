@@ -18,15 +18,30 @@ import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { MuiTelInput } from "mui-tel-input";
 import GoogleSignIn from "./googleSignin";
 
-function getUserDetails() {
+// function getUserDetails() {
+//   let userDetails = localStorage.getItem("userDetails");
+
+//   if (userDetails) {
+//     userDetails = JSON.parse(userDetails);
+//   } else {
+//     userDetails = null;
+//   }
+//   return userDetails;
+// }
+interface UserDetails {
+  uid: string;
+  username: string;
+  phoneNumber: string;
+}
+
+function getUserDetails(): UserDetails[] {
   let userDetails = localStorage.getItem("userDetails");
 
   if (userDetails) {
-    userDetails = JSON.parse(userDetails);
+    return JSON.parse(userDetails);
   } else {
-    userDetails = null;
+    return [];
   }
-  return userDetails;
 }
 
 const StyledLogin = styled("div")(({ theme }) => ({
@@ -173,7 +188,7 @@ const Login = () => {
       } else {
         console.error("No user details found");
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
 
       if (error.code === "auth/too-many-requests") {

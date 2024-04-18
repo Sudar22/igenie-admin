@@ -32,7 +32,7 @@ import { Link } from 'react-router-dom';
 interface User {
   id: string;
   name: string;
-  role: string;
+  // role: string;
   status: string;
   company: string;
   avatarUrl: string;
@@ -86,17 +86,17 @@ function getComparator(order: 'asc' | 'desc', orderBy: string) {
 // }
 
 function applySortFilter(array: User[], comparator: (a: User, b: User) => number, query: string) {
-    const stabilizedThis = array.map((el, index) => [el, index]);
-    stabilizedThis.sort((a, b) => {
-      const order = comparator(a[0], b[0]); // Compare only the User objects, not the entire tuple
-      if (order !== 0) return order;
-      return a[1] - b[1];
-    });
-    if (query) {
-      return filter(array, (_user) => _user.name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
-    }
-    return stabilizedThis.map((el) => el[0]);
+  const stabilizedThis: [User, number][] = array.map((el, index) => [el, index]);
+  stabilizedThis.sort((a, b) => {
+    const order = comparator(a[0], b[0]);
+    if (order !== 0) return order;
+    return a[1] - b[1];
+  });
+  if (query) {
+    return filter(array, (_user) => _user.name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
   }
+  return stabilizedThis.map((el) => el[0]);
+}
   
 
 export default function Customer() {
@@ -137,9 +137,9 @@ export default function Customer() {
     setSelected([]);
   };
 
-  const handleClick = (event: React.MouseEvent<unknown>, name: string) => {
+  const handleClick = (name: string) => {
     const selectedIndex = selected.indexOf(name);
-    let newSelected  = [] as any;
+    let newSelected: string[] = [];
     if (selectedIndex === -1) {
       newSelected = newSelected.concat(selected, name);
     } else if (selectedIndex === 0) {
@@ -251,7 +251,7 @@ export default function Customer() {
                     return (
                       <TableRow hover key={id} tabIndex={-1} role="checkbox" selected={selectedUser}>
                         <TableCell padding="checkbox">
-                          <Checkbox checked={selectedUser} onChange={(event) => handleClick(event, name)} />
+                          <Checkbox checked={selectedUser} onChange={(event) => handleClick(name)} />
                         </TableCell>
 
                         <TableCell component="th" scope="row" padding="none">
@@ -347,12 +347,12 @@ export default function Customer() {
         }}
       >
         <MenuItem>
-          <Iconify icon={'eva:edit-fill'} sx={{ mr: 2 }} />
+          <Iconify icon={'eva:edit-fill'} sx={{ marginRight: 2 }} />
           Edit
         </MenuItem>
 
         <MenuItem sx={{ color: 'error.main' }}>
-          <Iconify icon={'eva:trash-2-outline'} sx={{ mr: 2 }} />
+          <Iconify icon={'eva:trash-2-outline'} sx={{ marginRight: 2 }} />
           Delete
         </MenuItem>
       </Popover>

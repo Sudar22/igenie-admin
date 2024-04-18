@@ -13,7 +13,7 @@ import { signInWithPhoneNumber, RecaptchaVerifier } from "firebase/auth";
 import { MuiTelInput } from "mui-tel-input";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { postUserData } from "../redux/reducers/authSlice";
+// import { postUserData } from "../redux/reducers/authSlice";
 
 export const Signup: React.FC = () => {
   const navigate = useNavigate();
@@ -57,7 +57,7 @@ export const Signup: React.FC = () => {
 
       // After OTP sending, show the OTP input field
       setShowOtpInput(true);
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
 
       if (error.code === "auth/too-many-requests") {

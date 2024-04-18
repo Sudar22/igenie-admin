@@ -1,7 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import { filter } from "lodash";
 import { sentenceCase } from "change-case";
-import { useState, ChangeEvent } from "react";
+import { useState, ChangeEvent, MouseEvent } from "react";
 import {
   Card,
   Table,
@@ -36,7 +36,7 @@ import { Link } from "react-router-dom";
 interface User {
   id: string;
   name: string;
-  role: string;
+  // role: string;
   status: string;
   company: string;
   avatarUrl: string;
@@ -95,12 +95,19 @@ function applySortFilter(
   comparator: (a: User, b: User) => number,
   query: string
 ) {
-  const stabilizedThis = array.map((el, index) => [el, index]);
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]); // Compare only the User objects, not the entire tuple
-    if (order !== 0) return order;
-    return a[1] - b[1];
-  });
+  // const stabilizedThis = array.map((el, index) => [el, index]);
+  // stabilizedThis.sort((a, b) => {
+  //   const order = comparator(a[0], b[0]); // Compare only the User objects, not the entire tuple
+  //   if (order !== 0) return order;
+  //   return a[1] - b[1];
+  // });
+  const stabilizedThis: [User, number][] = array.map((el, index) => [el, index]);
+stabilizedThis.sort((a, b) => {
+  const order = comparator(a[0], b[0]); // Compare only the User objects, not the entire tuple
+  if (order !== 0) return order;
+  return a[1] - b[1];
+});
+
   if (query) {
     return filter(
       array,
@@ -156,7 +163,7 @@ export default function ProductPage() {
     setSelected([]);
   };
 
-  const handleClick = (event: React.MouseEvent<unknown>, name: string) => {
+  const handleClick = (event: ChangeEvent<HTMLInputElement>, name: string) => {
     const selectedIndex = selected.indexOf(name);
     let newSelected = [] as any;
     if (selectedIndex === -1) {
@@ -360,7 +367,7 @@ export default function ProductPage() {
                           <Checkbox
                             checked={selectedUser}
                             size="small"
-                            onChange={(event) => handleClick(event, name)}
+                            onChange={(event: ChangeEvent<HTMLInputElement>) => handleClick(event, name)}
                           />
                         </TableCell>
 
@@ -476,12 +483,12 @@ export default function ProductPage() {
       >
         <Link to={"/dashboard/products/editproduct"}>
         <MenuItem>
-          <Iconify icon={"eva:edit-fill"} sx={{ mr: 2 }} />
+          <Iconify icon={"eva:edit-fill"} sx={{ marginRight: 2 }} />
           Edit
         </MenuItem>
         </Link>
         <MenuItem sx={{ color: "error.main" }}>
-          <Iconify icon={"eva:trash-2-outline"} sx={{ mr: 2 }} />
+          <Iconify icon={"eva:trash-2-outline"} sx={{ marginRight: 2 }} />
           Delete
         </MenuItem>
       </Popover>
