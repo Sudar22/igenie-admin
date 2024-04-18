@@ -8,11 +8,10 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import { Box, Grid, Paper, TextField } from "@mui/material";
+import { Box,  Paper} from "@mui/material";
 import React, { useState, useRef, useEffect } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import DOMPurify from "dompurify";
 import { useInput } from "../../../hooks/useInput";
 import { styled, alpha, Theme } from "@mui/material/styles";
 import "react-quill/dist/quill.snow.css";
@@ -23,7 +22,7 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
 import Iconify from "../../../components/iconify";
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import ProductOrganization from "./productOrganization";
 import Variants from "./@product/Variants";
 
@@ -59,7 +58,7 @@ const StyledSearch = styled(OutlinedInput)(
     }),
     "&.Mui-focused": {
       //   width: 350,
-      boxShadow: theme.customShadows.z8,
+      // boxShadow: theme.customShadows.z8,
     },
     "& fieldset": {
       borderWidth: `1px !important`,
@@ -202,7 +201,7 @@ export default function AddProduct() {
   };
 
   const inputProps = useInput("");
-  const quillRef = useRef(null);
+  const quillRef = useRef<ReactQuill>(null);
 
   React.useEffect(() => {
     // Focus the editor when the component mounts

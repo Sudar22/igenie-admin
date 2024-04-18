@@ -138,24 +138,35 @@ const modules = {
 };
 
 export const EditProfile = () => {
-  const [selectedImage, setSelectedImage] = useState(null); // State to track the selected image
+  // const [selectedImage, setSelectedImage] = useState(null); // State to track the selected image
 
-  const handleImageChange = (event) => {
-    const imageFile = event.target.files[0]; // Get the first file from the selected files
-    setSelectedImage(imageFile); // Update the selected image state
+  // const handleImageChange = (event) => {
+  //   const imageFile = event.target.files[0]; // Get the first file from the selected files
+  //   setSelectedImage(imageFile); // Update the selected image state
+  // };
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
+
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (files && files.length > 0) {
+      const imageFile = files[0]; // Get the first file from the selected files
+      setSelectedImage(imageFile); // Update the selected image state
+    }
   };
+  
   const [saveData, setSaveData] = useState<string[]>([]);
   const [valueDescription, setValueDescription] = useState("");
   const dispatch = useDispatch();
-  const quillRef = useRef(null);
+  const quillRef = useRef<ReactQuill>(null);
+
   useEffect(() => {
     setSaveData([valueDescription]);
     console.log("saveData:", saveData);
   }, [valueDescription]);
 
-  const saveProductInfo = async () => {
-    dispatch(saveProduct(saveData));
-  };
+  // const saveProductInfo = async () => {
+  //   dispatch(saveProduct(saveData));
+  // };
   React.useEffect(() => {
     // Focus the editor when the component mounts
     if (quillRef.current) {
