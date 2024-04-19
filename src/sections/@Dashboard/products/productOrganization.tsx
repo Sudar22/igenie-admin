@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
     Box,
   FormControl,
@@ -22,7 +22,9 @@ import Autocomplete from "@mui/material/Autocomplete";
 //         ...option,
 //       };
 //     });}
-
+interface Data {
+  [key: string]: any;
+}
 export const currencies = [
   {
     value: "USD",
@@ -67,6 +69,20 @@ export default function ProductOrganization() {
       ...option,
     };
   });
+
+  const [data, setData] = useState<Data>({});
+
+  const getData = async (e: any) => {
+    e.preventDefault();
+
+    let name = e.target.name;
+    // console.log(data);
+
+    setData((prev) => (prev = { ...prev, [name]: e.target.value }));
+
+    return data;
+  };
+
 
   return (
     <StyledRoot>
@@ -192,21 +208,31 @@ export default function ProductOrganization() {
 
      </Box>
         </Stack>
-
+        <Autocomplete
+      options={booleanoptions}
+      getOptionLabel={(option) => option.label}
+      renderInput={(params) => (
         <TextField
-          id="outlined-number"
+        name="inStock"
+          {...params}
           label="Stock"
-          size="small"
-          type="number"
-          InputLabelProps={{
-            shrink: true,
-          }}
+          variant="outlined"
+          onChange={getData}
         />
+      )}
+    />
       </Stack>
     </StyledRoot>
   );
 }
-
+interface Option {
+  label: string;
+  value: boolean;
+}
+const booleanoptions: Option[] = [
+  { label: 'True', value: true },
+  { label: 'False', value: false },
+];
 // Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top
 const top100Films = [
   { title: "The Shawshank Redemption", year: 1994 },

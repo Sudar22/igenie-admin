@@ -77,7 +77,7 @@ export const createProduct = createAsyncThunk(
   'product/create',
   async (productCreate: string[], thunkAPI): Promise<any> => {
     try {
-      const request = await axios.post("http://localhost:8080/product", 
+      const request = await axios.post("http://65.0.32.143:8080/igenieadmin/products/save", 
       
       productCreate,
       
