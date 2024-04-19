@@ -48,13 +48,16 @@ interface HeadCell {
 }
 
 const TABLE_HEAD: HeadCell[] = [
-  { id: 'Order', label: 'Buyer Name', alignRight: false },
-  { id: 'Date', label: 'Region', alignRight: false },
-  { id: 'customer', label: 'No of Products', alignRight: false },
-  { id: 'total', label: 'Verified', alignRight: false },
-  { id: 'Payment status', label: 'status', alignRight: false },
-  { id: 'fulfillment status', label: 'Action', alignRight: false },
-
+  { id: 'Order', label: 'Order', alignRight: false },
+  { id: 'Date', label: 'Date', alignRight: false },
+  { id: 'customer', label: 'Customer', alignRight: false },
+  { id: 'total', label: 'Total', alignRight: false },
+  { id: 'Payment status', label: 'Payment status', alignRight: false },
+  { id: 'fulfillment status', label: 'Fulfillment status', alignRight: false },
+  { id: 'items', label: 'Items', alignRight: false },
+  { id: 'Delivery status', label: 'Delivery status', alignRight: false },
+  { id: 'Delivery method', label: 'Delivery method', alignRight: false },
+  { id: 'tags', label: 'Tags', alignRight: false },
 ];
 
 function descendingComparator(a: User, b: User, orderBy: string) {
@@ -100,7 +103,7 @@ function applySortFilter(array: User[], comparator: (a: User, b: User) => number
   }
   
 
-export default function Buyers() {
+export default function Orders() {
   const [open, setOpen] = useState<null | HTMLElement>(null);
 
   const [page, setPage] = useState(0);
@@ -184,7 +187,7 @@ export default function Buyers() {
 
               <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
                   <Typography variant="h4" gutterBottom>
-                      Buyers
+                      Orders
                   </Typography>
 
                   <Stack direction="row" spacing={1.2} flexWrap="wrap-reverse">
@@ -348,12 +351,12 @@ export default function Buyers() {
         }}
       >
         <MenuItem>
-          <Iconify icon={'eva:edit-fill'} sx={{ marginRight: 2 }} />
+          <Iconify icon={'eva:edit-fill'} sx={{ mr: 2 }} />
           Edit
         </MenuItem>
 
         <MenuItem sx={{ color: 'error.main' }}>
-          <Iconify icon={'eva:trash-2-outline'} sx={{ marginRight: 2 }} />
+          <Iconify icon={'eva:trash-2-outline'} sx={{ mr: 2 }} />
           Delete
         </MenuItem>
       </Popover>

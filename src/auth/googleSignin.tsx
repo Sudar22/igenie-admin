@@ -5,11 +5,26 @@ import {
   GoogleAuthProvider,
   fetchSignInMethodsForEmail,
 } from "firebase/auth";
-import { Button, Stack } from "@mui/material";
+import { Button, Stack, styled } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { createSellerWithGmail } from "../redux/reducers/authSlice";
+import { useAppDispatch } from "../redux/hooks/hooks";
+
+
+const StyledButton = styled(Button)(({ theme }) => ({
+  width: 200,
+  margin: theme.spacing(0, 1),
+  fontSize: 10,
+  backgroundColor: "#000",
+  color: "#FFF",
+  "&:hover": {
+    backgroundColor: "#57A845",
+  },
+}));
 
 const GoogleSignIn: React.FC = () => {
 
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [email, setEmail] = useState<string | null>(
     localStorage.getItem("email")
@@ -17,29 +32,60 @@ const GoogleSignIn: React.FC = () => {
 
   const handleSignIn = async () => {
     try {
-      const data = await signInWithPopup(auth, provider as GoogleAuthProvider);
+      const data = await signInWithPopup(auth, provider as GoogleAuthProvider).then(
+        
+      );
 
       if (data && data.user) {
         const user = data.user;
         setEmail(user.email);
 
         // Check if the email is already in use
-        const signInMethods = await fetchSignInMethodsForEmail(auth, user.email);
+        const signInMethods = await fetchSignInMethodsForEmail(
+          auth,
+          `${user.email}`
+        );
 
         if (signInMethods && signInMethods.length > 0) {
+
           // The email is already in use
           console.log(`Email ${user.email} is already registered.`);
           // Handle the case where the email is already registered (e.g., prompt user to sign in)
         } else {
           // The email is not in use, proceed to create a new account
           console.log(`Creating a new account with email: ${user.email}`);
+          console.log(`Creating a new account with email: ${user.displayName}`);
+          console.log(`Creating a new account with email: ${user.photoURL}`);
+          console.log(
+            `Creating a new account with email: ${user.emailVerified}`
+          );
+          console.log(`Creating a new account with user: ${user}`);
+
           // Add your createUserWithEmailAndPassword logic here
+          const userUID = user.uid;
+          console.log(`User UID: ${userUID}`);
+
+
+          const credentials = {
+            email: `${user.email}`,
+            authenticationType: "GOOGLE",
+            roles:{
+              name:"Editor",
+              description:"he is seller"
+            }
+          };
+  
+          dispatch(createSellerWithGmail(credentials));
+
+
         }
 
         // Display welcome alert
         alert(`Welcome, ${user.email}`);
 
-        navigate("/marketplace/products");
+        navigate("/dashboard/home");
+
+    
       } else {
         console.error("Error: User data not found in the sign-in response.");
       }
@@ -64,10 +110,10 @@ const GoogleSignIn: React.FC = () => {
     <Stack>
       {email ? (
         <>
-          <Button onClick={handleSignOut}>Sign Out</Button>
+          <StyledButton onClick={handleSignOut}>Sign Out</StyledButton>
         </>
       ) : (
-        <Button onClick={handleSignIn}>Sign in with Google</Button>
+        <StyledButton onClick={handleSignIn}>Sign in with Google</StyledButton>
       )}
     </Stack>
   );

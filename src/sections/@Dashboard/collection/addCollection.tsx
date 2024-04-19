@@ -48,7 +48,7 @@ const StyledSearch = styled(OutlinedInput)(({ theme }: { theme: Theme }) => ({
     }),
     '&.Mui-focused': {
         //   width: 350,
-        boxShadow: theme.customShadows.z8,
+        // boxShadow: theme.customShadows.z8,
     },
     '& fieldset': {
         borderWidth: `1px !important`,
@@ -124,7 +124,8 @@ export default function AddCollection() {
     const [value, setValue] = useState('');
 
     const inputProps = useInput("");
-    const quillRef = useRef(null);
+    const quillRef = useRef<ReactQuill>(null);
+
 
     React.useEffect(() => {
         // Focus the editor when the component mounts
@@ -136,7 +137,7 @@ export default function AddCollection() {
 
       const [active, setActive] = React.useState('');
 
-  const handleChange = (event) => {
+  const handleChange = (event: any) => {
     setActive(event.target.value);
   };
 

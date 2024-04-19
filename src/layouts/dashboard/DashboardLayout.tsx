@@ -9,19 +9,20 @@ import Nav from "./nav";
 // ----------------------------------------------------------------------
 
 const APP_BAR_MOBILE = 64;
-const APP_BAR_DESKTOP = 92;
+const APP_BAR_DESKTOP = 20;
 
 const StyledRoot = styled("div")({
   display: "flex",
   minHeight: "100%",
   overflow: "hidden",
+  backgroundColor:"#FFF"
 });
 
 const Main = styled("div")(({ theme }) => ({
   flexGrow: 1,
   overflow: "auto",
   minHeight: "100%",
-  paddingTop: APP_BAR_MOBILE + 1,
+  // paddingTop: APP_BAR_MOBILE + 1,
   paddingBottom: theme.spacing(10),
 
 
@@ -44,7 +45,7 @@ export default function DashboardLayout() {
 
 
     <StyledRoot>
-      <Header onOpenNav={(() => setOpen(true))} />
+      {/* <Header onOpenNav={(() => setOpen(true))} /> */}
 
       <Nav openNav={open} onCloseNav={() => setOpen(false)} />
 

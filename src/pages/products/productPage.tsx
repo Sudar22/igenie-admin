@@ -279,10 +279,24 @@ export default function ProductPage() {
           <Scrollbar>
             <Card>
               <Stack direction="row" p={1}>
-                <StyledButton size="small">ALL</StyledButton>
-                <StyledButton size="small">Active</StyledButton>
-                <StyledButton size="small">Draft</StyledButton>
-
+                <Button size="small">ALL</Button>
+                <Button size="small">Active</Button>
+                <Button size="small">Draft</Button>
+                {buttons.map((button, index) => (
+                  <div>
+                    <div
+                      key={index}
+                      contentEditable={true}
+                      onInput={(event) => handleEditButtonName(event, index)}
+                    >
+                      <Button>{button.name}</Button>
+                    </div>
+                    {/* <button onClick={() => handleDeleteButton(index)}>Delete Button</button> */}
+                  </div>
+                ))}
+                <Button size="small" onClick={handleAddButton}>
+                  +
+                </Button>
               </Stack>
             </Card>
 

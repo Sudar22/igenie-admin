@@ -8,21 +8,27 @@ import {
   styled,
 } from "@mui/material";
 import React, { useState } from "react";
-// import { auth } from "./config";
+import { auth } from "./config";
 import { signInWithPhoneNumber, RecaptchaVerifier } from "firebase/auth";
-import PhoneInputWithCountrySelect from "react-phone-number-input";
 import { MuiTelInput } from "mui-tel-input";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+// import { postUserData } from "../redux/reducers/authSlice";
 
 export const Signup: React.FC = () => {
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
   const [otp, setOtp] = useState("");
   const [confirmationResult, setConfirmationResult] = useState<any>(null);
   const [showOtpInput, setShowOtpInput] = useState(false);
+  const [isVerified, setIsVerified] = useState(false);
+  const [username, setUsername] = useState("");
+  const [userDetails, setUserDetails] = useState<
+    Array<{ uid: string; username: string; phoneNumber: string }>
+  >([]);
 
   const handleFormSubmit = async () => {
     try {
@@ -34,9 +40,9 @@ export const Signup: React.FC = () => {
       }
 
       const recaptcha = new RecaptchaVerifier(auth, recaptchaContainer, {});
-      const phoneNumber = `+${phone}`;
 
       // Check if the phone number is long enough (adjust the minimum length as needed)
+      const phoneNumber = `+${phone}`;
       if (phoneNumber.length < 10) {
         console.error("Invalid phone number");
         return;
@@ -51,26 +57,61 @@ export const Signup: React.FC = () => {
 
       // After OTP sending, show the OTP input field
       setShowOtpInput(true);
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
+
+      if (error.code === "auth/too-many-requests") {
+        // Implement a backoff strategy, for example, wait for 5 seconds and then retry
+        setTimeout(() => {
+          handleFormSubmit();
+        }, 1000);
+      }
     }
   };
 
   const verifyOtp = async () => {
     try {
+      if (!confirmationResult) {
+        console.error("Confirmation result not found");
+        return;
+      }
+
       await confirmationResult.confirm(otp);
       console.log("Verification successful");
 
-      // Access the user's UID from the confirmation result
-      const user = confirmationResult.user;
+      // Fetch the user from Firebase Authentication
+      const user = await auth.currentUser;
 
-      // Proceed with further actions if needed
+      if (user) {
+        const userUID = user.uid;
+        const PhoneNumber = user.phoneNumber ?? "";
 
-      // Redirect to the desired route
-      navigate("/marketplace/products");
+        // Store user details in an array
+        const newUserDetails = [
+          ...userDetails,
+          { uid: userUID, username, phoneNumber: PhoneNumber },
+        ];
 
-      // Show welcome alert
-      alert(`Welcome`);
+        const userCreditional = {
+          PhoneNumber: user.phoneNumber ?? "",
+          authenticationType: "PHONE",
+        };
+
+        // dispatch(postUserData(userCreditional));
+        setUserDetails(newUserDetails);
+        localStorage.setItem("userDetails", JSON.stringify(newUserDetails));
+
+        // Redirect to the desired route
+        navigate("/marketplace/products");
+        setIsVerified(true);
+        console.log(`User UID: ${userUID}`);
+        // console.log(`User Phone Number: ${userPhoneNumber}`);
+        console.log(`Username: ${username}`);
+        // Show welcome alert
+        alert(`Welcome, User UID: ${userUID}`);
+      } else {
+        console.error("User not found after OTP confirmation");
+      }
     } catch (err) {
       console.error(err);
     }
@@ -78,7 +119,6 @@ export const Signup: React.FC = () => {
 
   const PhoneInput = styled(MuiTelInput)(({ theme }) => ({
     display: "flex",
-    // width: 440,
     height: 60,
     gap: 10,
   }));
@@ -92,25 +132,24 @@ export const Signup: React.FC = () => {
     alignItems: "center",
     justifyContent: "center",
   }));
+
   const StyledHeader = styled("div")(({ theme }) => ({
     width: "100%",
-
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
   }));
+
   const StyledSignupFields = styled("div")(({ theme }) => ({
     width: "100%",
-
     display: "flex",
     flexDirection: "column",
-    gap: 10,
+    gap: 20,
   }));
 
   const StyledCard = styled(Card)(({ theme }) => ({
     width: 440,
     height: 400,
-    // backgroundColor: "transparent",
     gap: 10,
     display: "flex",
     padding: theme.spacing(3, 5),
@@ -122,15 +161,12 @@ export const Signup: React.FC = () => {
 
   const StyledButton = styled(Button)(({ theme }) => ({
     width: 200,
-
     margin: theme.spacing(0, 1),
-
     fontSize: 10,
     backgroundColor: "#000",
     color: "#FFF",
     "&:hover": {
       backgroundColor: "#57A845",
-      // opacity:0.6
     },
   }));
 
@@ -147,19 +183,11 @@ export const Signup: React.FC = () => {
               label="Username"
               autoFocus
               fullWidth
-              onChange={(e) => setEmail(e.target.value)}
-              value={email}
+              onChange={(e) => setUsername(e.target.value)}
+              value={username}
             />
           </Stack>
-          <Stack>
-            <TextField
-              name="password"
-              label="Password"
-              fullWidth
-              onChange={(e) => setPassword(e.target.value)}
-              value={password}
-            />
-          </Stack>
+
           <Stack direction={"column"} spacing={10}>
             <PhoneInput
               defaultCountry={"IN"}
