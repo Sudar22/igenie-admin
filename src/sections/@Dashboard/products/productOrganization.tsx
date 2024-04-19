@@ -84,7 +84,7 @@ export default function ProductOrganization() {
             </Styledinput>
             <Styledinput>
                 <Typography>
-                    Vendor
+                    Brand
                 </Typography>
                 <Autocomplete
                     id="grouped-demo"
@@ -93,7 +93,7 @@ export default function ProductOrganization() {
                     groupBy={(option) => option.firstLetter}
                     getOptionLabel={(option) => option.title}
                     sx={{ width: 300 }}
-                    renderInput={(params) => <TextField {...params} label="vendor" />}
+                    renderInput={(params) => <TextField {...params} label="brand" />}
                 />
             </Styledinput>
             <Styledinput>

@@ -79,7 +79,7 @@ export const saveProduct = createAsyncThunk(
     try {
       // Your asynchronous logic here
       // Access saveData like this: saveData[0], saveData[1], etc.
-      const request = await axios.post("http://localhost:8080/product", saveData, {
+      const request = await axios.post("http://65.0.32.143:8080/igenieadmin/products/save", saveData, {
         headers: { "Content-Type": "application/json" },
       });
       const response = request.data;

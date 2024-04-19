@@ -50,6 +50,7 @@ const users = [...Array(24)].map((_, index) => ({
 
    
   company: faker.company.name(),
+  productsno: faker.datatype.boolean(),
   isVerified: faker.datatype.boolean(),
   status: sample(['active', 'pending']),
   category: sample([

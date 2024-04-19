@@ -1,7 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import { filter } from "lodash";
 import { sentenceCase } from "change-case";
-import { useState, ChangeEvent } from "react";
+import { useState, ChangeEvent, MouseEvent } from "react";
 import {
   Card,
   Table,
@@ -21,6 +21,7 @@ import {
   TableContainer,
   TablePagination,
   ListItemButton,
+  styled,
 } from "@mui/material";
 import {
   ProductListHead,
@@ -35,7 +36,7 @@ import { Link } from "react-router-dom";
 interface User {
   id: string;
   name: string;
-  role: string;
+  // role: string;
   status: string;
   company: string;
   avatarUrl: string;
@@ -50,9 +51,9 @@ interface HeadCell {
 }
 
 const TABLE_HEAD: HeadCell[] = [
-  { id: "product", label: "Product", alignRight: false },
-  { id: "vendor", label: "Vendor", alignRight: false },
-  { id: "category", label: "Category", alignRight: false },
+  { id: "Seller", label: "Seller Name", alignRight: false },
+  { id: "Organization", label: "Organization", alignRight: false },
+  { id: "Location", label: "Location", alignRight: false },
   { id: "isVerified", label: "Verified", alignRight: false },
   { id: "status", label: "Status", alignRight: false },
   { id: "action", label: "Action", alignRight: false },
@@ -74,6 +75,8 @@ function getComparator(order: "asc" | "desc", orderBy: string) {
     : (a: User, b: User) => -descendingComparator(a, b, orderBy);
 }
 
+
+
 // function applySortFilter(array: User[], comparator: (a: User, b: User) => number, query: string) {
 //   const stabilizedThis = array.map((el, index) => [el, index]);
 //   stabilizedThis.sort((a, b) => {
@@ -92,12 +95,19 @@ function applySortFilter(
   comparator: (a: User, b: User) => number,
   query: string
 ) {
-  const stabilizedThis = array.map((el, index) => [el, index]);
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]); // Compare only the User objects, not the entire tuple
-    if (order !== 0) return order;
-    return a[1] - b[1];
-  });
+  // const stabilizedThis = array.map((el, index) => [el, index]);
+  // stabilizedThis.sort((a, b) => {
+  //   const order = comparator(a[0], b[0]); // Compare only the User objects, not the entire tuple
+  //   if (order !== 0) return order;
+  //   return a[1] - b[1];
+  // });
+  const stabilizedThis: [User, number][] = array.map((el, index) => [el, index]);
+stabilizedThis.sort((a, b) => {
+  const order = comparator(a[0], b[0]); // Compare only the User objects, not the entire tuple
+  if (order !== 0) return order;
+  return a[1] - b[1];
+});
+
   if (query) {
     return filter(
       array,
@@ -153,7 +163,7 @@ export default function ProductPage() {
     setSelected([]);
   };
 
-  const handleClick = (event: React.MouseEvent<unknown>, name: string) => {
+  const handleClick = (event: ChangeEvent<HTMLInputElement>, name: string) => {
     const selectedIndex = selected.indexOf(name);
     let newSelected = [] as any;
     if (selectedIndex === -1) {
@@ -222,6 +232,16 @@ export default function ProductPage() {
     setButtons(editedButtons);
   };
 
+  const StyledButton = styled(Button)(({ theme }) => ({
+    width: "auto",
+    margin: theme.spacing(0, 1),
+    fontSize: 10,
+    backgroundColor: "#000",
+    color: "#FFF",
+    "&:hover": {
+      backgroundColor: "#57A845",
+    },
+  }));
   return (
     <>
       <Helmet>
@@ -235,37 +255,13 @@ export default function ProductPage() {
           justifyContent="space-between"
           mb={5}
         >
-          <Typography variant="h4" gutterBottom>
-            Products
+          <Typography variant="h6" gutterBottom>
+            Sellers Pannel
           </Typography>
 
           <Stack direction="row" spacing={1.2} flexWrap="wrap-reverse">
-            {/* <Button variant="contained" color="secondary" size="medium">
-                          Export
-                      </Button>
-                      <Button variant="contained" color="secondary" size="medium">
-                          import
-                      </Button> */}
 
-            <Button
-              variant="contained"
-              component={Link}
-              to="addproduct"
-              size="medium"
-              startIcon={<Iconify icon="eva:plus-fill" />}
-            >
-              add Product
-            </Button>
 
-            {/* <ListItemButton to='products/addproduct' relative="/dashboard" >
-                          add Product
-                      </ListItemButton>  */}
-
-            {/* <Link to='products/addproduct'>
-                      <Button variant="contained" size="medium" startIcon={<Iconify icon="eva:plus-fill" />} onClick={() => { }}>
-                          add Product
-                      </Button>
-                      </Link> */}
           </Stack>
         </Stack>
 
@@ -283,28 +279,20 @@ export default function ProductPage() {
           <Scrollbar>
             <Card>
               <Stack direction="row" p={1}>
-                <Button size="small">ALL</Button>
-                <Button size="small">Active</Button>
-                <Button size="small">Draft</Button>
-                {buttons.map((button, index) => (
-                  <div>
-                    <div
-                      key={index}
-                      contentEditable={true}
-                      onInput={(event) => handleEditButtonName(event, index)}
-                    >
-                      <Button>{button.name}</Button>
-                    </div>
-                    {/* <button onClick={() => handleDeleteButton(index)}>Delete Button</button> */}
-                  </div>
-                ))}
-                <Button size="small" onClick={handleAddButton}>
-                  +
-                </Button>
+                <StyledButton size="small">ALL</StyledButton>
+                <StyledButton size="small">Active</StyledButton>
+                <StyledButton size="small">Draft</StyledButton>
+
               </Stack>
             </Card>
+
+
+            
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
+
+
+                
                 <ProductListHead
                   order={order}
                   orderBy={orderBy}
@@ -313,89 +301,89 @@ export default function ProductPage() {
                   numSelected={selected.length}
                   onRequestSort={handleRequestSort}
                   onSelectAllClick={handleSelectAllClick}
-                />
-                <TableBody>
-                  {filteredUsers
-                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map((row) => {
-                      const {
-                        id,
-                        name,
-                        category,
-                        status,
-                        company,
-                        avatarUrl,
-                        isVerified,
-                      } = row;
+                />     <TableBody>
+                {filteredUsers
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((row) => {
+                    const {
+                      id,
+                      name,
+                      category,
+                      status,
+                      company,
+                      avatarUrl,
+                      isVerified,
+                    } = row;
 
-                      const selectedUser = selected.indexOf(name) !== -1;
+                    const selectedUser = selected.indexOf(name) !== -1;
 
-                      return (
-                        <TableRow
-                          hover
-                          key={id}
-                          tabIndex={-1}
-                          role="checkbox"
-                          selected={selectedUser}
-                        >
-                          <TableCell padding="checkbox">
-                            <Checkbox
-                              checked={selectedUser}
-                              size="small"
-                              onChange={(event) => handleClick(event, name)}
-                            />
-                          </TableCell>
+                    return (
+                      <TableRow
+                        hover
+                        key={id}
+                        tabIndex={-1}
+                        role="checkbox"
+                        selected={selectedUser}
+                      >
+                        <TableCell padding="checkbox">
+                          <Checkbox
+                            checked={selectedUser}
+                            size="small"
+                            onChange={(event: ChangeEvent<HTMLInputElement>) => handleClick(event, name)}
+                          />
+                        </TableCell>
 
-                          <TableCell component="th" scope="row" padding="none">
-                            <Stack
-                              direction="row"
-                              alignItems="center"
-                              spacing={2}
-                            >
-                              <Avatar alt={name} src={avatarUrl} />
-                              <Typography variant="subtitle2" noWrap>
-                                {name}
-                              </Typography>
-                            </Stack>
-                          </TableCell>
+                        <TableCell component="th" scope="row" padding="none">
+                          <Stack
+                            direction="row"
+                            alignItems="center"
+                            spacing={2}
+                          >
+                            <Avatar alt={name} src={avatarUrl} />
+                            <Typography variant="subtitle2" noWrap>
+                              {name}
+                            </Typography>
+                          </Stack>
+                        </TableCell>
 
-                          <TableCell align="left">{company}</TableCell>
+                        <TableCell align="left">{company}</TableCell>
 
-                          <TableCell align="left">{category}</TableCell>
+                        <TableCell align="left">{category}</TableCell>
 
-                          <TableCell align="left">
-                            {isVerified ? "Yes" : "No"}
-                          </TableCell>
+                        <TableCell align="left">
+                          {isVerified ? "Yes" : "No"}
+                        </TableCell>
 
-                          <TableCell align="left">
-                            <Label
-                              color={
-                                (status === "pending" && "error") || "success"
-                              }
-                            >
-                              {sentenceCase(status)}
-                            </Label>
-                          </TableCell>
+                        <TableCell align="left">
+                          <Label
+                            color={
+                              (status === "pending" && "error") || "success"
+                            }
+                          >
+                            {sentenceCase(status)}
+                          </Label>
+                        </TableCell>
 
-                          <TableCell align="right">
-                            <IconButton
-                              size="large"
-                              color="inherit"
-                              onClick={handleOpenMenu}
-                            >
-                              <Iconify icon={"eva:more-vertical-fill"} />
-                            </IconButton>
-                          </TableCell>
-                        </TableRow>
-                      );
-                    })}
+                        <TableCell align="right">
+                          <IconButton
+                            size="large"
+                            color="inherit"
+                            onClick={handleOpenMenu}
+                          >
+                            <Iconify icon={"eva:more-vertical-fill"} />
+                          </IconButton>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
 
-                  {emptyRows > 0 && (
-                    <TableRow style={{ height: 53 * emptyRows }}>
-                      <TableCell colSpan={6} />
-                    </TableRow>
-                  )}
-                </TableBody>
+                {emptyRows > 0 && (
+                  <TableRow style={{ height: 53 * emptyRows }}>
+                    <TableCell colSpan={6} />
+                  </TableRow>
+                )}
+              </TableBody>
+           
 
                 {isNotFound && (
                   <TableBody>
@@ -455,13 +443,14 @@ export default function ProductPage() {
           },
         }}
       >
+        <Link to={"/dashboard/products/editproduct"}>
         <MenuItem>
-          <Iconify icon={"eva:edit-fill"} sx={{ mr: 2 }} />
+          <Iconify icon={"eva:edit-fill"} sx={{ marginRight: 2 }} />
           Edit
         </MenuItem>
-
+        </Link>
         <MenuItem sx={{ color: "error.main" }}>
-          <Iconify icon={"eva:trash-2-outline"} sx={{ mr: 2 }} />
+          <Iconify icon={"eva:trash-2-outline"} sx={{ marginRight: 2 }} />
           Delete
         </MenuItem>
       </Popover>

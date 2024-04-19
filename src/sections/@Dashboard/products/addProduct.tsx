@@ -8,11 +8,10 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import { Box, Grid, Paper, TextField } from "@mui/material";
+import { Box,  Paper} from "@mui/material";
 import React, { useState, useRef, useEffect } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import DOMPurify from "dompurify";
 import { useInput } from "../../../hooks/useInput";
 import { styled, alpha, Theme } from "@mui/material/styles";
 import "react-quill/dist/quill.snow.css";
@@ -23,12 +22,12 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
 import Iconify from "../../../components/iconify";
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import ProductOrganization from "./productOrganization";
 import Variants from "./@product/Variants";
 
-import { useSelector, useDispatch } from "react-redux";
-import { saveProduct  } from "../../../redux/reducers/productSlice";
+import { saveProduct } from "../../../redux/reducers/productSlice";
+import { useAppDispatch } from "../../../hooks/hooks";
 
 
 
@@ -59,7 +58,7 @@ const StyledSearch = styled(OutlinedInput)(
     }),
     "&.Mui-focused": {
       //   width: 350,
-      boxShadow: theme.customShadows.z8,
+      // boxShadow: theme.customShadows.z8,
     },
     "& fieldset": {
       borderWidth: `1px !important`,
@@ -90,6 +89,8 @@ const StyledProductInupt = styled("div")(
     justifyContent: "space-between",
     padding: theme.spacing(0, 0, 0, 0),
     margin: theme.spacing(0, 0, 0, 0),
+    border:"1px solid black",
+    borderRadius:5
   })
 );
 
@@ -133,7 +134,7 @@ const StyledReactQuill = styled(Paper)(
   ({ theme }: { theme: Theme }) => ({
     ".ql-container": {
       width: 660,
-      height: 350,
+      height: 300,
       //   boxShadow: theme.customShadows.z8,
     },
     ".ql-editor": {
@@ -175,11 +176,13 @@ export const initialState = {
 };
 
 export default function AddProduct() {
+
+
   const [title, setTitle] = useState("");
   const [valueDescription, setValueDescription] = useState("");
   const [saveData, setSaveData] = useState<string[]>([]);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const getProductIfo = async (e: any) => {
     e.preventDefault();
@@ -198,7 +201,7 @@ export default function AddProduct() {
   };
 
   const inputProps = useInput("");
-  const quillRef = useRef(null);
+  const quillRef = useRef<ReactQuill>(null);
 
   React.useEffect(() => {
     // Focus the editor when the component mounts
@@ -216,11 +219,14 @@ export default function AddProduct() {
   return (
     <StyledRoot>
       <Container>
-        <Box
+
+
+      <Box
           sx={{
             display: "flex",
             flexDirection: "row",
             alignItems: "center",
+            padding:1
           }}>
           <Tooltip title="back">
             <IconButton component={Link} to={"../products"}>
@@ -230,21 +236,21 @@ export default function AddProduct() {
               />
             </IconButton>
           </Tooltip>
-          <Stack>
+          <Stack padding={1}>
             <Typography
               variant="subtitle1"
               component="h6"
-              fontSize="24"
+              // fontSize="26"
               fontWeight="bold"
               
               onClick={()=>{saveProductInfo}}
               >
-              add Product
+              Add Product
             </Typography>
           </Stack>
         </Box>
 
-        <Stack mb={3}>
+        <Stack mb={3} sx={{border:"1px solid black",borderRadius:1}}>
           <Card>
             <Stack
               m={1.7}
@@ -343,7 +349,10 @@ export default function AddProduct() {
           </Card>
         </StyledProductInupt>
 
-        <Variants />
+     <Stack>
+     <Variants />
+     </Stack>
+        {/* <Variants /> */}
       </Container>
     </StyledRoot>
   );

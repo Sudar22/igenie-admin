@@ -1,35 +1,40 @@
-
-import React from 'react';
-import PropTypes from 'prop-types';
-import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import React from "react";
+import PropTypes from "prop-types";
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 // @mui
-import { styled, alpha } from '@mui/material/styles';
-import { Box, Link, Button, Drawer, Typography, Avatar, Stack } from '@mui/material';
+import { styled, alpha } from "@mui/material/styles";
+import {
+  Box,
+  Link,
+  Button,
+  Drawer,
+  Typography,
+  Avatar,
+  Stack,
+} from "@mui/material";
 // mock
-import account from '../../../_mock/account';
+import account from "../../../_mock/account";
 // hooks
 // import useResponsive from '../../../hooks/useResponsive';
-import useResponsive from '../../../hooks/useResponsive';
+import useResponsive from "../../../hooks/useResponsive";
 // components
-import Logo from '../../../components/logo';
-import Scrollbar from '../../../components/scrollbar';
-import NavSection from '../../../components/nav-section';
+import Logo from "../../../components/logo";
+import Scrollbar from "../../../components/scrollbar";
+import NavSection from "../../../components/nav-section";
 //
-import navConfig from './config';
+import navConfig from "./config";
 //redux
-import {useSelector} from "react-redux";
-
-
-
+import { useSelector } from "react-redux";
+import Commonsvg from "../../../assets/commonsvg";
 
 // ----------------------------------------------------------------------
 
 const NAV_WIDTH = 220;
 
-const StyledAccount = styled('div')(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
+const StyledAccount = styled("div")(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
   padding: theme.spacing(2, 2.5),
   borderRadius: Number(theme.shape.borderRadius) * 1.5,
   backgroundColor: alpha(theme.palette.grey[500], 0.12),
@@ -43,16 +48,22 @@ Nav.propTypes = {
 };
 
 interface navConfig {
-  data:{  title: string; path: string; icon: JSX.Element }[];
-};
+  data: { title: string; path: string; icon: JSX.Element }[];
+}
 
 // ----------------------------------------------------------------------
 
-export default function Nav({ openNav, onCloseNav }: { openNav?: boolean; onCloseNav: () => void }) {
+export default function Nav({
+  openNav,
+  onCloseNav,
+}: {
+  openNav?: boolean;
+  onCloseNav: () => void;
+}) {
   const { pathname } = useLocation();
   // const { user } = useSelector((state) => state.user); // Adjust the state selector based on your Redux state structure
 
-  const isDesktop = useResponsive('up', 'lg','md');
+  const isDesktop = useResponsive("up", "lg", "md");
 
   useEffect(() => {
     if (openNav) {
@@ -64,21 +75,22 @@ export default function Nav({ openNav, onCloseNav }: { openNav?: boolean; onClos
     <Scrollbar
       sx={{
         height: 1,
-        '& .simplebar-content': { height: 1, display: 'flex', flexDirection: 'column' },
+        "& .simplebar-content": {
+          height: 1,
+          display: "flex",
+          flexDirection: "column",
+        },
       }}
     >
-      <Box sx={{ px: 2.5, py: 3, display: 'inline-flex' }}>
-        <Logo />
+      <Box sx={{ px: 2.5, py: 3, display: "inline-flex" }}>
+        {/* <Logo /> */}
+        <Commonsvg name="igenie-logo" width="147" height="52" />
       </Box>
-
       <Box sx={{ mb: 5, mx: 2.5 }}>
-        <Link underline="none">
-          {/* StyledAccount implementation */}
-        </Link>
+        <Link underline="none">{/* StyledAccount implementation */}</Link>
       </Box>
-
-      <NavSection data={navConfig /* Replace with your navConfig */} /> {/* Pass your navConfig data */}
-
+      <NavSection data={navConfig /* Replace with your navConfig */} />{" "}
+      {/* Pass your navConfig data */}
       <Box sx={{ flexGrow: 1 }} />
     </Scrollbar>
   );
@@ -89,8 +101,7 @@ export default function Nav({ openNav, onCloseNav }: { openNav?: boolean; onClos
       sx={{
         flexShrink: { lg: 0 },
         width: { lg: NAV_WIDTH },
-
-}}
+      }}
     >
       {isDesktop ? (
         <Drawer
@@ -99,8 +110,8 @@ export default function Nav({ openNav, onCloseNav }: { openNav?: boolean; onClos
           PaperProps={{
             sx: {
               width: NAV_WIDTH,
-              bgcolor: 'background.default',
-              borderRightStyle: 'dashed',
+              bgcolor: "background.default",
+              borderRightStyle: "dashed",
             },
           }}
         >
