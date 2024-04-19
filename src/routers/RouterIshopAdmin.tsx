@@ -3,7 +3,6 @@ import { Navigate, useRoutes } from "react-router-dom";
 import ProductEditIndex from "../components/ishop@Admin/products/collections/productEdit/productEditIndex";
 import DashboardLayout from "../layouts/dashboard/DashboardLayout";
 import Home from "../pages/home";
-import Orders from "../pages/orders";
 import Customers from "../pages/customers";
 // import Home from "../pages/home";
 import Marketing from "../pages/marketing";
