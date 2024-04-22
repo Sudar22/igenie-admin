@@ -1,27 +1,21 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { CategoryType } from '../../pages/categories/categoryType';
 
-// Define the type for the user credentials
-interface UserCredentials {
-  // Define the structure of user credentials if needed
-}
 
-// Define the type for the saveData parameter
-type SaveData = string[];
 
-// Async thunk to get all categories
-export const getAllCategory = createAsyncThunk(
-  "product/Info",
-  async (userCredentials: UserCredentials, thunkAPI): Promise<any> => {
+export const getAllCategories = createAsyncThunk(
+  'product/getAllCategories',
+  async (_, thunkAPI) => {
     try {
-      const request = await axios.get("http://localhost:8080/categories/all", {
-        headers: { "Content-Type": "application/json" },
+      const response = await axios.get('http://localhost:8080/igenieadmin/categories', {
+        headers: { 'Content-Type': 'application/json' },
       });
-
-      const response = await request.data;
-      localStorage.setItem("product", JSON.stringify(response));
-      console.log("product/getCategory:", request.data);
-      return response;
+      
+      localStorage.setItem('categories', JSON.stringify(response));
+      console.log('categories/getCategories:', response);
+      
+      return response.data;
     } catch (error: any) {
       // Handle errors
       return thunkAPI.rejectWithValue(error.message);
@@ -29,19 +23,19 @@ export const getAllCategory = createAsyncThunk(
   }
 );
 
-// Async thunk to save category
-export const saveCategory = createAsyncThunk(
-  'product/save',
-  async (saveData: SaveData, thunkAPI): Promise<any> => {
+// Async thunk to save categories
+export const saveCategories = createAsyncThunk(
+  'categories/save',
+  async (postCategoryData: CategoryType, thunkAPI): Promise<any> => {
     try {
       // Your asynchronous logic here
       // Access saveData like this: saveData[0], saveData[1], etc.
-      const request = await axios.post("http://65.0.32.143:8080/igenieadmin/categories/save", saveData, {
-        headers: { "Content-Type": "application/json" },
+      const request = await axios.post("http://localhost:8080/igenieadmin/categories/save", postCategoryData, {
+        headers: { "Content-Type": "multipart/form-data" },
       });
       const response = request.data;
-      localStorage.setItem("product", JSON.stringify(response));
-      console.log("product/saveCategory:", response);
+      // localStorage.setItem("categories", JSON.stringify(response));
+      console.log("categories/saveCategories:", response);
       return response;
     } catch (error: any) {
       // Handle errors
@@ -51,51 +45,51 @@ export const saveCategory = createAsyncThunk(
 );
 
 // Define the type for the product state
-interface ProductState {
+interface categoriesState {
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
   error: string | null;
-  savedProduct: any; // Define a proper type for the saved product
+  categories: any; // Define a proper type for the saved product
 }
 
 // Initial state for the product slice
-const initialState: ProductState = {
+const initialState: categoriesState = {
   status: 'idle',
   error: null,
-  savedProduct: null,
+  categories: [],
 };
 
 // Slice to handle state and reducers
-const productSlice = createSlice({
-  name: 'product',
+const categoriesSlice = createSlice({
+  name: 'categories',
   initialState,
   reducers: {
     resetState: (state) => {
       state.status = 'idle';
       state.error = null;
-      state.savedProduct = null;
+      // state.categories = null;
     },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getAllCategory.pending, (state) => {
+      .addCase(getAllCategories.pending, (state) => {
         state.status = 'loading';
       })
-      .addCase(getAllCategory.fulfilled, (state, action: PayloadAction<any>) => {
+      .addCase(getAllCategories.fulfilled, (state, action: PayloadAction<any>) => {
         state.status = 'succeeded';
-        state.savedProduct = action.payload;
+        state.categories = action.payload;
       })
-      .addCase(getAllCategory.rejected, (state, action) => {
+      .addCase(getAllCategories.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload as string; // Correct the payload type
       })
-      .addCase(saveCategory.pending, (state) => {
+      .addCase(saveCategories.pending, (state) => {
         state.status = 'loading';
       })
-      .addCase(saveCategory.fulfilled, (state, action: PayloadAction<any>) => {
+      .addCase(saveCategories.fulfilled, (state, action: PayloadAction<any>) => {
         state.status = 'succeeded';
-        state.savedProduct = action.payload;
+        state.categories = action.payload;
       })
-      .addCase(saveCategory.rejected, (state, action) => {
+      .addCase(saveCategories.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload as string; // Correct the payload type
       });
@@ -103,5 +97,5 @@ const productSlice = createSlice({
 });
 
 // Export actions and reducer
-export const { resetState } = productSlice.actions;
-export default productSlice.reducer;
+export const { resetState } = categoriesSlice.actions;
+export default categoriesSlice.reducer;

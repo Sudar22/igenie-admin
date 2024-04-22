@@ -18,10 +18,9 @@ interface Category {
 }
 
 interface AddCategoryProps {
-  onSave: (category: Category) => void;
 }
 
-export const AddBrand: React.FC<AddCategoryProps> = ({ onSave }) => {
+export const AddBrand: React.FC<AddCategoryProps> = () => {
   const [category, setCategory] = useState<Category>({
     name: "",
     alias: "",
@@ -42,7 +41,6 @@ export const AddBrand: React.FC<AddCategoryProps> = ({ onSave }) => {
   };
 
   const handleSubmit = () => {
-    onSave(category);
 
     // Save category to local storage
     const brandFromStorage = localStorage.getItem("Brands");

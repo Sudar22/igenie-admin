@@ -96,27 +96,7 @@ export const AllBrand: React.FC<{
             </TableRow>
           </TableHead>
           <TableBody>
-            {categories.map((category, index) => (
-              <TableRow key={index}>
-                <TableCell>{category.name}</TableCell>
-                <TableCell align="right">{category.alias}</TableCell>
-                <TableCell align="right">{category.parentCategory}</TableCell>
-                <TableCell align="right">{category.image}</TableCell>
-                <TableCell align="right">
-                  {category.enable ? "Yes" : "No"}
-                </TableCell>
-                <TableCell align="right">
-                  <IconButton
-                    size="large"
-                    color="inherit"
-                    onClick={(event) => handleOpenMenu(event, index)}
-                  >
-                    <Iconify icon={"eva:more-vertical-fill"} />
-                  </IconButton>
-                </TableCell>
-                {/* Render other category details */}
-              </TableRow>
-            ))}
+      
           </TableBody>
         </Table>
       </TableContainer>

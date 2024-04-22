@@ -4,6 +4,7 @@ import userSlice from '../reducers/vendorSlice'
 // import rootReducer from '../reducers/rootReducer' 
 import authSlice from '../reducers/authSlice';
 import productSlice from '../reducers/productSlice';
+import categorySlice from '../reducers/categorySlice';
 
 
 
@@ -11,7 +12,9 @@ export const reduxStore = configureStore({
   reducer: {
     user: userSlice,
     product: productSlice,
-    auth:authSlice
+    auth:authSlice,
+    category:categorySlice
+
   },
 });
 

@@ -1,23 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import AllCategories from './allCategories';
-
-interface Category {
-    name: string;
-    alias: string;
-    parentCategory: string;
-    image: string;
-    enable: boolean;
-    // Add more properties as needed
-}
+import { CategoryType } from './categoryType';
 
 const Categories: React.FC = () => {
-    const [categories, setCategories] = useState<Category[]>([]);
+    const [categories, setCategories] = useState<CategoryType[]>([]);
 
     useEffect(() => {
         const categoriesFromStorage = localStorage.getItem("categories");
         if (categoriesFromStorage) {
             try {
-                const parsedCategories: Category[] = JSON.parse(categoriesFromStorage);
+                const parsedCategories: CategoryType[] = JSON.parse(categoriesFromStorage);
                 setCategories(parsedCategories);
             } catch (error) {
                 console.error("Error parsing categories from local storage:", error);
@@ -34,7 +26,7 @@ const Categories: React.FC = () => {
 
     return (
         <div>
-            <AllCategories categories={categories} onDeleteCategory={handleDeleteCategory}/>
+            <AllCategories/>
         </div>
     );
 };

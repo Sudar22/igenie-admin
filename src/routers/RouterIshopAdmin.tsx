@@ -20,8 +20,8 @@ import { EditProfile } from "../pages/profile/editProfile";
 import Categories from "../pages/categories/categories";
 import Brands from "../pages/Brand/brands";
 import { AddBrand } from "../pages/Brand/addBrand";
-import { AddCategory } from "../pages/categories/addCategory";
 import Buyers from "../pages/Buyers";
+import AddCategory from "../pages/categories/addCategory";
 // import Signup from "../auth/signup";
 
 
@@ -58,8 +58,8 @@ export default function RouterIshopAdmin() {
         { path: "home", element: <Home /> },
         { path: "buyers", element: <Buyers /> },
         { path: "products", element: <ProductPage /> },
-        // { path: "addcategory", element: <AddCategory onSave={handleCategorySave}  /> }, // Pass the onSave prop
-        // { path: "addbrand", element: <AddBrand onSave={handleCategorySave}  /> }, // Pass the onSave prop
+        { path: "addcategory", element: <AddCategory   /> }, // Pass the onSave prop
+        { path: "addbrand", element: <AddBrand   /> }, // Pass the onSave prop
         { path: "categories", element: <Categories /> }, // Pass an empty array initially
         { path: "brands", element: <Brands /> }, // Pass an empty array initially
         { path: "products/addproduct", element: <AddProduct /> },

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   IconButton,
@@ -16,20 +16,31 @@ import {
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import Iconify from "../../components/iconify";
+import { getAllCategories } from "../../redux/reducers/categorySlice";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks/hooks";
+import { RootState } from "../../redux/stores/reduxStore";
+import { CategoryType } from "./categoryType";
 
-interface Category {
-  name: string;
-  alias: string;
-  parentCategory: string;
-  image: string;
-  enable: boolean;
-  // Add more properties as needed
-}
 
-export const AllCategories: React.FC<{
-  categories: Category[];
-  onDeleteCategory: (index: number) => void;
-}> = ({ categories, onDeleteCategory }) => {
+
+export const AllCategories: React.FC<{}> = () => {
+
+
+  const dispatch = useAppDispatch();
+
+  const { categories } = useAppSelector((state: RootState) => state.category);
+
+  const {listCategories}=categories
+
+  console.log("listCategories",listCategories)
+
+
+
+  useEffect(() => {
+    // Dispatch the async thunk action to fetch categories
+    dispatch(getAllCategories());
+  }, [dispatch]); // Only dispatch on component mount
+
 
   const StyledContainer = styled("div")(() => ({
     width: "100%",
@@ -66,12 +77,12 @@ export const AllCategories: React.FC<{
     setSelectedRowIndex(null);
   };
 
-  const handleDeleteCategory = () => {
-    if (selectedRowIndex !== null) {
-      onDeleteCategory(selectedRowIndex);
-    }
-    handleCloseMenu();
-  };
+  // const handleDeleteCategory = () => {
+  //   if (selectedRowIndex !== null) {
+  //     onDeleteCategory(selectedRowIndex);
+  //   }
+  //   handleCloseMenu();
+  // };
 
   return (
     <>
@@ -86,24 +97,28 @@ export const AllCategories: React.FC<{
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell>Category Name</TableCell>
-              <TableCell align="right">Alias Name</TableCell>
-              <TableCell align="right">Parent Category</TableCell>
-              <TableCell align="right">Image</TableCell>
-              <TableCell align="right">Enable</TableCell>
-              <TableCell align="right">Action</TableCell>
+              <TableCell>Category image</TableCell>
+              <TableCell align="left">Name</TableCell>
+              <TableCell align="left">Alias Name</TableCell>
+              <TableCell align="left">Parent </TableCell>
+              <TableCell align="left">Enable</TableCell>
+              <TableCell align="left">Action</TableCell>
               {/* Add more table headers as needed */}
             </TableRow>
           </TableHead>
           <TableBody>
-            {categories.map((category, index) => (
+          {
+            
+            listCategories?.map((item:{name:string,imagePath:string,alias:string,parent:string,enable:boolean}, index:number) => (
               <TableRow key={index}>
-                <TableCell>{category.name}</TableCell>
-                <TableCell align="right">{category.alias}</TableCell>
-                <TableCell align="right">{category.parentCategory}</TableCell>
-                <TableCell align="right">{category.image}</TableCell>
-                <TableCell align="right">
-                  {category.enable ? "Yes" : "No"}
+                <TableCell align="left" sx={{width:"200px"}}><img src={item.imagePath} alt={item.name}/></TableCell>
+                <TableCell>{item.name}</TableCell>
+                <TableCell align="left">{item.alias}</TableCell>
+                <TableCell align="left">{item.parent}</TableCell>
+
+                
+                <TableCell align="left">
+                  {item.enable ? "Yes" : "No"}
                 </TableCell>
                 <TableCell align="right">
                   <IconButton
@@ -145,7 +160,7 @@ export const AllCategories: React.FC<{
           Edit
         </MenuItem>
 
-        <MenuItem onClick={handleDeleteCategory} sx={{ color: 'error.main' }}>
+        <MenuItem sx={{ color: 'error.main' }}>
           <Iconify icon={'eva:trash-2-outline'} sx={{ marginRight: 2 }} />
           Delete
         </MenuItem>
@@ -157,3 +172,28 @@ export const AllCategories: React.FC<{
 
 
 export default AllCategories;
+
+
+// {
+            
+//   listCategories?.map((item, index) => (
+//     <TableRow key={index}>
+//       <TableCell>{item.name}</TableCell>
+//       <TableCell align="right">{item.alias}</TableCell>
+//       {/* <TableCell align="right">{item.parentCategory}</TableCell> */}
+//       <TableCell align="right">{item.image}</TableCell>
+//       <TableCell align="right">
+//         {item.enable ? "Yes" : "No"}
+//       </TableCell>
+//       <TableCell align="right">
+//         <IconButton
+//           size="large"
+//           color="inherit"
+//           onClick={(event) => handleOpenMenu(event, index)}
+//         >
+//           <Iconify icon={"eva:more-vertical-fill"} />
+//         </IconButton>
+//       </TableCell>
+//       {/* Render other category details */}
+//     </TableRow>
+//   ))}
