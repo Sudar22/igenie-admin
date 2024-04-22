@@ -1,24 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import AllCategories, { AllBrand } from './allBrand';
-
-interface Category {
-    name: string;
-    alias: string;
-    parentCategory: string;
-    image: string;
-    enable: boolean;
-    // Add more properties as needed
-}
+import AllBrands from './allBrand';
+import { BrandType } from './brandType';
 
 const Brands: React.FC = () => {
-    const [categories, setCategories] = useState<Category[]>([]);
+    const [brand, setbrand] = useState<BrandType[]>([]);
 
     useEffect(() => {
-        const categoriesFromStorage = localStorage.getItem("categories");
-        if (categoriesFromStorage) {
+        const brandsFromStorage = localStorage.getItem("brands");
+        if (brandsFromStorage) {
             try {
-                const parsedCategories: Category[] = JSON.parse(categoriesFromStorage);
-                setCategories(parsedCategories);
+                const parsedBrands: BrandType[] = JSON.parse(brandsFromStorage);
+                setbrand(parsedBrands);
             } catch (error) {
                 console.error("Error parsing categories from local storage:", error);
             }
@@ -26,15 +18,15 @@ const Brands: React.FC = () => {
     }, []);
 
     const handleDeleteCategory = (index: number) => {
-        const updatedCategories = [...categories];
-        updatedCategories.splice(index, 1);
-        setCategories(updatedCategories);
-        localStorage.setItem("categories", JSON.stringify(updatedCategories));
+        const updatedBrand = [...brand];
+        updatedBrand.splice(index, 1);
+        setbrand(updatedBrand);
+        localStorage.setItem("categories", JSON.stringify(updatedBrand));
     };
 
     return (
         <div>
-            <AllBrand categories={categories} onDeleteCategory={handleDeleteCategory}/>
+            <AllBrands/>
         </div>
     );
 };

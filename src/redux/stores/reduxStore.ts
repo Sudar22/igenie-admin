@@ -5,6 +5,7 @@ import userSlice from '../reducers/vendorSlice'
 import authSlice from '../reducers/authSlice';
 import productSlice from '../reducers/productSlice';
 import categorySlice from '../reducers/categorySlice';
+import brandSlice from '../reducers/brandSlice';
 
 
 
@@ -13,8 +14,8 @@ export const reduxStore = configureStore({
     user: userSlice,
     product: productSlice,
     auth:authSlice,
-    category:categorySlice
-
+    category:categorySlice,
+    brands: brandSlice
   },
 });
 
