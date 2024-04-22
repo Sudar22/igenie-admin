@@ -189,10 +189,10 @@ const handleRemoveImage = () => {
 
     dispatch(saveCategories(postCategoryData)).then((result: any) => {
       // Navigate to another path if the dispatch operation is successful
-      if (result.meta.requestStatus === 'fulfilled') {
-        return <Link to={"../addcategory"} />
-      ; // Replace '/another-path' with your desired path
-      }
+      // if (result.meta.requestStatus === 'fulfilled') {
+      //   return <Link to={"../addcategory"} />
+      // ; // Replace '/another-path' with your desired path
+      // }
     });
 
   };
