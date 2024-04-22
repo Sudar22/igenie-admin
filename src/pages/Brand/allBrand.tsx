@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   IconButton,
@@ -16,20 +16,32 @@ import {
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import Iconify from "../../components/iconify";
+import { getAllCategories } from "../../redux/reducers/categorySlice";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks/hooks";
+import { RootState } from "../../redux/stores/reduxStore";
+import { getAllBrands } from "../../redux/reducers/brandSlice";
+// import { CategoryType } from "./categoryType";
 
-interface Category {
-  name: string;
-  alias: string;
-  parentCategory: string;
-  image: string;
-  enable: boolean;
-  // Add more properties as needed
-}
 
-export const AllBrand: React.FC<{
-  categories: Category[];
-  onDeleteCategory: (index: number) => void;
-}> = ({ categories, onDeleteCategory }) => {
+
+export const AllBrands: React.FC<{}> = () => {
+
+
+  const dispatch = useAppDispatch();
+
+  const { Brand } = useAppSelector((state: RootState) => state.brands);
+
+  const {listBrands}=Brand
+
+  console.log("listBrands",listBrands)
+
+
+
+  useEffect(() => {
+    // Dispatch the async thunk action to fetch categories
+    dispatch(getAllBrands());
+  }, [dispatch]); // Only dispatch on component mount
+
 
   const StyledContainer = styled("div")(() => ({
     width: "100%",
@@ -66,12 +78,12 @@ export const AllBrand: React.FC<{
     setSelectedRowIndex(null);
   };
 
-  const handleDeleteCategory = () => {
-    if (selectedRowIndex !== null) {
-      onDeleteCategory(selectedRowIndex);
-    }
-    handleCloseMenu();
-  };
+  // const handleDeleteCategory = () => {
+  //   if (selectedRowIndex !== null) {
+  //     onDeleteCategory(selectedRowIndex);
+  //   }
+  //   handleCloseMenu();
+  // };
 
   return (
     <>
@@ -86,17 +98,36 @@ export const AllBrand: React.FC<{
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell>Brand Name</TableCell>
-              <TableCell align="right">Alias Name</TableCell>
-              <TableCell align="right">Parent Brand</TableCell>
-              <TableCell align="right">Image</TableCell>
-              <TableCell align="right">Enable</TableCell>
-              <TableCell align="right">Action</TableCell>
+              <TableCell>Brand Logo</TableCell>
+              <TableCell align="left">Name</TableCell>
+              <TableCell align="left">Category Id</TableCell>
+              <TableCell align="left">Action</TableCell>
               {/* Add more table headers as needed */}
             </TableRow>
           </TableHead>
           <TableBody>
-      
+          {
+            
+            listBrands?.map((item:{name:string,imagePath:string,categoryid:boolean}, index:number) => (
+              <TableRow key={index}>
+                <TableCell align="left" sx={{width:"200px"}}><img src={item.imagePath} alt={item.name}/></TableCell>
+                <TableCell>{item.name}</TableCell>
+                
+                <TableCell align="left">
+                  {item.categoryid}
+                </TableCell>
+                <TableCell align="right">
+                  <IconButton
+                    size="large"
+                    color="inherit"
+                    onClick={(event) => handleOpenMenu(event, index)}
+                  >
+                    <Iconify icon={"eva:more-vertical-fill"} />
+                  </IconButton>
+                </TableCell>
+                {/* Render other category details */}
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
       </TableContainer>
@@ -125,7 +156,7 @@ export const AllBrand: React.FC<{
           Edit
         </MenuItem>
 
-        <MenuItem onClick={handleDeleteCategory} sx={{ color: 'error.main' }}>
+        <MenuItem sx={{ color: 'error.main' }}>
           <Iconify icon={'eva:trash-2-outline'} sx={{ marginRight: 2 }} />
           Delete
         </MenuItem>
@@ -136,4 +167,29 @@ export const AllBrand: React.FC<{
 
 
 
-export default AllBrand;
+export default AllBrands;
+
+
+// {
+            
+//   listCategories?.map((item, index) => (
+//     <TableRow key={index}>
+//       <TableCell>{item.name}</TableCell>
+//       <TableCell align="right">{item.alias}</TableCell>
+//       {/* <TableCell align="right">{item.parentCategory}</TableCell> */}
+//       <TableCell align="right">{item.image}</TableCell>
+//       <TableCell align="right">
+//         {item.enable ? "Yes" : "No"}
+//       </TableCell>
+//       <TableCell align="right">
+//         <IconButton
+//           size="large"
+//           color="inherit"
+//           onClick={(event) => handleOpenMenu(event, index)}
+//         >
+//           <Iconify icon={"eva:more-vertical-fill"} />
+//         </IconButton>
+//       </TableCell>
+//       {/* Render other category details */}
+//     </TableRow>
+//   ))}
