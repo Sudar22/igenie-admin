@@ -8,7 +8,7 @@ export const getAllCategories = createAsyncThunk(
   'product/getAllCategories',
   async (_, thunkAPI) => {
     try {
-      const response = await axios.get('http://localhost:8080/igenieadmin/categories', {
+      const response = await axios.get('http://65.0.32.143:8080/igenieadmin/categories', {
         headers: { 'Content-Type': 'application/json' },
       });
       
@@ -30,7 +30,7 @@ export const saveCategories = createAsyncThunk(
     try {
       // Your asynchronous logic here
       // Access saveData like this: saveData[0], saveData[1], etc.
-      const request = await axios.post("http://localhost:8080/igenieadmin/categories/save", postCategoryData, {
+      const request = await axios.post("http://65.0.32.143:8080/igenieadmin/categories/save", postCategoryData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       const response = request.data;

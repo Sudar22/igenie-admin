@@ -1,63 +1,96 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import axios from "axios";
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import axios from 'axios';
+import { CategoryType } from '../../pages/categories/categoryType';
+import { BrandType } from '../../pages/Brand/brandType';
 
-// Define the type for the saveData parameter
-type SaveData = string[];
 
-// Async thunk to save category
-export const saveBrand = createAsyncThunk(
-  'brand/save',
-  async (saveData: SaveData, thunkAPI): Promise<any> => {
+
+export const getAllBrands = createAsyncThunk(
+  'product/getAllBrands',
+  async (_, thunkAPI) => {
     try {
-      const request = await axios.post("http://65.0.32.143:8080/igenieadmin/brands/save", saveData, {
-        headers: { "Content-Type": "application/json" },
+      const response = await axios.get('http://65.0.32.143:8080/igenieadmin/categories', {
+        headers: { 'Content-Type': 'application/json' },
       });
-      const response = request.data;
-      localStorage.setItem("brand", JSON.stringify(response));
-      console.log("brand/saveCategory:", response);
-      return response;
-    } catch (error:any) {
+      
+      localStorage.setItem('brand', JSON.stringify(response));
+      console.log('brand/getBrand:', response);
+      
+      return response.data;
+    } catch (error: any) {
       // Handle errors
       return thunkAPI.rejectWithValue(error.message);
     }
   }
 );
 
-// Define the type for the brand state
-interface BrandState {
+// Async thunk to save categories
+export const saveBrands = createAsyncThunk(
+  'brand/save',
+  async (postBrandData: BrandType, thunkAPI): Promise<any> => {
+    try {
+      // Your asynchronous logic here
+      // Access saveData like this: saveData[0], saveData[1], etc.
+      const request = await axios.post("http://65.0.32.143:8080/igenieadmin/brands/save", postBrandData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      const response = request.data;
+      // localStorage.setItem("categories", JSON.stringify(response));
+      console.log("brand/saveBrand:", response);
+      return response;
+    } catch (error: any) {
+      // Handle errors
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
+// Define the type for the product state
+interface brandState {
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
   error: string | null;
-  savedbrand: any; // Define a proper type for the saved brand
+  Brand: any; // Define a proper type for the saved product
 }
 
-// Initial state for the brand slice
-const initialState: BrandState = {
+// Initial state for the product slice
+const initialState: brandState = {
   status: 'idle',
   error: null,
-  savedbrand: null,
+  Brand: [],
 };
 
 // Slice to handle state and reducers
-const BrandSlice = createSlice({
-  name: 'brand',
+const brandSlice = createSlice({
+  name: 'brands',
   initialState,
   reducers: {
     resetState: (state) => {
       state.status = 'idle';
       state.error = null;
-      state.savedbrand = null;
+      // state.categories = null;
     },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(saveBrand.pending, (state) => {
+      .addCase(getAllBrands.pending, (state) => {
         state.status = 'loading';
       })
-      .addCase(saveBrand.fulfilled, (state, action: PayloadAction<any>) => {
+      .addCase(getAllBrands.fulfilled, (state, action: PayloadAction<any>) => {
         state.status = 'succeeded';
-        state.savedbrand = action.payload;
+        state.Brand = action.payload;
       })
-      .addCase(saveBrand.rejected, (state, action) => {
+      .addCase(getAllBrands.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.payload as string; // Correct the payload type
+      })
+      .addCase(saveBrands.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(saveBrands.fulfilled, (state, action: PayloadAction<any>) => {
+        state.status = 'succeeded';
+        state.Brand = action.payload;
+      })
+      .addCase(saveBrands.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload as string; // Correct the payload type
       });
@@ -65,5 +98,5 @@ const BrandSlice = createSlice({
 });
 
 // Export actions and reducer
-export const { resetState } = BrandSlice.actions;
-export default BrandSlice.reducer;
+export const { resetState } = brandSlice.actions;
+export default brandSlice.reducer;

@@ -19,9 +19,10 @@ import { SellerProfile } from "../pages/profile/profile";
 import { EditProfile } from "../pages/profile/editProfile";
 import Categories from "../pages/categories/categories";
 import Brands from "../pages/Brand/brands";
-import { AddBrand } from "../pages/Brand/addBrand";
+// import { AddBrand } from "../pages/Brand/addBrand";
 import Buyers from "../pages/Buyers";
 import AddCategory from "../pages/categories/addCategory";
+import AddBrand from "../pages/Brand/addBrand";
 // import Signup from "../auth/signup";
 
 
