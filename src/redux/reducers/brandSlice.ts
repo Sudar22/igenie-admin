@@ -9,7 +9,7 @@ export const getAllBrands = createAsyncThunk(
   'product/getAllBrands',
   async (_, thunkAPI) => {
     try {
-      const response = await axios.get('http://65.0.32.143:8080/igenieadmin/categories', {
+      const response = await axios.get('http://65.0.32.143:8080/igenieadmin/brands/page/1', {
         headers: { 'Content-Type': 'application/json' },
       });
       
