@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { CategoryType } from '../../pages/categories/categoryType';
+import { DEV_API } from '../../constants';
 
 
 
@@ -8,7 +9,7 @@ export const getAllCategories = createAsyncThunk(
   'product/getAllCategories',
   async (_, thunkAPI) => {
     try {
-      const response = await axios.get('http://localhost:8080/igenieadmin/categories', {
+      const response = await axios.get(`${DEV_API}/categories`, {
         headers: { 'Content-Type': 'application/json' },
       });
       
@@ -30,7 +31,7 @@ export const saveCategories = createAsyncThunk(
     try {
       // Your asynchronous logic here
       // Access saveData like this: saveData[0], saveData[1], etc.
-      const request = await axios.post("http://localhost:8080/igenieadmin/categories/save", postCategoryData, {
+      const request = await axios.post(`${DEV_API}/categories/save`, postCategoryData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       const response = request.data;
