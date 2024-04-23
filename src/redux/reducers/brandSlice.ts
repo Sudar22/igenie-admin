@@ -9,11 +9,10 @@ export const getAllBrands = createAsyncThunk(
   'product/getAllBrands',
   async (_, thunkAPI) => {
     try {
-      const response = await axios.get('http://65.0.32.143:8080/igenieadmin/brands/page/1', {
+      const response = await axios.get('http://localhost:8080/igenieadmin/brands/page/1', {
         headers: { 'Content-Type': 'application/json' },
       });
       
-      localStorage.setItem('brand', JSON.stringify(response));
       console.log('brand/getBrand:', response);
       
       return response.data;
@@ -31,7 +30,7 @@ export const saveBrands = createAsyncThunk(
     try {
       // Your asynchronous logic here
       // Access saveData like this: saveData[0], saveData[1], etc.
-      const request = await axios.post("http://65.0.32.143:8080/igenieadmin/brands/save", postBrandData, {
+      const request = await axios.post("http://localhost:8080/igenieadmin/brands/save", postBrandData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       const response = request.data;

@@ -207,7 +207,7 @@ if (listCategories && listCategories.length > 0) {
     const postBrandData = {
       name: name,
       fileImage: image,
-      categoryIds:[ !selectedOption ? null : selectedOption.id],
+      categoryIds:!selectedOption ? null : selectedOption.id,
     };
 
     console.log("postBrandData:", postBrandData);

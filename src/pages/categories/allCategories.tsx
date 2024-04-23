@@ -174,26 +174,3 @@ export const AllCategories: React.FC<{}> = () => {
 export default AllCategories;
 
 
-// {
-            
-//   listCategories?.map((item, index) => (
-//     <TableRow key={index}>
-//       <TableCell>{item.name}</TableCell>
-//       <TableCell align="right">{item.alias}</TableCell>
-//       {/* <TableCell align="right">{item.parentCategory}</TableCell> */}
-//       <TableCell align="right">{item.image}</TableCell>
-//       <TableCell align="right">
-//         {item.enable ? "Yes" : "No"}
-//       </TableCell>
-//       <TableCell align="right">
-//         <IconButton
-//           size="large"
-//           color="inherit"
-//           onClick={(event) => handleOpenMenu(event, index)}
-//         >
-//           <Iconify icon={"eva:more-vertical-fill"} />
-//         </IconButton>
-//       </TableCell>
-//       {/* Render other category details */}
-//     </TableRow>
-//   ))}
