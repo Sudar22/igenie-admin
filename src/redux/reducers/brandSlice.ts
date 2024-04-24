@@ -39,7 +39,7 @@ export const saveBrands = createAsyncThunk(
       console.log("brand/saveBrand:", response);
       return response;
     } catch (error: any) {
-      // Handle errors
+
       return thunkAPI.rejectWithValue(error.message);
     }
   }
