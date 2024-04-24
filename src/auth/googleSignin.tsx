@@ -9,6 +9,7 @@ import { Button, Stack, styled } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { createSellerWithGmail } from "../redux/reducers/authSlice";
 import { useAppDispatch } from "../redux/hooks/hooks";
+import { getAllUsers } from "../redux/reducers/vendorSlice";
 
 
 const StyledButton = styled(Button)(({ theme }) => ({
@@ -75,7 +76,7 @@ const GoogleSignIn: React.FC = () => {
             }
           };
   
-          dispatch(createSellerWithGmail(credentials));
+          // dispatch(createSellerWithGmail(credentials));
 
 
         }
@@ -94,6 +95,7 @@ const GoogleSignIn: React.FC = () => {
       console.error("Error signing in with Google:", error);
     }
   };
+
 
   const handleSignOut = () => {
     // Add sign-out logic if needed
