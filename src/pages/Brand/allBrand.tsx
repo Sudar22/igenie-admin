@@ -31,9 +31,8 @@ export const AllBrands: React.FC<{}> = () => {
 
   const { Brand } = useAppSelector((state: RootState) => state.brands);
 
-  const {listBrands}=Brand
 
-  console.log("listBrands",listBrands)
+  console.log("listBrands",Brand)
 
 
 
@@ -108,9 +107,9 @@ export const AllBrands: React.FC<{}> = () => {
           <TableBody>
           {
             
-            listBrands?.map((item:{name:string,imagePath:string,categoryid:boolean}, index:number) => (
+            Brand?.map((item:{name:string,logoPath:string,categoryid:number}, index:number) => (
               <TableRow key={index}>
-                <TableCell align="left" sx={{width:"200px"}}><img src={item.imagePath} alt={item.name}/></TableCell>
+                <TableCell align="left" sx={{width:"200px"}}><img src={item.logoPath} alt={item.name}/></TableCell>
                 <TableCell>{item.name}</TableCell>
                 
                 <TableCell align="left">
