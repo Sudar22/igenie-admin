@@ -1,93 +1,91 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 
-export const loginUser = createAsyncThunk(
-  "user/loginUser",
-  async (userCredentials) => {
-    const request = await axios({
-      method: "post",
-      url: "http://localhost:5000/api/auth/signin",
-      data: userCredentials,
-      headers: { "Content-Type": "application/json" },
-      // headers: { "Content-Type": "multipart/form-data" },
-    });
+// export const loginUser = createAsyncThunk(
+//   "user/loginUser",
+//   async (userCredentials) => {
+//     try {
+//       const response = await axios.post("http://localhost:5000/api/auth/signin", userCredentials, {
+//         headers: { "Content-Type": "application/json" }
+//       });
 
-    const response = await request.data;
-    localStorage.setItem("user", JSON.stringify(response));
-    console.log("user/loginUser:", request.data);
-    return response;
-  }
-);
+//       localStorage.setItem("user", JSON.stringify(response.data));
+//       console.log("user/loginUser:", response.data);
+//       return response.data;
+//     } catch (error) {
+//       console.error("loginUser error:", error.message);
+//       throw error;
+//     }
+//   }
+// );
 
-export const signupUser = createAsyncThunk(
-  "user/signupUser",
-  async (dataPost) => {
+// export const signupUser = createAsyncThunk(
+//   "user/signupUser",
+//   async (dataPost) => {
+//     try {
+//       console.log("dataPost signupUser:", dataPost);
+//       const response = await axios.post("http://localhost:5000/api/auth/signup", dataPost, {
+//         headers: { "Content-Type": "application/json" }
+//       });
+
+//       localStorage.setItem("user", JSON.stringify(response.data));
+//       console.log("signup response.data:", response.data);
+//       return response.data;
+//     } catch (error) {
+//       console.error("signupUser error:", error.message);
+//       throw error;
+//     }
+//   }
+// );
+
+export const getAllUsers = createAsyncThunk(
+  'user/getAllUsers',
+  async (_, thunkAPI) => {
     try {
-      console.log("dataPost signupUser:", dataPost);
-      const request = await axios({
-        method: "post",
-        url: "http://localhost:5000/api/auth/signup",
-        data: dataPost,
-        headers: { "Content-Type": "application/json" },
+      const response = await axios.get("http://ndtgenie.ai:8080/igenieadmin//users/page/1", {
+        headers: { 'Content-Type': 'application/json' },
       });
-
-      const response = await request.data;
-      localStorage.setItem("user", JSON.stringify(response));
-      console.log("signup request.data", request.data);
-      return response;
-    } catch (err: any) {
-      // Specify the type of err as 'any' or a more specific error type
-      console.log("signup error 2:", err.message);
+      
+      console.log('user/getUser:', response);
+      
+      return response.data;
+    } catch (error: any) {
+      // Handle errors
+      return thunkAPI.rejectWithValue(error.message);
     }
   }
 );
 
+interface UserState {
+  status: 'idle' | 'loading' | 'succeeded' | 'failed';
+  error: string | null;
+  users: any[]; // Define a proper type for the users array
+}
+
+const initialState: UserState = {
+  status: 'idle',
+  error: null,
+  users: [],
+};
+
 const userSlice = createSlice({
   name: "user",
-  initialState: {
-    user: localStorage.getItem("user")
-      ? JSON.parse(localStorage.getItem("user")!)
-      : [], // Make sure to define the User type
-    loading: false,
-    error: null as string | null,
-  },
-  reducers: {}, // Add any additional reducers if needed
+  initialState,
+  reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(loginUser.pending, (state) => {
-        state.loading = true;
-        state.user = null;
-        state.error = null;
-      })
-      .addCase(loginUser.fulfilled, (state, action) => {
-        state.loading = false;
-        state.user = action.payload;
-        state.error = null;
-      })
-      .addCase(loginUser.rejected, (state, action) => {
-        state.loading = false;
-        state.user = null;
-        state.error = action.error.message ?? "Login failed";
-      })
-      .addCase(signupUser.pending, (state) => {
-        state.loading = true;
-        state.user = null;
-        state.error = null;
-      })
-      .addCase(signupUser.fulfilled, (state, action) => {
-        state.loading = false;
-        state.user = action.payload;
-        state.error = null;
-      })
-      .addCase(signupUser.rejected, (state, action) => {
-        state.loading = false;
-        state.user = null;
-        state.error =
-          action.error.message ?? "User registration failed";
-      });
+    .addCase(getAllUsers.pending, (state) => {
+      state.status = 'loading';
+    })
+    .addCase(getAllUsers.fulfilled, (state, action: PayloadAction<any>) => {
+      state.status = 'succeeded';
+      state.users = action.payload;
+    })
+    .addCase(getAllUsers.rejected, (state, action) => {
+      state.status = 'failed';
+      state.error = action.error.message ?? "An error occurred";
+    });
   },
 });
 
-// export const { login } = userSlice.actions;
-// export const selectUser = (state) => state.user.info;
 export default userSlice.reducer;

@@ -1,7 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import { filter } from "lodash";
 import { sentenceCase } from "change-case";
-import { useState, ChangeEvent, MouseEvent } from "react";
+import { useState, ChangeEvent, MouseEvent, useEffect } from "react";
 import {
   Card,
   Table,
@@ -32,6 +32,9 @@ import Iconify from "../../components/iconify";
 import Scrollbar from "../../components/scrollbar";
 import USERLIST from "../../_mock/user";
 import { Link } from "react-router-dom";
+import { getAllUsers } from "../../redux/reducers/vendorSlice";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks/hooks";
+import { RootState } from "../../redux/stores/reduxStore";
 
 interface User {
   id: string;
@@ -145,6 +148,18 @@ export default function ProductPage() {
     setOpen(null);
   };
 
+  const dispatch = useAppDispatch();
+
+
+  useEffect(() => {
+    // Dispatch the async thunk action to fetch categories
+    dispatch(getAllUsers());
+  }, [dispatch]);
+
+  const { users } = useAppSelector((state: RootState) => state.user);
+
+  console.log("users DATA" , users)
+
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
     property: string
@@ -245,7 +260,7 @@ export default function ProductPage() {
   return (
     <>
       <Helmet>
-        <title> Product </title>
+        <title> Seller </title>
       </Helmet>
 
       <Container>
