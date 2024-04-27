@@ -1,44 +1,35 @@
-import React from "react";
 import PropTypes from "prop-types";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 // @mui
-import { styled, alpha } from "@mui/material/styles";
 import {
   Box,
-  Link,
-  Button,
   Drawer,
-  Typography,
-  Avatar,
-  Stack,
+  Link
 } from "@mui/material";
 // mock
-import account from "../../../_mock/account";
 // hooks
 // import useResponsive from '../../../hooks/useResponsive';
 import useResponsive from "../../../hooks/useResponsive";
 // components
-import Logo from "../../../components/logo";
-import Scrollbar from "../../../components/scrollbar";
 import NavSection from "../../../components/nav-section";
+import Scrollbar from "../../../components/scrollbar";
 //
 import navConfig from "./config";
 //redux
-import { useSelector } from "react-redux";
 import Commonsvg from "../../../assets/commonsvg";
 
 // ----------------------------------------------------------------------
 
 const NAV_WIDTH = 220;
 
-const StyledAccount = styled("div")(({ theme }) => ({
-  display: "flex",
-  alignItems: "center",
-  padding: theme.spacing(2, 2.5),
-  borderRadius: Number(theme.shape.borderRadius) * 1.5,
-  backgroundColor: alpha(theme.palette.grey[500], 0.12),
-}));
+// const StyledAccount = styled("div")(({ theme }) => ({
+//   display: "flex",
+//   alignItems: "center",
+//   padding: theme.spacing(2, 2.5),
+//   borderRadius: Number(theme.shape.borderRadius) * 1.5,
+//   backgroundColor: alpha(theme.palette.grey[500], 0.12),
+// }));
 
 // ----------------------------------------------------------------------
 

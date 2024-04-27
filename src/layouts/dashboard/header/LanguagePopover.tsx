@@ -33,9 +33,9 @@ const LANGS = [
 //  theme:{},
 // }
 
-interface themeType  {
- theme:string,
-}
+// interface themeType  {
+//  theme:string,
+// }
 
 
 export default function LanguagePopover() {

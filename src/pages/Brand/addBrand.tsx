@@ -6,21 +6,15 @@ import {
   CardContent,
   CardMedia,
   Snackbar,
-  Switch,
   TextField,
   Typography,
-  styled,
+  styled
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks/hooks";
-import {
-  getAllCategories,
-  saveCategories,
-} from "../../redux/reducers/categorySlice";
 
-import { RootState } from "../../redux/stores/reduxStore";
-import { Link, useNavigate } from "react-router-dom";
 import { getAllBrands, saveBrands } from "../../redux/reducers/brandSlice";
+import { RootState } from "../../redux/stores/reduxStore";
 import { BrandType } from "./brandType";
 
 interface AddBrandProps {}
@@ -108,9 +102,9 @@ const AddBrand: React.FC<AddBrandProps> = () => {
   // auto complete textfield
 
   const dispatch = useAppDispatch();
-  const navigate = useNavigate(); // Initialize useNavigate
+  // const navigate = useNavigate(); // Initialize useNavigate
 
-  const { Brand } = useAppSelector((state: RootState) => state.brands);
+  // const { Brand } = useAppSelector((state: RootState) => state.brands);
   const { categories } = useAppSelector((state: RootState) => state.category);
 
   useEffect(() => {
@@ -120,7 +114,7 @@ const AddBrand: React.FC<AddBrandProps> = () => {
 
   const { listCategories } = categories;
 
-  const { listBrands } = Brand;
+  // const { listBrands } = Brand;
   // const options = listCategories?.map((category: {id:number,name:string}) => ({ id: category.id, name: category.name }));
 let options: { id: number; name: string }[] = [];
 if (listCategories && listCategories.length > 0) {
@@ -142,7 +136,7 @@ if (listCategories && listCategories.length > 0) {
   } | null>(null);
 
   const handleAutocompleteChange = (
-    event: React.ChangeEvent<{}>,
+    _event: React.ChangeEvent<{}>,
     newValue: { id: number; name: string } | null
   ) => {
     setSelectedOption(newValue);
@@ -150,11 +144,11 @@ if (listCategories && listCategories.length > 0) {
   // const [value, setValue] = React.useState<string | null>(
   //   options?.length > 0 ? options[0] : null
   // );
-  const [value, setValue] = React.useState<string | null>(
-    options?.length > 0 ? options[0].name : null
-  );
+  // const [value, setValue] = React.useState<string | null>(
+  //   options?.length > 0 ? options[0].name : null
+  // );
   
-  const [inputValue, setInputValue] = React.useState("");
+  // const [inputValue, setInputValue] = React.useState("");
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -189,10 +183,10 @@ if (listCategories && listCategories.length > 0) {
     return brand;
   };
 
-  const handleSwitchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, checked } = event.target;
-    setBrand({ ...brand, [name]: checked });
-  };
+  // const handleSwitchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   const { name, checked } = event.target;
+  //   setBrand({ ...brand, [name]: checked });
+  // };
 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
@@ -230,7 +224,7 @@ if (listCategories && listCategories.length > 0) {
   const handleCloseSnackbar = () => {
     setSnackbarOpen(false);
   };
-  const label = { inputProps: { "aria-label": "Switch demo" } };
+  // const label = { inputProps: { "aria-label": "Switch demo" } };
   return (
     <form onSubmit={handleSubmit} encType="multipart/form-data">
       <StyledContainer>

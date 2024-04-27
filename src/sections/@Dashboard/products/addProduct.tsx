@@ -9,26 +9,22 @@ import {
   Typography,
 } from "@mui/material";
 
-import { Box,  Paper} from "@mui/material";
-import React, { useState, useRef, useEffect } from "react";
+import { Box, Paper } from "@mui/material";
+import { Theme, alpha, styled } from "@mui/material/styles";
+import React, { useRef, useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { useInput } from "../../../hooks/useInput";
-import { styled, alpha, Theme } from "@mui/material/styles";
-import "react-quill/dist/quill.snow.css";
 
+import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
+import { Link } from "react-router-dom";
 import Iconify from "../../../components/iconify";
-import { Link, Navigate } from "react-router-dom";
-import ProductOrganization from "./productOrganization";
 import Variants from "./@product/Variants";
+import ProductOrganization from "./productOrganization";
 
-import { useSelector, useDispatch } from "react-redux";
-import { createProduct  } from "../../../redux/reducers/productSlice";
 
 interface Data {
   [key: string]: any;
@@ -106,25 +102,25 @@ const StyledProductInfo = styled("div")(({ theme }: { theme: Theme }) => ({
   margin: theme.spacing(0, 0, 0, 0),
 }));
 
-const StyledFrom = styled(FormControl)(({ theme }: { theme: Theme }) => ({
+const StyledFrom = styled(FormControl)(() => ({
   width: 130,
   display: "flex",
   flexDirection: "row",
 }));
 
-const StyledButton = styled("div")(({ theme }: { theme: Theme }) => ({
+const StyledButton = styled("div")(() => ({
   width: 180,
   flexDirection: "row",
   display: "inline-flex",
   justifyContent: "space-between",
 }));
 
-const StyledTypo = styled("div")(({ theme }: { theme: Theme }) => ({
-  width: 180,
-  flexDirection: "row",
-  display: "inline-flex",
-  justifyContent: "space-between",
-}));
+// const StyledTypo = styled("div")(() => ({
+//   width: 180,
+//   flexDirection: "row",
+//   display: "inline-flex",
+//   justifyContent: "space-between",
+// }));
 
 const StyledReactQuill = styled(Paper)(
   ({ theme }: { theme: Theme }) => ({
@@ -170,17 +166,17 @@ export const initialState = {
 export default function AddProduct() {
 
 
-  const [title, setTitle] = useState("");
+  // const [title, setTitle] = useState("");
 
   const [valueDescription, setValueDescription] = useState("");
-  const [saveData, setSaveData] = useState<string[]>([]);
+  // const [saveData, setSaveData] = useState<string[]>([]);
 
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
-  const getProductIfo = async (e: any) => {
-    e.preventDefault();
-    console.log("saveValue:", e.target.value);
-  };
+  // const getProductIfo = async (e: any) => {
+  //   e.preventDefault();
+  //   console.log("saveValue:", e.target.value);
+  // };
 
   // useEffect(() => {
   //   setSaveData([title, valueDescription]);
@@ -191,7 +187,7 @@ export default function AddProduct() {
     // dispatch(createProduct(saveData));
   };
 
-  const inputProps = useInput("");
+  // const inputProps = useInput("");
   const quillRef = useRef<ReactQuill>(null);
 
   React.useEffect(() => {

@@ -49,6 +49,11 @@ const navConfig = [
     path: '/dashboard/marketing',
     icon: icon('ic_market'),
   },
+  {
+    title: 'Login',
+    path: '/auth/login',
+    icon: icon('ic_market'),
+  },
 
 ];
 

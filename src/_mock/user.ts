@@ -26,12 +26,12 @@ const products= [
   { productName: 'Gauging Inspection Profile Measurement' },
 ]
 
-const productNameArray = [
-  "Surface & Near-Surface Flaw Detection",
-  "Sub-Surface Flaw Detection",
-  "Corrosion Detection",
+// const productNameArray = [
+//   "Surface & Near-Surface Flaw Detection",
+//   "Sub-Surface Flaw Detection",
+//   "Corrosion Detection",
  
-];
+// ];
 
 const users = [...Array(24)].map((_, index) => ({
   id: faker.datatype.uuid(),

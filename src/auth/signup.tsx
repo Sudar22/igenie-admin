@@ -1,25 +1,77 @@
 import {
   Button,
   Card,
-  Container,
   Stack,
   TextField,
   Typography,
-  styled,
+  styled
 } from "@mui/material";
-import React, { useState } from "react";
-import { auth } from "./config";
-import { signInWithPhoneNumber, RecaptchaVerifier } from "firebase/auth";
+import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { MuiTelInput } from "mui-tel-input";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { auth } from "./config";
 // import { postUserData } from "../redux/reducers/authSlice";
+
+
+export const PhoneInput = styled(MuiTelInput)(() => ({
+  display: "flex",
+  height: 60,
+  gap: 10,
+}));
+
+export const StyledRootSignup = styled("div")(() => ({
+  width: "100%",
+  height: 500,
+  marginTop: 30,
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  justifyContent: "center",
+}));
+
+export const StyledHeader = styled("div")(() => ({
+  width: "100%",
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+}));
+
+export const StyledSignupFields = styled("div")(() => ({
+  width: "100%",
+  display: "flex",
+  flexDirection: "column",
+  gap: 20,
+}));
+
+export const StyledCard = styled(Card)(({ theme }) => ({
+  width: 440,
+  height: 400,
+  gap: 10,
+  display: "flex",
+  padding: theme.spacing(3, 5),
+  flexDirection: "column",
+  alignItems: "center",
+  justifyContent: "center",
+  boxShadow: theme.shadows[4],
+}));
+
+export const StyledButton = styled(Button)(({ theme }) => ({
+  width: 200,
+  margin: theme.spacing(0, 1),
+  fontSize: 10,
+  backgroundColor: "#000",
+  color: "#FFF",
+  "&:hover": {
+    backgroundColor: "#57A845",
+  },
+}));
 
 export const Signup: React.FC = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  // const dispatch = useDispatch();
+  // const [email, setEmail] = useState("");
+  // const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
   const [otp, setOtp] = useState("");
   const [confirmationResult, setConfirmationResult] = useState<any>(null);
@@ -92,17 +144,19 @@ export const Signup: React.FC = () => {
           { uid: userUID, username, phoneNumber: PhoneNumber },
         ];
 
-        const userCreditional = {
-          PhoneNumber: user.phoneNumber ?? "",
-          authenticationType: "PHONE",
-        };
+        // const userCreditional = {
+        //   PhoneNumber: user.phoneNumber ?? "",
+        //   authenticationType: "PHONE",
+        // };
 
         // dispatch(postUserData(userCreditional));
         setUserDetails(newUserDetails);
         localStorage.setItem("userDetails", JSON.stringify(newUserDetails));
-
+        if (isVerified) {
+          navigate("/marketplace/products");
+        }
         // Redirect to the desired route
-        navigate("/marketplace/products");
+        // navigate("/marketplace/products");
         setIsVerified(true);
         console.log(`User UID: ${userUID}`);
         // console.log(`User Phone Number: ${userPhoneNumber}`);
@@ -117,58 +171,7 @@ export const Signup: React.FC = () => {
     }
   };
 
-  const PhoneInput = styled(MuiTelInput)(({ theme }) => ({
-    display: "flex",
-    height: 60,
-    gap: 10,
-  }));
 
-  const StyledRootSignup = styled("div")(({ theme }) => ({
-    width: "100%",
-    height: 500,
-    marginTop: 30,
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-  }));
-
-  const StyledHeader = styled("div")(({ theme }) => ({
-    width: "100%",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-  }));
-
-  const StyledSignupFields = styled("div")(({ theme }) => ({
-    width: "100%",
-    display: "flex",
-    flexDirection: "column",
-    gap: 20,
-  }));
-
-  const StyledCard = styled(Card)(({ theme }) => ({
-    width: 440,
-    height: 400,
-    gap: 10,
-    display: "flex",
-    padding: theme.spacing(3, 5),
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    boxShadow: theme.shadows[4],
-  }));
-
-  const StyledButton = styled(Button)(({ theme }) => ({
-    width: 200,
-    margin: theme.spacing(0, 1),
-    fontSize: 10,
-    backgroundColor: "#000",
-    color: "#FFF",
-    "&:hover": {
-      backgroundColor: "#57A845",
-    },
-  }));
 
   return (
     <StyledRootSignup>

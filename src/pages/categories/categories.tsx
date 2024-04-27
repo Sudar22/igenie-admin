@@ -17,12 +17,12 @@ const Categories: React.FC = () => {
         }
     }, []);
 
-    const handleDeleteCategory = (index: number) => {
-        const updatedCategories = [...categories];
-        updatedCategories.splice(index, 1);
-        setCategories(updatedCategories);
-        localStorage.setItem("categories", JSON.stringify(updatedCategories));
-    };
+    // const handleDeleteCategory = (index: number) => {
+    //     const updatedCategories = [...categories];
+    //     updatedCategories.splice(index, 1);
+    //     setCategories(updatedCategories);
+    //     localStorage.setItem("categories", JSON.stringify(updatedCategories));
+    // };
 
     return (
         <div>

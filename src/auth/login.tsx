@@ -10,7 +10,6 @@ import {
   styled,
 } from "@mui/material";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { auth } from "./config";
 // import Commonsvg from "../assets/commonsvg";
@@ -44,7 +43,7 @@ function getUserDetails(): UserDetails[] {
   }
 }
 
-const StyledLogin = styled("div")(({ theme }) => ({
+export const StyledLogin = styled("div")(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
@@ -61,7 +60,58 @@ const StyledInputForm = styled(Card)(({ theme }) => ({
   padding: theme.spacing(1, 4, 2, 4),
 }));
 
-const StyledSignupOptions = styled("div")(({ theme }) => ({}));
+const StyledSignupOptions = styled("div")(() => ({}));
+
+const StyledButton = styled(Button)(({ theme }) => ({
+  width: 200,
+  margin: theme.spacing(0, 1),
+  fontSize: 10,
+  backgroundColor: "#000",
+  color: "#FFF",
+  "&:hover": {
+    backgroundColor: "#57A845",
+  },
+}));
+
+const StyledHeader = styled("div")(() => ({
+  width: "100%",
+  height: 60,
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  justifyContent: "center",
+}));
+
+export const StyledFooter = styled("div")(() => ({
+  width: "100%",
+  gap: 10,
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  justifyContent: "center",
+}));
+
+export const PhoneInput = styled(MuiTelInput)(() => ({
+  display: "flex",
+  width: "100%",
+  height: 60,
+  gap: 10,
+}));
+
+export const StyledSignupFields = styled("div")(() => ({
+  width: "100%",
+  display: "flex",
+  flexDirection: "column",
+  gap: 10,
+}));
+
+export const StyledVerifyAndLogin = styled("div")(() => ({
+  width: "100%",
+  alignItems: "center",
+  display: "flex",
+  flexDirection: "column",
+  gap: 10,
+}));
 
 const Login = () => {
   const navigate = useNavigate();
@@ -72,7 +122,7 @@ const Login = () => {
   const [isVerified, setIsVerified] = useState(false);
   const [error, setError] = useState(""); // Add state for error
 
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const signupOptions = [
     {
@@ -81,56 +131,7 @@ const Login = () => {
     },
   ];
 
-  const StyledButton = styled(Button)(({ theme }) => ({
-    width: 200,
-    margin: theme.spacing(0, 1),
-    fontSize: 10,
-    backgroundColor: "#000",
-    color: "#FFF",
-    "&:hover": {
-      backgroundColor: "#57A845",
-    },
-  }));
 
-  const StyledHeader = styled("div")(({ theme }) => ({
-    width: "100%",
-    height: 60,
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-  }));
-
-  const StyledFooter = styled("div")(({ theme }) => ({
-    width: "100%",
-    gap: 10,
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-  }));
-
-  const PhoneInput = styled(MuiTelInput)(({ theme }) => ({
-    display: "flex",
-    width: "100%",
-    height: 60,
-    gap: 10,
-  }));
-
-  const StyledSignupFields = styled("div")(({ theme }) => ({
-    width: "100%",
-    display: "flex",
-    flexDirection: "column",
-    gap: 10,
-  }));
-
-  const StyledVerifyAndLogin = styled("div")(({ theme }) => ({
-    width: "100%",
-    alignItems: "center",
-    display: "flex",
-    flexDirection: "column",
-    gap: 10,
-  }));
 
   const handleFormSubmit = async () => {
     try {
@@ -218,6 +219,10 @@ const Login = () => {
         navigate("/marketplace/landing");
         setIsVerified(true);
         alert(`Welcome, User UID: ${userUID}`);
+        console.log(`Welcome, userName: ${userName}`)
+        if (isVerified) {
+          console.log(`User verified! UID: ${userUID}, Name: ${userName}`);
+        }
         navigate(location.pathname, {
           state: {
             loginSuccessMessage: "Login successful! Welcome back ${userName}!",

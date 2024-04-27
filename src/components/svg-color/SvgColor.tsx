@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
-import { forwardRef,ReactNode, CSSProperties } from 'react';
+import { CSSProperties, forwardRef } from 'react';
 // @mui
-import { Box,BoxProps } from '@mui/material';
+import { Box, BoxProps } from '@mui/material';
 
 // ----------------------------------------------------------------------
 

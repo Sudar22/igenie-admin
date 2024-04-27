@@ -1,6 +1,5 @@
-import { Fragment } from 'react';
 import TextField from '@mui/material/TextField';
-import { MediumSmallTypography } from './mediumSmallTypography';
+import { Fragment } from 'react';
 import { useInput } from '../../hooks/useInput';
 
 interface InputProps {
@@ -9,7 +8,7 @@ interface InputProps {
 
 }
 
-export const Input: React.FC<InputProps> = ({ values, label }) => {
+export const Input: React.FC<InputProps> = ({ values}) => {
 
 
     const inputProps = useInput("");

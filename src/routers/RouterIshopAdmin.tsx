@@ -1,28 +1,26 @@
-import React from "react";
 import { Navigate, useRoutes } from "react-router-dom";
 import ProductEditIndex from "../components/ishop@Admin/products/collections/productEdit/productEditIndex";
 import DashboardLayout from "../layouts/dashboard/DashboardLayout";
-import Home from "../pages/home";
 import Customers from "../pages/customers";
+import Home from "../pages/home";
 // import Home from "../pages/home";
-import Marketing from "../pages/marketing";
-import RouterBreadcrumbs from "../layouts/dashboard/nav/navBreadcrumbs";
 import Analytics from "../pages/analytics";
+import Marketing from "../pages/marketing";
 
+import Login from "../auth/login";
 import ProductPage from "../pages/products";
 import { AddProduct } from "../sections/@Dashboard/products";
-import Login from "../auth/login";
 // import Signup from "../auth/signup";
-import AddCollection from "../sections/@Dashboard/collection/addCollection";
 import { Signup } from "../auth/signup";
-import { SellerProfile } from "../pages/profile/profile";
-import { EditProfile } from "../pages/profile/editProfile";
-import Categories from "../pages/categories/categories";
 import Brands from "../pages/Brand/brands";
+import Categories from "../pages/categories/categories";
+import { EditProfile } from "../pages/profile/editProfile";
+import { SellerProfile } from "../pages/profile/profile";
+import AddCollection from "../sections/@Dashboard/collection/addCollection";
 // import { AddBrand } from "../pages/Brand/addBrand";
+import AddBrand from "../pages/Brand/addBrand";
 import Buyers from "../pages/Buyers";
 import AddCategory from "../pages/categories/addCategory";
-import AddBrand from "../pages/Brand/addBrand";
 // import Signup from "../auth/signup";
 
 
@@ -75,6 +73,8 @@ export default function RouterIshopAdmin() {
         { path: "marketing", element: <Marketing /> },
       ],
     },
+    { path: "/auth/login", element: <Login /> },
+    { path: "/auth/signup", element: <Signup /> },
   ]);
 
   return <div>{routes}</div>;

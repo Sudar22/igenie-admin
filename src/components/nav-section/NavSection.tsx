@@ -1,10 +1,8 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import { Box, Collapse, List, ListItemButton, ListItemText } from '@mui/material';
 import styled from '@mui/system/styled';
-import { NavLink as RouterLink } from 'react-router-dom';
-import { ListItemButton, Collapse } from '@mui/material';
-import { Box, List, ListItemText } from '@mui/material';
-import {CollapseStyledNavItem, StyledNavItem, StyledNavItemIcon } from './styles';
+import PropTypes from 'prop-types';
+import React, { useState } from 'react';
+import { CollapseStyledNavItem, StyledNavItem, StyledNavItemIcon } from './styles';
 
 
 interface NavSectionProps {

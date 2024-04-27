@@ -2,16 +2,15 @@ import PropTypes from 'prop-types';
 import { useMemo } from 'react';
 // @mui
 import { CssBaseline } from '@mui/material';
-import { ThemeProvider as MUIThemeProvider, createTheme, StyledEngineProvider } from '@mui/material/styles';
+import { ThemeProvider as MUIThemeProvider, StyledEngineProvider, createTheme } from '@mui/material/styles';
 //
+import { Shadows } from "@mui/material";
+import customShadows from './customShadows';
+import GlobalStyles from './globalStyles';
+import componentsOverrides from './overrides';
+import { Theme as customtheme } from './overrides/extendedTheme';
 import palette from './palette';
 import shadows from './shadows';
-import typography from './typography';
-import GlobalStyles from './globalStyles';
-import customShadows from './customShadows';
-import componentsOverrides from './overrides';
-import { Shadows } from "@mui/material";
-import { Theme as customtheme } from './overrides/extendedTheme';
 
 
 // ----------------------------------------------------------------------

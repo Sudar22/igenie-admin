@@ -1,34 +1,32 @@
 import {
+  Box,
   Button,
   Card,
   Container,
   IconButton,
   OutlinedInput,
+  Paper,
   Stack,
   Tooltip,
   Typography,
 } from "@mui/material";
-import { Box, Grid, Paper, TextField } from "@mui/material";
-import React, { useState, useRef, useEffect } from "react";
+import { Theme, alpha, styled } from "@mui/material/styles";
+import React, { useEffect, useRef, useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import DOMPurify from "dompurify";
-import { useInput } from "../../../hooks/useInput";
-import { styled, alpha, Theme } from "@mui/material/styles";
-import "react-quill/dist/quill.snow.css";
 
+import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
+import { Link } from "react-router-dom";
 import Iconify from "../../../components/iconify";
-import { Link, Navigate } from "react-router-dom";
-import ProductOrganization from "./productOrganization";
 import Variants from "./@product/Variants";
+import ProductOrganization from "./productOrganization";
 
-import { createProduct, updateProduct } from "../../../redux/reducers/productSlice";
 import { useAppDispatch } from "../../../redux/hooks/hooks";
+import { updateProduct } from "../../../redux/reducers/productSlice";
 
 const modules = {
   toolbar: [
@@ -98,25 +96,25 @@ const StyledProductInfo = styled("div")(({ theme }: { theme: Theme }) => ({
   margin: theme.spacing(0, 0, 0, 0),
 }));
 
-const StyledFrom = styled(FormControl)(({ theme }: { theme: Theme }) => ({
+const StyledFrom = styled(FormControl)(() => ({
   width: 130,
   display: "flex",
   flexDirection: "row",
 }));
 
-const StyledButton = styled("div")(({ theme }: { theme: Theme }) => ({
+const StyledButton = styled("div")(() => ({
   width: 180,
   flexDirection: "row",
   display: "inline-flex",
   justifyContent: "space-between",
 }));
 
-const StyledTypo = styled("div")(({ theme }: { theme: Theme }) => ({
-  width: 180,
-  flexDirection: "row",
-  display: "inline-flex",
-  justifyContent: "space-between",
-}));
+// const StyledTypo = styled("div")(() => ({
+//   width: 180,
+//   flexDirection: "row",
+//   display: "inline-flex",
+//   justifyContent: "space-between",
+// }));
 
 const StyledReactQuill = styled(Paper)(({ theme }: { theme: Theme }) => ({
   ".ql-container": {
@@ -165,10 +163,10 @@ export default function AddProduct() {
 
   const dispatch = useAppDispatch();
 
-  const getProductIfo = async (e: any) => {
-    e.preventDefault();
-    console.log("saveValue:", e.target.value);
-  };
+  // const getProductIfo = async (e: any) => {
+  //   e.preventDefault();
+  //   console.log("saveValue:", e.target.value);
+  // };
 
   useEffect(() => {
     setSaveData([title, valueDescription]);
@@ -180,7 +178,7 @@ export default function AddProduct() {
 
   };
 
-  const inputProps = useInput("");
+  // const inputProps = useInput("");
   const quillRef = useRef<ReactQuill>(null);
 
   React.useEffect(() => {

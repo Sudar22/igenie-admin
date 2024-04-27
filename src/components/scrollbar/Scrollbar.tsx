@@ -1,13 +1,12 @@
-import PropTypes from 'prop-types';
 import { memo } from 'react';
 // @mui
-import { Box} from '@mui/material';
+import { Box } from '@mui/material';
 import { SxProps } from '@mui/material/styles';
 
 //
 import { StyledRootScrollbar, StyledScrollbar } from './styles';
 
-import { ReactNode, CSSProperties } from 'react';
+import { CSSProperties, ReactNode } from 'react';
 // @mui
 // import { Box, SxProps } from '@mui/system';
 

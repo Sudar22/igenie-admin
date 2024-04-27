@@ -1,40 +1,38 @@
-import { Helmet } from "react-helmet-async";
-import { filter } from "lodash";
-import { sentenceCase } from "change-case";
-import { useState, ChangeEvent, MouseEvent, useEffect } from "react";
 import {
-  Card,
-  Table,
-  Stack,
-  Paper,
   Avatar,
   Button,
-  Popover,
+  Card,
   Checkbox,
-  TableRow,
+  Container,
+  IconButton,
   MenuItem,
+  Paper,
+  Popover,
+  Stack,
+  Table,
   TableBody,
   TableCell,
-  Container,
-  Typography,
-  IconButton,
   TableContainer,
   TablePagination,
-  ListItemButton,
-  styled,
+  TableRow,
+  Typography
 } from "@mui/material";
+import { sentenceCase } from "change-case";
+import { filter } from "lodash";
+import { ChangeEvent, useEffect, useState } from "react";
+import { Helmet } from "react-helmet-async";
+import { Link } from "react-router-dom";
+import USERLIST from "../../_mock/user";
+import Iconify from "../../components/iconify";
+import Label from "../../components/label";
+import Scrollbar from "../../components/scrollbar";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks/hooks";
+import { getAllUsers } from "../../redux/reducers/vendorSlice";
+import { RootState } from "../../redux/stores/reduxStore";
 import {
   ProductListHead,
   ProductListToolbar,
 } from "../../sections/@Dashboard/products";
-import Label from "../../components/label";
-import Iconify from "../../components/iconify";
-import Scrollbar from "../../components/scrollbar";
-import USERLIST from "../../_mock/user";
-import { Link } from "react-router-dom";
-import { getAllUsers } from "../../redux/reducers/vendorSlice";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks/hooks";
-import { RootState } from "../../redux/stores/reduxStore";
 
 interface User {
   id: string;
@@ -161,7 +159,7 @@ export default function ProductPage() {
   console.log("users DATA" , users)
 
   const handleRequestSort = (
-    event: React.MouseEvent<unknown>,
+    _event: React.MouseEvent<unknown>,
     property: string
   ) => {
     const isAsc = orderBy === property && order === "asc";
@@ -178,7 +176,7 @@ export default function ProductPage() {
     setSelected([]);
   };
 
-  const handleClick = (event: ChangeEvent<HTMLInputElement>, name: string) => {
+  const handleClick = (_event: ChangeEvent<HTMLInputElement>, name: string) => {
     const selectedIndex = selected.indexOf(name);
     let newSelected = [] as any;
     if (selectedIndex === -1) {
@@ -197,7 +195,7 @@ export default function ProductPage() {
   };
 
   const handleChangePage = (
-    event: React.MouseEvent<HTMLButtonElement> | null,
+    _event: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number
   ) => {
     setPage(newPage);
@@ -247,16 +245,16 @@ export default function ProductPage() {
     setButtons(editedButtons);
   };
 
-  const StyledButton = styled(Button)(({ theme }) => ({
-    width: "auto",
-    margin: theme.spacing(0, 1),
-    fontSize: 10,
-    backgroundColor: "#000",
-    color: "#FFF",
-    "&:hover": {
-      backgroundColor: "#57A845",
-    },
-  }));
+  // const StyledButton = styled(Button)(({ theme }) => ({
+  //   width: "auto",
+  //   margin: theme.spacing(0, 1),
+  //   fontSize: 10,
+  //   backgroundColor: "#000",
+  //   color: "#FFF",
+  //   "&:hover": {
+  //     backgroundColor: "#57A845",
+  //   },
+  // }));
   return (
     <>
       <Helmet>

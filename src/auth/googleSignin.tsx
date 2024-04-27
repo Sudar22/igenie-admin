@@ -1,15 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { auth, provider } from "./config";
+import { Button, Stack, styled } from "@mui/material";
 import {
-  signInWithPopup,
   GoogleAuthProvider,
   fetchSignInMethodsForEmail,
+  signInWithPopup,
 } from "firebase/auth";
-import { Button, Stack, styled } from "@mui/material";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { createSellerWithGmail } from "../redux/reducers/authSlice";
-import { useAppDispatch } from "../redux/hooks/hooks";
-import { getAllUsers } from "../redux/reducers/vendorSlice";
+import { auth, provider } from "./config";
 
 
 const StyledButton = styled(Button)(({ theme }) => ({
@@ -25,7 +22,7 @@ const StyledButton = styled(Button)(({ theme }) => ({
 
 const GoogleSignIn: React.FC = () => {
 
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [email, setEmail] = useState<string | null>(
     localStorage.getItem("email")
@@ -67,14 +64,14 @@ const GoogleSignIn: React.FC = () => {
           console.log(`User UID: ${userUID}`);
 
 
-          const credentials = {
-            email: `${user.email}`,
-            authenticationType: "GOOGLE",
-            roles:{
-              name:"Editor",
-              description:"he is seller"
-            }
-          };
+          // const credentials = {
+          //   email: `${user.email}`,
+          //   authenticationType: "GOOGLE",
+          //   roles:{
+          //     name:"Editor",
+          //     description:"he is seller"
+          //   }
+          // };
   
           // dispatch(createSellerWithGmail(credentials));
 

@@ -46,7 +46,7 @@ const StyledProfile = styled("div")(({ theme }) => ({
   padding: theme.spacing(1, 4, 2, 4),
 }));
 
-const StyledHeader = styled("div")(({ theme }) => ({
+const StyledHeader = styled("div")(() => ({
   width: "100%",
   // height: 60,
   display: "flex",
@@ -55,7 +55,7 @@ const StyledHeader = styled("div")(({ theme }) => ({
   justifyContent: "center",
 }));
 
-const StyledHeaderCompany = styled("div")(({ theme }) => ({
+const StyledHeaderCompany = styled("div")(() => ({
   width: "100%",
   // height: 60,
   display: "flex",
@@ -63,14 +63,14 @@ const StyledHeaderCompany = styled("div")(({ theme }) => ({
   //   alignItems: "center",
   //   justifyContent: "center",
 }));
-const CompanyDetails = styled("div")(({ theme }) => ({
+const CompanyDetails = styled("div")(() => ({
   width: "100%",
   // height: 60,
   display: "flex",
   flexDirection: "column",
 }));
 
-const HeaderSeller = styled("div")(({ theme }) => ({
+const HeaderSeller = styled("div")(() => ({
   width: "100%",
   // height: 60,
   display: "flex",
@@ -83,7 +83,7 @@ export const SellerProfile = () => {
 
     const [value, setValue] = React.useState(0);
 
-    const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
       setValue(newValue);
     };
   

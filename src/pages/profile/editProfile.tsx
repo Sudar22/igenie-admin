@@ -1,3 +1,5 @@
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import StorefrontIcon from "@mui/icons-material/Storefront";
 import {
   Autocomplete,
   Avatar,
@@ -8,9 +10,6 @@ import {
 } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
 import ReactQuill from "react-quill";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import StorefrontIcon from "@mui/icons-material/Storefront";
-import { useDispatch } from "react-redux";
 
 const StyledShipping = styled("div")(({ theme }) => ({
   width: "100%",
@@ -19,7 +18,7 @@ const StyledShipping = styled("div")(({ theme }) => ({
   // alignItems: "center",
   padding: theme.spacing(2, 2),
 }));
-const Detail = styled("div")(({ theme }) => ({
+const Detail = styled("div")(() => ({
   width: "60%",
   display: "flex",
   // height: 590,
@@ -31,7 +30,7 @@ const Detail = styled("div")(({ theme }) => ({
   // backgroundColor: "#FFF",
   // padding: theme.spacing(2, 2),
 }));
-const ImgLogo = styled("div")(({ theme }) => ({
+const ImgLogo = styled("div")(() => ({
   width: "40%",
   display: "flex",
   // height: 590,
@@ -40,7 +39,7 @@ const ImgLogo = styled("div")(({ theme }) => ({
   gap: 50,
 }));
 
-const SellerImg = styled("div")(({ theme }) => ({
+const SellerImg = styled("div")(() => ({
   // width: "0%",
   display: "flex",
   // height: 590,
@@ -49,7 +48,7 @@ const SellerImg = styled("div")(({ theme }) => ({
   gap: 50,
 }));
 
-const SellerLogo = styled("div")(({ theme }) => ({
+const SellerLogo = styled("div")(() => ({
   // width: "60%",
   display: "flex",
   // height: 590,
@@ -57,29 +56,29 @@ const SellerLogo = styled("div")(({ theme }) => ({
   justifyContent: "center",
   gap: 50,
 }));
-const Textbox = styled(TextField)(({ theme }) => ({
+const Textbox = styled(TextField)(() => ({
   width: "30.75vw",
 }));
 
-const Textfields = styled("div")(({ theme }) => ({
+const Textfields = styled("div")(() => ({
   display: "flex",
   flexDirection: "column",
   gap: 20,
 }));
-const Parafields = styled("div")(({ theme }) => ({
+const Parafields = styled("div")(() => ({
   display: "flex",
   flexDirection: "column",
   gap: 100,
 }));
-const CountryTextbox = styled(Autocomplete)(({ theme }) => ({
+const CountryTextbox = styled(Autocomplete)(() => ({
   width: "30.75vw",
 }));
-const StyledButton = styled(Button)(({ theme }) => ({
+const StyledButton = styled(Button)(() => ({
   backgroundColor: "#024554",
   color: "#FFF",
   boxShadow: "none",
 }));
-const StyledButtons = styled("div")(({ theme }) => ({
+const StyledButtons = styled("div")(() => ({
   display: "flex",
   gap: 10,
 }));
@@ -156,7 +155,7 @@ export const EditProfile = () => {
   
   const [saveData, setSaveData] = useState<string[]>([]);
   const [valueDescription, setValueDescription] = useState("");
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const quillRef = useRef<ReactQuill>(null);
 
   useEffect(() => {

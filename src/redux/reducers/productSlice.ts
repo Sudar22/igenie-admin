@@ -1,7 +1,4 @@
-import { ThunkAction } from 'redux-thunk';
-import  {RootState}  from '../stores/reduxStore';
-import { Action } from 'redux';
-import { createSlice ,createAsyncThunk } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 

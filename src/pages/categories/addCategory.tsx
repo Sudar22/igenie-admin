@@ -17,9 +17,8 @@ import {
   getAllCategories,
   saveCategories,
 } from "../../redux/reducers/categorySlice";
-import { CategoryType } from "./categoryType";
 import { RootState } from "../../redux/stores/reduxStore";
-import { Link, useNavigate } from "react-router-dom";
+import { CategoryType } from "./categoryType";
 
 interface AddCategoryProps {}
 
@@ -110,7 +109,7 @@ const AddCategory: React.FC<AddCategoryProps> = () => {
   // auto complete textfield
 
   const dispatch = useAppDispatch();
-  const navigate = useNavigate(); // Initialize useNavigate
+  // const navigate = useNavigate(); // Initialize useNavigate
 
   const { categories } = useAppSelector((state: RootState) => state.category);
 
@@ -138,7 +137,7 @@ if (listCategories && listCategories.length > 0) {
   } | null>(null);
 
   const handleAutocompleteChange = (
-    event: React.ChangeEvent<{}>,
+    _event: React.ChangeEvent<{}>,
     newValue: { id: number; name: string } | null
   ) => {
     setSelectedOption(newValue);
@@ -146,11 +145,11 @@ if (listCategories && listCategories.length > 0) {
   // const [value, setValue] = React.useState<string | null>(
   //   options?.length > 0 ? options[0] : null
   // );
-  const [value, setValue] = React.useState<string | null>(
-    options?.length > 0 ? options[0].name : null
-  );
+  // const [value, setValue] = React.useState<string | null>(
+  //   options?.length > 0 ? options[0].name : null
+  // );
   
-  const [inputValue, setInputValue] = React.useState("");
+  // const [inputValue, setInputValue] = React.useState("");
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];

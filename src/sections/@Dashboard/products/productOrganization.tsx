@@ -1,18 +1,17 @@
-import React, { useState } from "react";
 import {
-    Box,
+  Box,
   FormControl,
   InputAdornment,
   InputLabel,
   MenuItem,
   OutlinedInput,
-  Stack,
-  Typography,
+  Stack
 } from "@mui/material";
-import { styled, alpha, Theme } from "@mui/material/styles";
+import { Theme, styled } from "@mui/material/styles";
+import { useState } from "react";
 
-import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
+import TextField from "@mui/material/TextField";
 
 // export default function Grouped() {
 //     const options = top100Films.map((option) => {

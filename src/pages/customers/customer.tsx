@@ -1,33 +1,32 @@
-import { Helmet } from 'react-helmet-async';
-import { filter } from 'lodash';
-import { sentenceCase } from 'change-case';
-import { useState, ChangeEvent } from 'react';
 import {
-  Card,
-  Table,
-  Stack,
-  Paper,
   Avatar,
   Button,
-  Popover,
+  Card,
   Checkbox,
-  TableRow,
+  Container,
+  IconButton,
   MenuItem,
+  Paper,
+  Popover,
+  Stack,
+  Table,
   TableBody,
   TableCell,
-  Container,
-  Typography,
-  IconButton,
   TableContainer,
   TablePagination,
-  ListItemButton,
+  TableRow,
+  Typography
 } from '@mui/material';
-import { ProductListHead, ProductListToolbar } from '../../sections/@Dashboard/products';
-import Label from '../../components/label';
-import Iconify from '../../components/iconify';
-import Scrollbar from '../../components/scrollbar';
-import USERLIST from '../../_mock/user';
+import { sentenceCase } from 'change-case';
+import { filter } from 'lodash';
+import { ChangeEvent, useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
+import USERLIST from '../../_mock/user';
+import Iconify from '../../components/iconify';
+import Label from '../../components/label';
+import Scrollbar from '../../components/scrollbar';
+import { ProductListHead, ProductListToolbar } from '../../sections/@Dashboard/products';
 
 interface User {
   id: string;
@@ -122,7 +121,7 @@ export default function Customer() {
     setOpen(null);
   };
 
-  const handleRequestSort = (event: React.MouseEvent<unknown>, property: string) => {
+  const handleRequestSort = (_event: React.MouseEvent<unknown>, property: string) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
@@ -152,7 +151,7 @@ export default function Customer() {
     setSelected(newSelected);
   };
 
-  const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
+  const handleChangePage = (_event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
     setPage(newPage);
   };
 
@@ -251,7 +250,7 @@ export default function Customer() {
                     return (
                       <TableRow hover key={id} tabIndex={-1} role="checkbox" selected={selectedUser}>
                         <TableCell padding="checkbox">
-                          <Checkbox checked={selectedUser} onChange={(event) => handleClick(name)} />
+                          <Checkbox checked={selectedUser} onChange={(_event) => handleClick(name)} />
                         </TableCell>
 
                         <TableCell component="th" scope="row" padding="none">

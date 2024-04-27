@@ -17,12 +17,12 @@ const Brands: React.FC = () => {
         }
     }, []);
 
-    const handleDeleteCategory = (index: number) => {
-        const updatedBrand = [...brand];
-        updatedBrand.splice(index, 1);
-        setbrand(updatedBrand);
-        localStorage.setItem("categories", JSON.stringify(updatedBrand));
-    };
+    // const handleDeleteCategory = (index: number) => {
+    //     const updatedBrand = [...brand];
+    //     updatedBrand.splice(index, 1);
+    //     setbrand(updatedBrand);
+    //     localStorage.setItem("categories", JSON.stringify(updatedBrand));
+    // };
 
     return (
         <div>

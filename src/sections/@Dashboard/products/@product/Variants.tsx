@@ -1,18 +1,16 @@
-import React, { useState } from "react";
-import { styled, alpha, Theme } from "@mui/material/styles";
 import {
   Button,
   Card,
-  Container,
   Divider,
   IconButton,
   OutlinedInput,
   Stack,
   Tooltip,
-  Typography,
+  Typography
 } from "@mui/material";
+import { Theme, alpha, styled } from "@mui/material/styles";
+import { useState } from "react";
 import Iconify from "../../../../components/iconify";
-import { Link } from "react-router-dom";
 
 const StyledRoot = styled("div")(({ theme }: { theme: Theme }) => ({
   width: 700,
@@ -61,7 +59,7 @@ const StyledSearch = styled(OutlinedInput)(({ theme }: { theme: Theme }) => ({
   }),
   "&.Mui-focused": {
     //   width: 350,
-    boxShadow: theme.customShadows.z8,
+    // boxShadow: theme.customShadows,
   },
   "& fieldset": {
     borderWidth: `1px !important`,
@@ -117,7 +115,7 @@ export default function Variants() {
   };
 
   const deleteOption = (index: number) => {
-    const updatedOptions = options.filter((option, i) => i !== index);
+    const updatedOptions = options.filter(( i) => i !== index);
     setOptions(updatedOptions);
   };
 
@@ -145,7 +143,7 @@ export default function Variants() {
           <Button> add options like size or color </Button>
         </Stack>
 
-        {options.map((option, index) => (
+        {options.map(( index) => (
           <Option key={index} onDelete={() => deleteOption(index)} />
         ))}
 

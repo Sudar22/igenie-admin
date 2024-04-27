@@ -1,21 +1,16 @@
-import { Button, Card, Container, IconButton, OutlinedInput, Stack, Tooltip, Typography } from '@mui/material';
-import { Box, Grid, Paper, TextField } from "@mui/material";
-import React ,{ useState, useRef } from 'react'
+import { Box, Button, Card, Container, IconButton, OutlinedInput, Paper, Stack, Tooltip, Typography } from '@mui/material';
+import { Theme, alpha, styled } from '@mui/material/styles';
+import React, { useRef, useState } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import DOMPurify from 'dompurify';
-import { useInput } from '../../../hooks/useInput';
-import { InputOutlined, Padding } from '@mui/icons-material';
-import { styled, alpha, Theme } from '@mui/material/styles';
-import 'react-quill/dist/quill.snow.css';
 
+import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
-import Iconify from '../../../components/iconify';
 import { Link } from 'react-router-dom';
+import Iconify from '../../../components/iconify';
 
 
 
@@ -64,11 +59,11 @@ const StyledRoot = styled('div')(({ theme }: { theme: Theme }) => ({
 }));
 
 
-const StyledFrom = styled(FormControl)(({ theme }: { theme: Theme }) => ({
+const StyledFrom = styled(FormControl)(() => ({
  width:130,
 }));
 
-const StyledButton = styled('div')(({ theme }: { theme: Theme }) => ({
+const StyledButton = styled('div')(() => ({
   width: 180,
   flexDirection: 'row',
   display: 'inline-flex',
@@ -123,7 +118,7 @@ export default function AddCollection() {
 
     const [value, setValue] = useState('');
 
-    const inputProps = useInput("");
+    // const inputProps = useInput("");
     const quillRef = useRef<ReactQuill>(null);
 
 

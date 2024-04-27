@@ -1,33 +1,32 @@
-import { Helmet } from 'react-helmet-async';
-import { filter } from 'lodash';
-import { sentenceCase } from 'change-case';
-import { useState, ChangeEvent } from 'react';
 import {
-  Card,
-  Table,
-  Stack,
-  Paper,
   Avatar,
   Button,
-  Popover,
+  Card,
   Checkbox,
-  TableRow,
+  Container,
+  IconButton,
   MenuItem,
+  Paper,
+  Popover,
+  Stack,
+  Table,
   TableBody,
   TableCell,
-  Container,
-  Typography,
-  IconButton,
   TableContainer,
   TablePagination,
-  ListItemButton,
+  TableRow,
+  Typography
 } from '@mui/material';
-import { ProductListHead, ProductListToolbar } from '../../sections/@Dashboard/products';
-import Label from '../../components/label';
-import Iconify from '../../components/iconify';
-import Scrollbar from '../../components/scrollbar';
-import USERLIST from '../../_mock/user';
+import { sentenceCase } from 'change-case';
+import { filter } from 'lodash';
+import { ChangeEvent, useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
+import USERLIST from '../../_mock/user';
+import Iconify from '../../components/iconify';
+import Label from '../../components/label';
+import Scrollbar from '../../components/scrollbar';
+import { ProductListHead, ProductListToolbar } from '../../sections/@Dashboard/products';
 
 interface User {
   id: string;
@@ -126,7 +125,7 @@ export default function Orders() {
     setOpen(null);
   };
 
-  const handleRequestSort = (event: React.MouseEvent<unknown>, property: string) => {
+  const handleRequestSort = (_event: React.MouseEvent<unknown>, property: string) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
@@ -141,7 +140,7 @@ export default function Orders() {
     setSelected([]);
   };
 
-  const handleClick = (event: React.MouseEvent<unknown>, name: string) => {
+  const handleClick = (_event: React.MouseEvent<unknown>, name: string) => {
     const selectedIndex = selected.indexOf(name);
     let newSelected  = [] as any;
     if (selectedIndex === -1) {
@@ -156,7 +155,7 @@ export default function Orders() {
     setSelected(newSelected);
   };
 
-  const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
+  const handleChangePage = (_event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
     setPage(newPage);
   };
 
@@ -351,12 +350,12 @@ export default function Orders() {
         }}
       >
         <MenuItem>
-          <Iconify icon={'eva:edit-fill'} sx={{ mr: 2 }} />
+          <Iconify icon={'eva:edit-fill'} sx={{ marginRight: 2 }} />
           Edit
         </MenuItem>
 
         <MenuItem sx={{ color: 'error.main' }}>
-          <Iconify icon={'eva:trash-2-outline'} sx={{ mr: 2 }} />
+          <Iconify icon={'eva:trash-2-outline'} sx={{ marginRight: 2 }} />
           Delete
         </MenuItem>
       </Popover>

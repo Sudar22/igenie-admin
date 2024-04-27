@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from "react";
 import {
   Button,
   IconButton,
@@ -14,12 +13,12 @@ import {
   Typography,
   styled,
 } from "@mui/material";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Iconify from "../../components/iconify";
-import { getAllCategories } from "../../redux/reducers/categorySlice";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks/hooks";
+import { getAllCategories } from "../../redux/reducers/categorySlice";
 import { RootState } from "../../redux/stores/reduxStore";
-import { CategoryType } from "./categoryType";
 
 
 
