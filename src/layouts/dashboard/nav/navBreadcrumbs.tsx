@@ -2,7 +2,6 @@ import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import Box from '@mui/material/Box';
 import Collapse from '@mui/material/Collapse';
-import Link, { LinkProps } from '@mui/material/Link';
 import List from '@mui/material/List';
 import ListItem, { ListItemProps } from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';

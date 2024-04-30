@@ -1,242 +1,197 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { ProductType } from '../../sections/@Dashboard/products/productType copy';
+// import { ProductType } from '../../sections/@Dashboard/products/productType';
 
 
 
-export const getProductInfo = createAsyncThunk(
-    "product/Info",
-    async (userCredentials) => {
-      const request = await axios({
-        method: "post",
-        url: "http://localhost:5000/api/auth/signin",
-        data: userCredentials,
-           headers: { "Content-Type": "application/json" },
-        // headers: { "Content-Type": "multipart/form-data" },
-      });
-  
-      const response = await request.data;
-      localStorage.setItem("product", JSON.stringify(response));
-      console.log("product/getProductInfo:",request.data);
-      return response;
-    }
-  );
-
-
-  // export const saveProduct = createAsyncThunk(
-  //   "product/save",
-  //   async (saveData) => {
-  //     const request = await axios({
-  //       method: "post",
-  //       url: "http://localhost:8080/product",
-  //       data: saveData,
-  //          headers: { "Content-Type": "application/json" },
-  //       // headers: { "Content-Type": "multipart/form-data" },
-  //     });
-  
-  //     const response = await request.data;
-  //     localStorage.setItem("product", JSON.stringify(response));
-  //     console.log("product/saveProductInfo:",request.data);
-  //     return response;
-  //   }
-  // );
-
-
-//   // Define your action types
-// interface SaveProductAction {
-//   type: string; // Replace with the actual action type
-//   payload: any; // Replace with the actual payload type
-// }
-
-// // Assuming your thunk action is using createAsyncThunk
-// type ThunkResult<R> = ThunkAction<R, RootState, undefined, Action<string>>;
-
-// export const saveProduct = createAsyncThunk(
-//   'product/save',
-//   async (saveData: string[], thunkAPI): Promise<any> => {
-//     try {
-//       // Your asynchronous logic here
-//       const request = await axios.post("http://localhost:8080/product", saveData, {
-//         headers: { "Content-Type": "application/json" },
+// export const getProductInfo = createAsyncThunk(
+//     "product/Info",
+//     async (userCredentials) => {
+//       const request = await axios({
+//         method: "post",
+//         url: "http://localhost:5000/api/auth/signin",
+//         data: userCredentials,
+//            headers: { "Content-Type": "application/json" },
+//         // headers: { "Content-Type": "multipart/form-data" },
 //       });
-//       const response = request.data;
+  
+//       const response = await request.data;
 //       localStorage.setItem("product", JSON.stringify(response));
-//       console.log("product/saveProductInfo:", response);
+//       console.log("product/getProductInfo:",request.data);
 //       return response;
-//     } catch (error:any) {
-//       // Handle errors
-//       return thunkAPI.rejectWithValue(error.message);
 //     }
-//   }
-// ) as ThunkResult<any>;
+//   );
+
 
 
 export const createProduct = createAsyncThunk(
-  'product/create',
-  async (productCreate: string[], thunkAPI): Promise<any> => {
+  'categories/save',
+  async (postProductData: ProductType, thunkAPI): Promise<any> => {
     try {
-      const request = await axios.post("http://65.0.32.143:8080/igenieadmin/products/save", 
-      
-      productCreate,
-      
-      {
-        headers: { "Content-Type": "application/json" },
+      // Your asynchronous logic here
+      // Access saveData like this: saveData[0], saveData[1], etc.
+      const request = await axios.post("http://65.0.32.143:8080/igenieadmin/products/save", postProductData, {
+        headers: { "Content-Type": "multipart/form-data" },
       });
       const response = request.data;
-      localStorage.setItem("product", JSON.stringify(response));
-      console.log("product/saveProductInfo:", response);
+      // localStorage.setItem("categories", JSON.stringify(response));
+      console.log("product/saveProduct:", response);
       return response;
-    } catch (error:any) {
+    } catch (error: any) {
       // Handle errors
       return thunkAPI.rejectWithValue(error.message);
     }
   }
 );
 
-
- export const updateProduct = createAsyncThunk(
-    "product/update",
-    async (userCredentials) => {
-      const request = await axios({
-        method: "post",
-        url: "http://localhost:5000/api/auth/signin",
-        data: userCredentials,
-           headers: { "Content-Type": "application/json" },
-        // headers: { "Content-Type": "multipart/form-data" },
+export const getAllProducts = createAsyncThunk(
+  'product/getAllProducts',
+  async (_, thunkAPI) => {
+    try {
+      const response = await axios.get('http://65.0.32.143:8080/igenieadmin/categories', {
+        headers: { 'Content-Type': 'application/json' },
       });
-  
-      const response = await request.data;
-      localStorage.setItem("product", JSON.stringify(response));
-      console.log("product/updateProductInfo:",request.data);
-      return response;
+      
+      localStorage.setItem('brand', JSON.stringify(response));
+      console.log('brand/getProduct:', response);
+      
+      return response.data;
+    } catch (error: any) {
+      // Handle errors
+      return thunkAPI.rejectWithValue(error.message);
     }
-  );
+  }
+);
 
-
-
-  export const getProductOptionValue = createAsyncThunk(
-    "product/update",
-    async (userCredentials) => {
-      const request = await axios({
-        method: "post",
-        url: "http://localhost:8000/api/auth/signin",
-        data: userCredentials,
-           headers: { "Content-Type": "application/json" },
-        // headers: { "Content-Type": "multipart/form-data" },
-      });
+//  export const updateProduct = createAsyncThunk(
+//     "product/update",
+//     async (userCredentials) => {
+//       const request = await axios({
+//         method: "post",
+//         url: "http://localhost:5000/api/auth/signin",
+//         data: userCredentials,
+//            headers: { "Content-Type": "application/json" },
+//         // headers: { "Content-Type": "multipart/form-data" },
+//       });
   
-      const response = await request.data;
-      localStorage.setItem("product", JSON.stringify(response));
-      console.log("product/updateProductInfo:",request.data);
-      return response;
-    }
-  );
+//       const response = await request.data;
+//       localStorage.setItem("product", JSON.stringify(response));
+//       console.log("product/updateProductInfo:",request.data);
+//       return response;
+//     }
+//   );
 
 
-  export const addProductOptionValue = createAsyncThunk(
-    "product/update",
-    async (userCredentials) => {
-      const request = await axios({
-        method: "post",
-        url: "http://localhost:5000/api/auth/signin",
-        data: userCredentials,
-           headers: { "Content-Type": "application/json" },
-        // headers: { "Content-Type": "multipart/form-data" },
-      });
+
+  // export const getProductOptionValue = createAsyncThunk(
+  //   "product/update",
+  //   async (userCredentials) => {
+  //     const request = await axios({
+  //       method: "post",
+  //       url: "http://localhost:8000/api/auth/signin",
+  //       data: userCredentials,
+  //          headers: { "Content-Type": "application/json" },
+  //       // headers: { "Content-Type": "multipart/form-data" },
+  //     });
   
-      const response = await request.data;
-      localStorage.setItem("product", JSON.stringify(response));
-      console.log("product/updateProductInfo:",request.data);
-      return response;
-    }
-  );
+  //     const response = await request.data;
+  //     localStorage.setItem("product", JSON.stringify(response));
+  //     console.log("product/updateProductInfo:",request.data);
+  //     return response;
+  //   }
+  // );
 
 
-  export const updateProductOptionValue = createAsyncThunk(
-    "product/update",
-    async (userCredentials) => {
-      const request = await axios({
-        method: "post",
-        url: "http://localhost:5000/api/auth/signin",
-        data: userCredentials,
-           headers: { "Content-Type": "application/json" },
-        // headers: { "Content-Type": "multipart/form-data" },
-      });
+  // export const addProductOptionValue = createAsyncThunk(
+  //   "product/update",
+  //   async (userCredentials) => {
+  //     const request = await axios({
+  //       method: "post",
+  //       url: "http://localhost:5000/api/auth/signin",
+  //       data: userCredentials,
+  //          headers: { "Content-Type": "application/json" },
+  //       // headers: { "Content-Type": "multipart/form-data" },
+  //     });
   
-      const response = await request.data;
-      localStorage.setItem("product", JSON.stringify(response));
-      console.log("product/updateProductInfo:",request.data);
-      return response;
-    }
-  );
+  //     const response = await request.data;
+  //     localStorage.setItem("product", JSON.stringify(response));
+  //     console.log("product/updateProductInfo:",request.data);
+  //     return response;
+  //   }
+  // );
 
 
+  // export const updateProductOptionValue = createAsyncThunk(
+  //   "product/update",
+  //   async (userCredentials) => {
+  //     const request = await axios({
+  //       method: "post",
+  //       url: "http://localhost:5000/api/auth/signin",
+  //       data: userCredentials,
+  //          headers: { "Content-Type": "application/json" },
+  //       // headers: { "Content-Type": "multipart/form-data" },
+  //     });
   
+  //     const response = await request.data;
+  //     localStorage.setItem("product", JSON.stringify(response));
+  //     console.log("product/updateProductInfo:",request.data);
+  //     return response;
+  //   }
+  // );
 
-
-
-
+  interface ProductState {
+    status: 'idle' | 'loading' | 'succeeded' | 'failed';
+    error: string | null;
+    Product: any; // Define a proper type for the saved product
+  }
+  const initialState: ProductState = {
+    status: 'idle',
+    error: null,
+    Product: [],
+  };
   
-
   const productSlice = createSlice({
     name: 'product',
-    initialState: {
-      user: localStorage.getItem('product')
-        ? JSON.parse(localStorage.getItem('product')!)
-        : [], // Make sure to define the User type
-      loading: false,
-      error: null as string | null,
+    initialState,
+    reducers: {
+      resetState: (state) => {
+        state.status = 'idle';
+        state.error = null;
+        // state.categories = null;
+      },
     },
-    reducers: {}, // Add any additional reducers if needed
     extraReducers: (builder) => {
       builder
-        .addCase(getProductInfo.pending, (state) => {
-          state.loading = true;
-          state.user = null;
-          state.error = null;
+        .addCase(getAllProducts.pending, (state) => {
+          state.status = 'loading';
         })
-        .addCase(getProductInfo.fulfilled, (state, action) => {
-          state.loading = false;
-          state.user = action.payload;
-          state.error = null;
+        .addCase(getAllProducts.fulfilled, (state, action: PayloadAction<any>) => {
+          state.status = 'succeeded';
+          state.Product = action.payload;
         })
-        .addCase(getProductInfo.rejected, (state, action) => {
-          state.loading = false;
-          state.user = null;
-          state.error = action.error.message ?? 'getting  failed';
+        .addCase(getAllProducts.rejected, (state, action) => {
+          state.status = 'failed';
+          state.error = action.payload as string; // Correct the payload type
         })
-         .addCase(createProduct.pending, (state) => {
-          state.loading = true;
-          state.user = null;
-          state.error = null;
+        .addCase(createProduct.pending, (state) => {
+          state.status = 'loading';
         })
-        .addCase(createProduct.fulfilled, (state, action) => {
-          state.loading = false;
-          state.user = action.payload;
-          state.error = null;
+        .addCase(createProduct.fulfilled, (state, action: PayloadAction<any>) => {
+          state.status = 'succeeded';
+          state.Product = action.payload;
         })
         .addCase(createProduct.rejected, (state, action) => {
-          state.loading = false;
-          state.user = null;
-          state.error = action.error.message ?? 'saving failed';
-        })              
-         .addCase(updateProduct.pending, (state) => {
-          state.loading = true;
-          state.user = null;
-          state.error = null;
-        })
-        .addCase(updateProduct.fulfilled, (state, action) => {
-          state.loading = false;
-          state.user = action.payload;
-          state.error = null;
-        })
-        .addCase(updateProduct.rejected, (state, action) => {
-          state.loading = false;
-          state.user = null;
-          state.error = action.error.message ?? 'updating failed';
-        })              
+          state.status = 'failed';
+          state.error = action.payload as string; // Correct the payload type
+        });
     },
   });
-
+  
+  // Export actions and reducer
+  export const { resetState } = productSlice.actions;
+ 
+  
 
 
   // export const { saveProduct } = productSlice.actions;

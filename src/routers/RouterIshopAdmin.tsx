@@ -21,6 +21,7 @@ import AddCollection from "../sections/@Dashboard/collection/addCollection";
 import AddBrand from "../pages/Brand/addBrand";
 import Buyers from "../pages/Buyers";
 import AddCategory from "../pages/categories/addCategory";
+import SimpleLayout from "../pages/simple/SimpleLayout";
 // import Signup from "../auth/signup";
 
 
@@ -75,6 +76,17 @@ export default function RouterIshopAdmin() {
     },
     { path: "/auth/login", element: <Login /> },
     { path: "/auth/signup", element: <Signup /> },
+    {
+      element: <SimpleLayout />,
+      children: [
+        {
+          element: <Navigate to="/dashboard/home" />,
+          index: true,
+        },
+        // { path: "404", element: <Page404 /> },
+        // { path: "*", element: <Navigate to="/404" /> },
+      ],
+    },
   ]);
 
   return <div>{routes}</div>;

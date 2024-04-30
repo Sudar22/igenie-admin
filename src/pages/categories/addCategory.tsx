@@ -315,9 +315,9 @@ if (listCategories && listCategories.length > 0) {
               <StyledInputText variant="body1">Enable</StyledInputText>
               <Switch
                 {...label}
-                checked={category.enable}
+                checked={Boolean(category.enable)}
                 onChange={handleSwitchChange}
-                name="enable"
+                name="enabled"
               />
             </StyledInputFields>
           </StyledInput>

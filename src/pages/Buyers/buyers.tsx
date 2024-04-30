@@ -31,7 +31,7 @@ import { ProductListHead, ProductListToolbar } from '../../sections/@Dashboard/p
 interface User {
   id: string;
   name: string;
-  role: string;
+  // role: string;
   status: string;
   company: string;
   avatarUrl: string;
@@ -88,19 +88,30 @@ function getComparator(order: 'asc' | 'desc', orderBy: string) {
 //   return stabilizedThis.map((el) => el[0]);
 // }
 
+// function applySortFilter(array: User[], comparator: (a: User, b: User) => number, query: string) {
+//     const stabilizedThis = array.map((el, index) => [el, index]);
+//     stabilizedThis.sort((a, b) => {
+//       const order = comparator(a[0], b[0]); // Compare only the User objects, not the entire tuple
+//       if (order !== 0) return order;
+//       return a[1] - b[1];
+//     });
+//     if (query) {
+//       return filter(array, (_user) => _user.name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+//     }
+//     return stabilizedThis.map((el) => el[0]);
+//   }
 function applySortFilter(array: User[], comparator: (a: User, b: User) => number, query: string) {
-    const stabilizedThis = array.map((el, index) => [el, index]);
-    stabilizedThis.sort((a, b) => {
-      const order = comparator(a[0], b[0]); // Compare only the User objects, not the entire tuple
-      if (order !== 0) return order;
-      return a[1] - b[1];
-    });
-    if (query) {
-      return filter(array, (_user) => _user.name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
-    }
-    return stabilizedThis.map((el) => el[0]);
+  const stabilizedThis: [User, number][] = array.map((el, index) => [el, index]);
+  stabilizedThis.sort((a, b) => {
+    const order = comparator(a[0], b[0]);
+    if (order !== 0) return order;
+    return a[1] - b[1];
+  });
+  if (query) {
+    return filter(array, (_user) => _user.name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
   }
-  
+  return stabilizedThis.map((el) => el[0]);
+}
 
 export default function Orders() {
   const [open, setOpen] = useState<null | HTMLElement>(null);
@@ -140,9 +151,9 @@ export default function Orders() {
     setSelected([]);
   };
 
-  const handleClick = (_event: React.MouseEvent<unknown>, name: string) => {
+  const handleClick = (name: string) => {
     const selectedIndex = selected.indexOf(name);
-    let newSelected  = [] as any;
+    let newSelected: string[] = [];
     if (selectedIndex === -1) {
       newSelected = newSelected.concat(selected, name);
     } else if (selectedIndex === 0) {
@@ -254,7 +265,7 @@ export default function Orders() {
                     return (
                       <TableRow hover key={id} tabIndex={-1} role="checkbox" selected={selectedUser}>
                         <TableCell padding="checkbox">
-                          <Checkbox checked={selectedUser} onChange={(event) => handleClick(event, name)} />
+                          <Checkbox checked={selectedUser} onChange={() => handleClick( name)} />
                         </TableCell>
 
                         <TableCell component="th" scope="row" padding="none">

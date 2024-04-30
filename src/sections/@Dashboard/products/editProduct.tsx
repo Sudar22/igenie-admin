@@ -25,8 +25,8 @@ import Iconify from "../../../components/iconify";
 import Variants from "./@product/Variants";
 import ProductOrganization from "./productOrganization";
 
-import { useAppDispatch } from "../../../redux/hooks/hooks";
-import { updateProduct } from "../../../redux/reducers/productSlice";
+// import { useAppDispatch } from "../../../redux/hooks/hooks";
+// import { updateProduct } from "../../../redux/reducers/productSlice";
 
 const modules = {
   toolbar: [
@@ -161,7 +161,7 @@ export default function AddProduct() {
   const [valueDescription, setValueDescription] = useState("");
   const [saveData, setSaveData] = useState<string[]>([]);
 
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
 
   // const getProductIfo = async (e: any) => {
   //   e.preventDefault();
@@ -173,10 +173,10 @@ export default function AddProduct() {
     console.log("saveData:", saveData);
   }, [title, valueDescription]);
 
-  const saveProductInfo = async () => {
-    dispatch(updateProduct());
+  // const saveProductInfo = async () => {
+  //   dispatch(updateProduct());
 
-  };
+  // };
 
   // const inputProps = useInput("");
   const quillRef = useRef<ReactQuill>(null);
@@ -218,7 +218,7 @@ export default function AddProduct() {
             fontSize="24"
             fontWeight="bold"
             
-            onClick={()=>{saveProductInfo}}
+            // onClick={()=>{saveProductInfo}}
 
             >
             Edit Product

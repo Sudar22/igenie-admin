@@ -108,7 +108,7 @@ export const AllCategories: React.FC<{}> = () => {
           <TableBody>
           {
             
-            listCategories?.map((item:{name:string,imagePath:string,alias:string,parent:string,enable:boolean}, index:number) => (
+            listCategories?.map((item:{name:string,imagePath:string,alias:string,parent:string,enabled:boolean}, index:number) => (
               <TableRow key={index}>
                 <TableCell align="left" sx={{width:"200px"}}><img src={item.imagePath} alt={item.name}/></TableCell>
                 <TableCell>{item.name}</TableCell>
@@ -117,7 +117,7 @@ export const AllCategories: React.FC<{}> = () => {
 
                 
                 <TableCell align="left">
-                  {item.enable ? "Yes" : "No"}
+                  {item.enabled ? "Yes" : "No"}
                 </TableCell>
                 <TableCell align="right">
                   <IconButton
